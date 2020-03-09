@@ -1,0 +1,23 @@
+syntax="proto3";
+
+package businessCompanies;
+option go_package="companies";
+
+message BusinessCompany {
+    int64 businessCompanyID = 1;
+    string businessCompanyName = 2;
+    int64 businessCompanyCategoryID = 3;
+}
+
+message CreateBusinessCompanyRequest {
+    string businessCompanyName = 1;
+    int64 businessCompanyCategoryID = 2;
+}
+
+message CreateBusinessCompanyResponse {
+    BusinessCompany BusinessCompany = 1;
+}
+
+service BusinessCompaniesService {
+    rpc CreateBusinessCompany(CreateBusinessCompanyRequest) returns (CreateBusinessCompanyResponse) {}
+}

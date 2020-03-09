@@ -1,0 +1,28 @@
+syntax="proto3";
+
+import "google/protobuf/empty.proto";
+
+package businessCategories;
+option go_package="categories";
+
+message BusinessCategory {
+    int64 businessCategoryID = 1;
+    string businessCategoryName = 2;
+}
+
+message BusinessCategoryRequest {
+    int64 BusinessCategoryID = 1;
+}
+
+message BusinessCategoryResponse {
+    BusinessCategory BusinessCategory = 1;
+}
+
+message BusinessCategoriesResponse {
+    repeated BusinessCategory businessCategories = 1;
+}
+
+service BusinessCategoryService {
+    rpc GetBusinessCategory(BusinessCategoryRequest) returns (BusinessCategoryResponse) {}
+    rpc GetBusinessCategories(google.protobuf.Empty) returns (BusinessCategoriesResponse) {}
+}
