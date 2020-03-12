@@ -20,7 +20,7 @@ func CreateCompanyRepository(ctx context.Context, request *pb.CreateBusinessComp
 	}
 
 	defer func() {
-		err :=  conn.Close(context.Background())
+		err =  conn.Close(context.Background())
 		if err != nil {
 			log.Fatal(err)
 		}

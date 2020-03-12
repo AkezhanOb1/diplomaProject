@@ -11,11 +11,11 @@ message BusinessCategory {
 }
 
 message BusinessCategoryRequest {
-    int64 BusinessCategoryID = 1;
+    int64 businessCategoryID = 1;
 }
 
 message BusinessCategoryResponse {
-    BusinessCategory BusinessCategory = 1;
+    BusinessCategory businessCategory = 1;
 }
 
 message BusinessCategoriesResponse {

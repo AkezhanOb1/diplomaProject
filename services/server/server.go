@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"google.golang.org/grpc"
 	"log"
 	"net"
-	"google.golang.org/grpc"
 
 	category "github.com/AkezhanOb1/diplomaProject/api/proto/business/categories"
 	company "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"

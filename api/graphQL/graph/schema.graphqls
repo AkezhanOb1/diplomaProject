@@ -1,0 +1,52 @@
+# GraphQL schema example
+# https://gqlgen.com/getting-started/
+
+type BusinessCategory {
+  businessCategoryID: ID!
+  businessCategoryName: String!
+}
+
+input BusinessCategoryRequest {
+  businessCategoryID: ID!
+}
+
+type BusinessCompany {
+  businessCompanyID: ID!
+  businessCompanyName: String!
+  businessCompanyCategoryID: ID!
+}
+
+input CreateBusinessCompanyRequest {
+  businessCompanyName: String!
+  businessCompanyCategoryID: ID!
+}
+
+type BusinessOwner {
+  businessOwnerID: ID!
+  businessOwnerName: String!
+  businessOwnerEmail: String!
+  businessOwnerPhoneNumberPrefix: String!
+  businessOwnerPhoneNumber: String!
+}
+
+input CreateBusinessOwnerRequest {
+  businessOwnerName: String!
+  businessOwnerEmail: String!
+  businessOwnerPassword: String!
+  businessOwnerPhoneNumberPrefix: String!
+  businessOwnerPhoneNumber: String!
+  businessCompanyID: ID!
+}
+
+
+type Query {
+  getBusinessCategory(input: BusinessCategoryRequest!): BusinessCategory!
+  getBusinessCategories: [BusinessCategory!]!
+}
+
+type Mutation {
+  createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
+  createBusinessOwner(input: CreateBusinessOwnerRequest!): BusinessOwner!
+}
+
+

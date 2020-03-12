@@ -1,39 +1,44 @@
-package main
+package owner
 
-import(
+import (
 	"context"
-	"google.golang.org/grpc"
+	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/owners"
+	"google.golang.org/grpc"
 	"log"
 )
 
-func main(){
+
+//CreateBusinessOwner is a client function for creating a business owner
+func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerRequest) (*pb.CreateBusinessOwnerResponse, error) {
 	cc, err := grpc.Dial("0.0.0.0:50051", grpc.WithInsecure())
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	defer func(){
-		err := cc.Close()
+		err = cc.Close()
 		if err != nil {
-			panic(err)
+			log.Println(err)
 		}
 	}()
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
-	req := pb.CreateBusinessOwnerRequest{
-		BusinessOwnerName:              "Akezhan",
-		BusinessOwnerEmail:             "esbolatovakEzhan@gmail.com",
-		BusinessOwnerPassword:          "Yfehsp2203",
-		BusinessOwnerPhoneNumberPrefix: "+7",
-		BusinessOwnerPhoneNumber:       "7772059339",
-		BusinessCompany_ID:             5,
+	r := pb.CreateBusinessOwnerRequest{
+		BusinessOwnerName:              req.BusinessOwnerName,
+		BusinessOwnerEmail:             req.BusinessOwnerEmail,
+		BusinessOwnerPassword:          req.BusinessOwnerPassword,
+		BusinessOwnerPhoneNumberPrefix: req.BusinessOwnerPhoneNumberPrefix,
+		BusinessOwnerPhoneNumber:       req.BusinessOwnerPhoneNumber,
+		BusinessCompanyID:              req.BusinessCompanyID,
 	}
 
-	company, err := c.CreateBusinessOwner(context.Background(), &req)
+	businessOwner, err := c.CreateBusinessOwner(context.Background(), &r)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	log.Println(company)
+	return businessOwner, nil
 }
+

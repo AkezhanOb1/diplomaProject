@@ -14,7 +14,7 @@ type Server struct {}
 func (*Server) GetBusinessCategories(ctx context.Context, emp *empty.Empty) (*pb.BusinessCategoriesResponse, error) {
 	businessCategories, err := db.GetCategoriesRepository()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return businessCategories, nil
@@ -24,7 +24,7 @@ func (*Server) GetBusinessCategories(ctx context.Context, emp *empty.Empty) (*pb
 func (*Server) GetBusinessCategory(ctx context.Context, request *pb.BusinessCategoryRequest) (*pb.BusinessCategoryResponse, error) {
 	businessCategories, err := db.GetCategoryRepository(request.GetBusinessCategoryID())
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return businessCategories, nil

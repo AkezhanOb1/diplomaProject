@@ -23,9 +23,9 @@ func CreateOwnerRepository(ctx context.Context, request *pb.CreateBusinessOwnerR
 	}
 
 	defer func() {
-		err :=  conn.Close(context.Background())
+		err =  conn.Close(context.Background())
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 

@@ -20,9 +20,9 @@ func  GetCategoryRepository(categoryID int64) (*pb.BusinessCategoryResponse, err
 	}
 
 	defer func() {
-		err :=  conn.Close(context.Background())
+		err =  conn.Close(context.Background())
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 

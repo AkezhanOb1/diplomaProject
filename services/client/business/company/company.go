@@ -1,35 +1,39 @@
-package main
+package company
 
-import(
+import (
 	"context"
-	"google.golang.org/grpc"
+	gq "github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
+	"google.golang.org/grpc"
 	"log"
 )
 
-func main(){
+//CreateBusinessCompany is a client function for registration a new
+//business company
+func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
 	cc, err := grpc.Dial("0.0.0.0:50051", grpc.WithInsecure())
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	defer func(){
-		err := cc.Close()
+		err = cc.Close()
 		if err != nil {
-			panic(err)
+			log.Println(err)
 		}
 	}()
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
-	req := pb.CreateBusinessCompanyRequest{
-		BusinessCompanyName:       "Cactus",
-		BusinessCompanyCategoryID: 1,
+	r := pb.CreateBusinessCompanyRequest{
+		BusinessCompanyName:       req.BusinessCompanyName,
+		BusinessCompanyCategoryID: req.BusinessCompanyCategoryID,
 	}
 
-	company, err := c.CreateBusinessCompany(context.Background(), &req)
+	company, err := c.CreateBusinessCompany(ctx, &r)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	log.Println(company)
+	return company, nil
 }

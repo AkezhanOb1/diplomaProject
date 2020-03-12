@@ -20,7 +20,7 @@ func GetCategoriesRepository() (*pb.BusinessCategoriesResponse, error) {
 	}
 
 	defer func() {
-		err :=  conn.Close(context.Background())
+		err =  conn.Close(context.Background())
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -39,7 +39,7 @@ func GetCategoriesRepository() (*pb.BusinessCategoriesResponse, error) {
 	for rows.Next() {
 		var businessCategory pb.BusinessCategory
 
-		err := rows.Scan(&businessCategory.BusinessCategoryID, &businessCategory.BusinessCategoryName)
+		err = rows.Scan(&businessCategory.BusinessCategoryID, &businessCategory.BusinessCategoryName)
 		if err != nil {
 			return nil, err
 		}
