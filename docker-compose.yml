@@ -1,0 +1,16 @@
+version: '3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./services/server/Dockerfile
+    ports:
+      - "50051:50051"
+  client:
+    build:
+      context: .
+      dockerfile: ./api/graphQL/Dockerfile
+    links:
+      - server
+    ports:
+        - "8080:8080"

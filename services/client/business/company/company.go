@@ -2,6 +2,7 @@ package company
 
 import (
 	"context"
+	config "github.com/AkezhanOb1/diplomaProject/configs"
 	gq "github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
 	"google.golang.org/grpc"
@@ -11,7 +12,7 @@ import (
 //CreateBusinessCompany is a client function for registration a new
 //business company
 func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
-	cc, err := grpc.Dial("0.0.0.0:50051", grpc.WithInsecure())
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}

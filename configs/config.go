@@ -2,21 +2,24 @@ package config
 
 import "fmt"
 
-//PostgresAddress is the address of the postgres
-const PostgresAddress = "127.0.0.1"
+//postgresAddress is the address of the postgres
+const postgresAddress = "46.101.138.224"
 
-//PostgresPort is the port of the postgres
-const PostgresPort = "5432"
+//postgresPort is the port of the postgres
+const postgresPort = "5432"
 
-//PostgresDataBase is the name of the database
-const PostgresDataBase = "diploma"
+//postgresDataBase is the name of the database
+const postgresDataBase = "diploma"
 
-//PostgresUsername is the name of the user inside DB
-const PostgresUsername = "postgres"
+//postgresUsername is the name of the user inside DBA
+const postgresUsername = "postgres"
 
-//PostgresPassword is the password of the user
-const PostgresPassword = "postgres"
+//postgresPassword is the password of the user
+const postgresPassword = "postgres"
 
 //PostgresConnection is the connection string to the database
 var PostgresConnection = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-	PostgresAddress, PostgresPort, PostgresUsername, PostgresPassword, PostgresDataBase)
+	postgresAddress, postgresPort, postgresUsername, postgresPassword, postgresDataBase)
+
+//RpcServerAddress is an address to the gRPC server
+var RpcServerAddress = "server:50051"
