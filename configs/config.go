@@ -23,3 +23,10 @@ var PostgresConnection = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname
 
 //RpcServerAddress is an address to the gRPC server
 var RpcServerAddress = "server:50051"
+
+//rabbitUserName is the name of the user in Rabbit MQ
+const rabbitUserName = "admin"
+//rabbitPassword is the password of the user
+const rabbitPassword = "admin"
+//RabbitConnection is the connection string to the Rabbit MQ
+var RabbitConnection = fmt.Sprintf("amqp://%s:%s@46.101.138.224:5672/", rabbitUserName, rabbitPassword)

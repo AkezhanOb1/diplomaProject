@@ -4,6 +4,7 @@ import (
 	"context"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/owners"
 	db "github.com/AkezhanOb1/diplomaProject/repositories/business/owner"
+	"github.com/AkezhanOb1/diplomaProject/services/email"
 )
 
 type Server struct{}
@@ -17,6 +18,11 @@ func (s *Server) CreateBusinessOwner(ctx context.Context, request *pb.CreateBusi
 	request.BusinessOwnerPassword = hashedPassword
 
 	businessOwner, err := db.CreateOwnerRepository(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	err = email.BusinessRegistrationEmail(request.GetBusinessOwnerEmail())
 	if err != nil {
 		return nil, err
 	}

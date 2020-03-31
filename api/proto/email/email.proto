@@ -1,0 +1,18 @@
+syntax="proto3";
+
+import "google/protobuf/empty.proto";
+
+package email;
+option go_package="email";
+
+message BusinessOwnerEmail {
+   string address = 1;
+}
+
+message BusinessOwnerEmailRequest {
+    BusinessOwnerEmail email = 1;
+}
+
+service EmailService {
+    rpc SendEmailToBusinessOwner(BusinessOwnerEmailRequest) returns (google.protobuf.Empty) {}
+}

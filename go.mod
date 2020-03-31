@@ -7,6 +7,7 @@ require (
 	github.com/golang/protobuf v1.3.3
 	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/jackc/pgx/v4 v4.4.1
+	github.com/streadway/amqp v0.0.0-20200108173154-1c71cc93ed71
 	github.com/vektah/gqlparser/v2 v2.0.1
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 	google.golang.org/genproto v0.0.0-20200218151345-dad8c97a84f5 // indirect
