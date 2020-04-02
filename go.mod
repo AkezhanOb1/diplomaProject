@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/99designs/gqlgen v0.11.2
+	github.com/go-chi/chi v4.1.0+incompatible // indirect
 	github.com/golang/protobuf v1.3.3
 	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/jackc/pgx/v4 v4.4.1

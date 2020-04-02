@@ -11,8 +11,8 @@ import (
 )
 
 //CreateCompanyRepository is a repository that
-//responsible to inserting data into the company
-//table in database
+//responsible for inserting data into the company
+//table inside the database
 func CreateCompanyRepository(ctx context.Context, request *pb.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
 	conn, err := pgx.Connect(ctx, config.PostgresConnection)
 	if err != nil {
