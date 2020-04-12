@@ -10,8 +10,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-//GetCategoriesRepository is a repository that
-//responsible to all the requests to DB
+//GetCategoriesRepository is a repository that responsible to all the requests to DB
 //about business categories
 func GetCategoriesRepository() (*pb.BusinessCategoriesResponse, error) {
 	conn, err := pgx.Connect(context.Background(), config.PostgresConnection)
@@ -22,7 +21,7 @@ func GetCategoriesRepository() (*pb.BusinessCategoriesResponse, error) {
 	defer func() {
 		err =  conn.Close(context.Background())
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 

@@ -10,6 +10,25 @@ input BusinessCategoryRequest {
   businessCategoryID: ID!
 }
 
+type BusinessSubCategory {
+  businessSubCategoryID: ID!
+  businessSubCategoryName: String!
+  businessCategoryID: ID!
+}
+
+input BusinessSubCategoryRequest {
+  businessSubCategoryID: ID!
+}
+
+input BusinessSubCategoriesUnderCategoryRequest {
+  businessCategoryID: ID!
+}
+
+type BusinessSubCategories {
+  businessSubCategories: [BusinessSubCategory!]!
+}
+
+
 type BusinessCompany {
   businessCompanyID: ID!
   businessCompanyName: String!
@@ -21,6 +40,28 @@ input CreateBusinessCompanyRequest {
   businessCompanyCategoryID: ID!
 }
 
+input getBusinessCompanyRequest {
+  businessCompanyID: ID!
+}
+
+type BusinessCompanies {
+  businessCompanies: [BusinessCompany!]!
+}
+
+input getBusinessCompanyServicesRequest {
+  businessCompanyID: ID!
+}
+
+type businessCompanyService {
+  companyServiceID: ID!
+  companyServiceName: String!
+  companyServiceDuration: Int!
+  companyServicePrice: Float!
+}
+type getBusinessCompanyServicesResponse {
+  businessCompanyService: [businessCompanyService!]
+}
+
 type BusinessOwner {
   businessOwnerID: ID!
   businessOwnerName: String!
@@ -30,23 +71,132 @@ type BusinessOwner {
 }
 
 input CreateBusinessOwnerRequest {
+  businessCompanyID: ID!
   businessOwnerName: String!
   businessOwnerEmail: String!
   businessOwnerPassword: String!
   businessOwnerPhoneNumberPrefix: String!
   businessOwnerPhoneNumber: String!
-  businessCompanyID: ID!
+}
+
+type BusinessService {
+  businessServiceID: ID!
+  businessServiceName: String!
+  subCategories: [Int!]!
+}
+
+input getBusinessServiceRequest {
+  businessServiceID: ID!
+}
+
+type BusinessServices {
+  businessServices: [BusinessService!]!
+}
+
+input getBusinessServicesUnderSubCategoryRequest {
+  subCategoryID: Int!
+}
+
+input createBusinessServiceRequest {
+  businessServiceName: String!
+  businessServiceSubCategories: [Int!]!
+}
+
+type createBusinessServiceResponse {
+  businessService: BusinessService!
+}
+
+type CompanyService {
+  companyServiceID: ID!
+  companyServiceName: String!
+  companyServiceDuration: Int!
+  companyServicePrice: Float!
+  businessServiceID: Int
+  businessServiceName: String
+  businessCompanyID: Int
+  businessCompanyName: String
+}
+
+input getCompanyServiceRequest {
+  companyServiceID: ID!
+}
+
+type CompanyServices {
+  companyServices: [CompanyService!]!
+}
+
+input getCompanyServicesUnderSubCategoryRequest {
+  subCategoryID: Int!
+}
+
+input createCompanyServiceRequest {
+  companyServiceName: String!
+  companyServiceDuration: Int!
+  companyServicePrice: Float!
+  businessServiceID: Int!
+  businessCompanyID: Int!
 }
 
 
+type createCompanyServiceResponse {
+  companyService: CompanyService!
+}
+
+
+input updateCompanyServiceRequest {
+  companyServiceID: ID!
+  companyServiceName: String!
+  companyServiceDuration: Int!
+  companyServicePrice: Float!
+  businessServiceID: Int!
+  businessCompanyID: Int!
+}
+
+type updateCompanyServiceResponse {
+  companyService: CompanyService!
+}
+
+input deleteCompanyServiceRequest {
+  companyServiceID: ID!
+}
+
+type deleteCompanyServiceResponse {
+  companyService: CompanyService!
+}
+
+
+
 type Query {
+  getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
+  getBusinessCompanies: BusinessCompanies!
+  getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
+
   getBusinessCategory(input: BusinessCategoryRequest!): BusinessCategory!
   getBusinessCategories: [BusinessCategory!]!
+
+  getBusinessSubCategory(input: BusinessSubCategoryRequest!): BusinessSubCategory!
+  getBusinessSubCategories: BusinessSubCategories!
+  getBusinessSubCategoriesUnderCategory(input: BusinessSubCategoriesUnderCategoryRequest): BusinessSubCategories!
+
+  getBusinessService(input: getBusinessServiceRequest!): BusinessService!
+  getBusinessServices: BusinessServices!
+  getBusinessServicesUnderSubCategory(input: getBusinessServicesUnderSubCategoryRequest):BusinessServices!
+
+  getCompanyService(input: getCompanyServiceRequest!): CompanyService!
+  getCompanyServices: CompanyServices!
+  getCompanyServicesUnderSubCategory(input: getCompanyServicesUnderSubCategoryRequest!): CompanyServices!
+
 }
 
 type Mutation {
   createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
   createBusinessOwner(input: CreateBusinessOwnerRequest!): BusinessOwner!
+
+  createBusinessService(input: createBusinessServiceRequest!): createBusinessServiceResponse!
+
+  createCompanyService(input: createCompanyServiceRequest!): createCompanyServiceResponse!
+  updateCompanyService(input: updateCompanyServiceRequest!): updateCompanyServiceResponse!
+  deleteCompanyService(input: deleteCompanyServiceRequest!): deleteCompanyServiceResponse!
 }
 
 

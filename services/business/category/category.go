@@ -11,6 +11,7 @@ import (
 
 type Server struct {}
 
+//GetBusinessCategories is
 func (*Server) GetBusinessCategories(ctx context.Context, emp *empty.Empty) (*pb.BusinessCategoriesResponse, error) {
 	businessCategories, err := db.GetCategoriesRepository()
 	if err != nil {

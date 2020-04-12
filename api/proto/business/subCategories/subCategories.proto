@@ -1,0 +1,38 @@
+syntax="proto3";
+
+import "google/protobuf/empty.proto";
+
+package businessSubCategories;
+option go_package="subCategories";
+
+message BusinessSubCategory {
+    int64 businessSubCategoryID = 1;
+    string businessSubCategoryName = 2;
+    int64 businessCategoryID = 3;
+}
+
+message BusinessSubCategoryRequest {
+    int64 businessSubCategoryID = 1;
+}
+
+message BusinessSubCategoriesUnderCategoryRequest {
+    int64 businessCategoryID = 1;
+}
+
+message BusinessSubCategoryResponse {
+    BusinessSubCategory businessSubCategory = 1;
+}
+
+message BusinessSubCategoriesResponse {
+    repeated BusinessSubCategory businessSubCategories = 1;
+}
+
+message BusinessSubCategoriesUnderCategoryResponse {
+    repeated BusinessSubCategory businessSubCategories = 1;
+}
+
+service BusinessSubCategoryService {
+    rpc GetBusinessSubCategory(BusinessSubCategoryRequest) returns (BusinessSubCategoryResponse) {}
+    rpc GetBusinessSubCategories(google.protobuf.Empty) returns (BusinessSubCategoriesResponse) {}
+    rpc GetBusinessSubCategoriesUnderCategory(BusinessSubCategoriesUnderCategoryRequest) returns (BusinessSubCategoriesUnderCategoryResponse) {}
+}

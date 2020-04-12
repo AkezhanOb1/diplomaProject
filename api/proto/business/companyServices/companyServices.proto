@@ -1,0 +1,81 @@
+syntax="proto3";
+
+import "google/protobuf/empty.proto";
+
+package companyServices;
+option go_package="companyServices";
+
+
+message CompanyService {
+    int64 companyServiceID = 1;
+    string companyServiceName = 2;
+    int64  companyServiceDuration = 3;
+    double  companyServicePrice = 4;
+    int64 businessServiceID = 5;
+    string businessServiceName = 6;
+    int64 businessCompanyID = 7;
+    string businessCompanyName = 8;
+}
+
+message GetCompanyServiceRequest {
+    int64 companyServiceID = 1;
+}
+
+message GetCompanyServiceResponse {
+    CompanyService companyService = 1;
+}
+
+message GetCompanyServicesResponse {
+    repeated CompanyService companyServices = 1;
+}
+
+message CreateCompanyServiceRequest {
+    string companyServiceName = 1;
+    int64  companyServiceDuration = 2;
+    double  companyServicePrice = 3;
+    int64 businessServiceID = 4;
+    int64 businessCompanyID = 5;
+}
+
+message CreateCompanyServiceResponse {
+    CompanyService companyService = 1;
+}
+
+message UpdateCompanyServiceRequest {
+    int64 companyServiceID = 1;
+    string companyServiceName = 2;
+    int64  companyServiceDuration = 3;
+    double  companyServicePrice = 4;
+    int64 businessServiceID = 5;
+    int64 businessCompanyID = 6;
+}
+
+message UpdateCompanyServiceResponse {
+    CompanyService companyService = 1;
+}
+
+message DeleteCompanyServiceRequest {
+    int64 companyServiceID = 1;
+}
+
+message DeleteCompanyServiceResponse {
+    CompanyService companyService = 1;
+}
+
+message GetCompanyServicesUnderSubCategoryRequest {
+    int64 subCategoryID = 1;
+}
+
+message GetCompanyServicesUnderSubCategoryResponse {
+    repeated CompanyService companyServices = 1;
+}
+
+
+service CompanyServices {
+    rpc GetCompanyService(GetCompanyServiceRequest) returns (GetCompanyServiceResponse) {}
+    rpc GetCompanyServices(google.protobuf.Empty) returns (GetCompanyServicesResponse) {}
+    rpc CreateCompanyService(CreateCompanyServiceRequest) returns (CreateCompanyServiceResponse) {}
+    rpc UpdateCompanyService(UpdateCompanyServiceRequest) returns (UpdateCompanyServiceResponse) {}
+    rpc DeleteCompanyService(DeleteCompanyServiceRequest) returns (DeleteCompanyServiceResponse) {}
+    rpc GetCompanyServicesUnderSubCategory(GetCompanyServicesUnderSubCategoryRequest) returns (GetCompanyServicesUnderSubCategoryResponse) {}
+}

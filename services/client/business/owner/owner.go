@@ -24,7 +24,7 @@ func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerReque
 		}
 	}()
 
-	c := pb.NewBusinessCompaniesServiceClient(cc)
+	c := pb.NewBusinessOwnerServiceClient(cc)
 
 	r := pb.CreateBusinessOwnerRequest{
 		BusinessOwnerName:              req.BusinessOwnerName,

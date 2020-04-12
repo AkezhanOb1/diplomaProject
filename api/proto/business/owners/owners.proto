@@ -34,7 +34,7 @@ message BindCompanyToBusinessOwnerResponse{
 }
 
 
-service BusinessCompaniesService {
+service BusinessOwnerService {
     rpc CreateBusinessOwner(CreateBusinessOwnerRequest) returns (CreateBusinessOwnerResponse) {}
     rpc BindCompanyToBusinessOwner(BindCompanyToBusinessOwnerRequest) returns (BindCompanyToBusinessOwnerResponse) {}
 }

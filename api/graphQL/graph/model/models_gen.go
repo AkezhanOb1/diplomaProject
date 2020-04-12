@@ -11,6 +11,10 @@ type BusinessCategoryRequest struct {
 	BusinessCategoryID int64 `json:"businessCategoryID"`
 }
 
+type BusinessCompanies struct {
+	BusinessCompanies []BusinessCompany `json:"businessCompanies"`
+}
+
 type BusinessCompany struct {
 	BusinessCompanyID         int64  `json:"businessCompanyID"`
 	BusinessCompanyName       string `json:"businessCompanyName"`
@@ -25,16 +29,136 @@ type BusinessOwner struct {
 	BusinessOwnerPhoneNumber       string `json:"businessOwnerPhoneNumber"`
 }
 
+type BusinessService struct {
+	BusinessServiceID   int64   `json:"businessServiceID"`
+	BusinessServiceName string  `json:"businessServiceName"`
+	SubCategories       []int64 `json:"subCategories"`
+}
+
+type BusinessServices struct {
+	BusinessServices []BusinessService `json:"businessServices"`
+}
+
+type BusinessSubCategories struct {
+	BusinessSubCategories []BusinessSubCategory `json:"businessSubCategories"`
+}
+
+type BusinessSubCategoriesUnderCategoryRequest struct {
+	BusinessCategoryID int64 `json:"businessCategoryID"`
+}
+
+type BusinessSubCategory struct {
+	BusinessSubCategoryID   int64  `json:"businessSubCategoryID"`
+	BusinessSubCategoryName string `json:"businessSubCategoryName"`
+	BusinessCategoryID      int64  `json:"businessCategoryID"`
+}
+
+type BusinessSubCategoryRequest struct {
+	BusinessSubCategoryID int64 `json:"businessSubCategoryID"`
+}
+
+type CompanyService struct {
+	CompanyServiceID       int64   `json:"companyServiceID"`
+	CompanyServiceName     string  `json:"companyServiceName"`
+	CompanyServiceDuration int64   `json:"companyServiceDuration"`
+	CompanyServicePrice    float64 `json:"companyServicePrice"`
+	BusinessServiceID      *int64  `json:"businessServiceID"`
+	BusinessServiceName    *string `json:"businessServiceName"`
+	BusinessCompanyID      *int64  `json:"businessCompanyID"`
+	BusinessCompanyName    *string `json:"businessCompanyName"`
+}
+
+type CompanyServices struct {
+	CompanyServices []CompanyService `json:"companyServices"`
+}
+
 type CreateBusinessCompanyRequest struct {
 	BusinessCompanyName       string `json:"businessCompanyName"`
 	BusinessCompanyCategoryID int64  `json:"businessCompanyCategoryID"`
 }
 
 type CreateBusinessOwnerRequest struct {
+	BusinessCompanyID              int64  `json:"businessCompanyID"`
 	BusinessOwnerName              string `json:"businessOwnerName"`
 	BusinessOwnerEmail             string `json:"businessOwnerEmail"`
 	BusinessOwnerPassword          string `json:"businessOwnerPassword"`
 	BusinessOwnerPhoneNumberPrefix string `json:"businessOwnerPhoneNumberPrefix"`
 	BusinessOwnerPhoneNumber       string `json:"businessOwnerPhoneNumber"`
-	BusinessCompanyID              int64  `json:"businessCompanyID"`
+}
+
+type BusinessCompanyService struct {
+	CompanyServiceID       int64   `json:"companyServiceID"`
+	CompanyServiceName     string  `json:"companyServiceName"`
+	CompanyServiceDuration int64   `json:"companyServiceDuration"`
+	CompanyServicePrice    float64 `json:"companyServicePrice"`
+}
+
+type CreateBusinessServiceRequest struct {
+	BusinessServiceName          string  `json:"businessServiceName"`
+	BusinessServiceSubCategories []int64 `json:"businessServiceSubCategories"`
+}
+
+type CreateBusinessServiceResponse struct {
+	BusinessService *BusinessService `json:"businessService"`
+}
+
+type CreateCompanyServiceRequest struct {
+	CompanyServiceName     string  `json:"companyServiceName"`
+	CompanyServiceDuration int64   `json:"companyServiceDuration"`
+	CompanyServicePrice    float64 `json:"companyServicePrice"`
+	BusinessServiceID      int64   `json:"businessServiceID"`
+	BusinessCompanyID      int64   `json:"businessCompanyID"`
+}
+
+type CreateCompanyServiceResponse struct {
+	CompanyService *CompanyService `json:"companyService"`
+}
+
+type DeleteCompanyServiceRequest struct {
+	CompanyServiceID int64 `json:"companyServiceID"`
+}
+
+type DeleteCompanyServiceResponse struct {
+	CompanyService *CompanyService `json:"companyService"`
+}
+
+type GetBusinessCompanyRequest struct {
+	BusinessCompanyID int64 `json:"businessCompanyID"`
+}
+
+type GetBusinessCompanyServicesRequest struct {
+	BusinessCompanyID int64 `json:"businessCompanyID"`
+}
+
+type GetBusinessCompanyServicesResponse struct {
+	BusinessCompanyService []BusinessCompanyService `json:"businessCompanyService"`
+}
+
+type GetBusinessServiceRequest struct {
+	BusinessServiceID int64 `json:"businessServiceID"`
+}
+
+type GetBusinessServicesUnderSubCategoryRequest struct {
+	SubCategoryID int64 `json:"subCategoryID"`
+}
+
+type GetCompanyServiceRequest struct {
+	CompanyServiceID int64 `json:"companyServiceID"`
+}
+
+type GetCompanyServicesUnderSubCategoryRequest struct {
+	SubCategoryID int64 `json:"subCategoryID"`
+}
+
+type UpdateCompanyServiceRequest struct {
+	CompanyServiceID       int64   `json:"companyServiceID"`
+	CompanyServiceName     string  `json:"companyServiceName"`
+	CompanyServiceDuration int64   `json:"companyServiceDuration"`
+	CompanyServicePrice    float64 `json:"companyServicePrice"`
+	BusinessServiceID      int64   `json:"businessServiceID"`
+	BusinessCompanyID      int64   `json:"businessCompanyID"`
+}
+
+type UpdateCompanyServiceResponse struct {
+	CompanyService *CompanyService `json:"companyService"`
 }

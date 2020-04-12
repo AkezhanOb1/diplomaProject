@@ -3,16 +3,15 @@ package owner
 
 import (
 	"context"
-	"log"
-	"strings"
-
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/owners"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
+	"log"
+	"strings"
 
 	"github.com/jackc/pgx/v4"
 )
 
-//TODO: MAKE WITH TX
+
 //CreateOwnerRepository is a repository that
 //responsible to inserting data into the owner
 //table in database

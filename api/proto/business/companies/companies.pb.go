@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -165,31 +166,309 @@ func (m *CreateBusinessCompanyResponse) GetBusinessCompany() *BusinessCompany {
 	return nil
 }
 
+type GetBusinessCompanyRequest struct {
+	BusinessCompanyID    int64    `protobuf:"varint,1,opt,name=businessCompanyID,proto3" json:"businessCompanyID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetBusinessCompanyRequest) Reset()         { *m = GetBusinessCompanyRequest{} }
+func (m *GetBusinessCompanyRequest) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompanyRequest) ProtoMessage()    {}
+func (*GetBusinessCompanyRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{3}
+}
+
+func (m *GetBusinessCompanyRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyRequest.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyRequest.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyRequest.Merge(m, src)
+}
+func (m *GetBusinessCompanyRequest) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyRequest.Size(m)
+}
+func (m *GetBusinessCompanyRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyRequest proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyRequest) GetBusinessCompanyID() int64 {
+	if m != nil {
+		return m.BusinessCompanyID
+	}
+	return 0
+}
+
+type GetBusinessCompanyResponse struct {
+	BusinessCompany      *BusinessCompany `protobuf:"bytes,1,opt,name=businessCompany,proto3" json:"businessCompany,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
+}
+
+func (m *GetBusinessCompanyResponse) Reset()         { *m = GetBusinessCompanyResponse{} }
+func (m *GetBusinessCompanyResponse) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompanyResponse) ProtoMessage()    {}
+func (*GetBusinessCompanyResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{4}
+}
+
+func (m *GetBusinessCompanyResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyResponse.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyResponse.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyResponse.Merge(m, src)
+}
+func (m *GetBusinessCompanyResponse) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyResponse.Size(m)
+}
+func (m *GetBusinessCompanyResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyResponse proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyResponse) GetBusinessCompany() *BusinessCompany {
+	if m != nil {
+		return m.BusinessCompany
+	}
+	return nil
+}
+
+type GetBusinessCompaniesResponse struct {
+	BusinessCompanies    []*BusinessCompany `protobuf:"bytes,1,rep,name=businessCompanies,proto3" json:"businessCompanies,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
+}
+
+func (m *GetBusinessCompaniesResponse) Reset()         { *m = GetBusinessCompaniesResponse{} }
+func (m *GetBusinessCompaniesResponse) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompaniesResponse) ProtoMessage()    {}
+func (*GetBusinessCompaniesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{5}
+}
+
+func (m *GetBusinessCompaniesResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompaniesResponse.Unmarshal(m, b)
+}
+func (m *GetBusinessCompaniesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompaniesResponse.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompaniesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompaniesResponse.Merge(m, src)
+}
+func (m *GetBusinessCompaniesResponse) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompaniesResponse.Size(m)
+}
+func (m *GetBusinessCompaniesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompaniesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompaniesResponse proto.InternalMessageInfo
+
+func (m *GetBusinessCompaniesResponse) GetBusinessCompanies() []*BusinessCompany {
+	if m != nil {
+		return m.BusinessCompanies
+	}
+	return nil
+}
+
+type GetBusinessCompanyServicesRequest struct {
+	BusinessCompanyID    int64    `protobuf:"varint,1,opt,name=businessCompanyID,proto3" json:"businessCompanyID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetBusinessCompanyServicesRequest) Reset()         { *m = GetBusinessCompanyServicesRequest{} }
+func (m *GetBusinessCompanyServicesRequest) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompanyServicesRequest) ProtoMessage()    {}
+func (*GetBusinessCompanyServicesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{6}
+}
+
+func (m *GetBusinessCompanyServicesRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyServicesRequest.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyServicesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyServicesRequest.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyServicesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyServicesRequest.Merge(m, src)
+}
+func (m *GetBusinessCompanyServicesRequest) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyServicesRequest.Size(m)
+}
+func (m *GetBusinessCompanyServicesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyServicesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyServicesRequest proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyServicesRequest) GetBusinessCompanyID() int64 {
+	if m != nil {
+		return m.BusinessCompanyID
+	}
+	return 0
+}
+
+type BusinessCompanyService struct {
+	CompanyServiceID       int64    `protobuf:"varint,1,opt,name=companyServiceID,proto3" json:"companyServiceID,omitempty"`
+	CompanyServiceName     string   `protobuf:"bytes,2,opt,name=companyServiceName,proto3" json:"companyServiceName,omitempty"`
+	CompanyServiceDuration int64    `protobuf:"varint,3,opt,name=companyServiceDuration,proto3" json:"companyServiceDuration,omitempty"`
+	CompanyServicePrice    float64  `protobuf:"fixed64,4,opt,name=companyServicePrice,proto3" json:"companyServicePrice,omitempty"`
+	XXX_NoUnkeyedLiteral   struct{} `json:"-"`
+	XXX_unrecognized       []byte   `json:"-"`
+	XXX_sizecache          int32    `json:"-"`
+}
+
+func (m *BusinessCompanyService) Reset()         { *m = BusinessCompanyService{} }
+func (m *BusinessCompanyService) String() string { return proto.CompactTextString(m) }
+func (*BusinessCompanyService) ProtoMessage()    {}
+func (*BusinessCompanyService) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{7}
+}
+
+func (m *BusinessCompanyService) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BusinessCompanyService.Unmarshal(m, b)
+}
+func (m *BusinessCompanyService) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BusinessCompanyService.Marshal(b, m, deterministic)
+}
+func (m *BusinessCompanyService) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BusinessCompanyService.Merge(m, src)
+}
+func (m *BusinessCompanyService) XXX_Size() int {
+	return xxx_messageInfo_BusinessCompanyService.Size(m)
+}
+func (m *BusinessCompanyService) XXX_DiscardUnknown() {
+	xxx_messageInfo_BusinessCompanyService.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BusinessCompanyService proto.InternalMessageInfo
+
+func (m *BusinessCompanyService) GetCompanyServiceID() int64 {
+	if m != nil {
+		return m.CompanyServiceID
+	}
+	return 0
+}
+
+func (m *BusinessCompanyService) GetCompanyServiceName() string {
+	if m != nil {
+		return m.CompanyServiceName
+	}
+	return ""
+}
+
+func (m *BusinessCompanyService) GetCompanyServiceDuration() int64 {
+	if m != nil {
+		return m.CompanyServiceDuration
+	}
+	return 0
+}
+
+func (m *BusinessCompanyService) GetCompanyServicePrice() float64 {
+	if m != nil {
+		return m.CompanyServicePrice
+	}
+	return 0
+}
+
+type GetBusinessCompanyServicesResponse struct {
+	BusinessCompanyService []*BusinessCompanyService `protobuf:"bytes,1,rep,name=businessCompanyService,proto3" json:"businessCompanyService,omitempty"`
+	XXX_NoUnkeyedLiteral   struct{}                  `json:"-"`
+	XXX_unrecognized       []byte                    `json:"-"`
+	XXX_sizecache          int32                     `json:"-"`
+}
+
+func (m *GetBusinessCompanyServicesResponse) Reset()         { *m = GetBusinessCompanyServicesResponse{} }
+func (m *GetBusinessCompanyServicesResponse) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompanyServicesResponse) ProtoMessage()    {}
+func (*GetBusinessCompanyServicesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{8}
+}
+
+func (m *GetBusinessCompanyServicesResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyServicesResponse.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyServicesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyServicesResponse.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyServicesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyServicesResponse.Merge(m, src)
+}
+func (m *GetBusinessCompanyServicesResponse) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyServicesResponse.Size(m)
+}
+func (m *GetBusinessCompanyServicesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyServicesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyServicesResponse proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyServicesResponse) GetBusinessCompanyService() []*BusinessCompanyService {
+	if m != nil {
+		return m.BusinessCompanyService
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*BusinessCompany)(nil), "businessCompanies.BusinessCompany")
 	proto.RegisterType((*CreateBusinessCompanyRequest)(nil), "businessCompanies.CreateBusinessCompanyRequest")
 	proto.RegisterType((*CreateBusinessCompanyResponse)(nil), "businessCompanies.CreateBusinessCompanyResponse")
+	proto.RegisterType((*GetBusinessCompanyRequest)(nil), "businessCompanies.GetBusinessCompanyRequest")
+	proto.RegisterType((*GetBusinessCompanyResponse)(nil), "businessCompanies.GetBusinessCompanyResponse")
+	proto.RegisterType((*GetBusinessCompaniesResponse)(nil), "businessCompanies.GetBusinessCompaniesResponse")
+	proto.RegisterType((*GetBusinessCompanyServicesRequest)(nil), "businessCompanies.GetBusinessCompanyServicesRequest")
+	proto.RegisterType((*BusinessCompanyService)(nil), "businessCompanies.BusinessCompanyService")
+	proto.RegisterType((*GetBusinessCompanyServicesResponse)(nil), "businessCompanies.GetBusinessCompanyServicesResponse")
 }
 
 func init() { proto.RegisterFile("companies.proto", fileDescriptor_42797fc8bb925a7c) }
 
 var fileDescriptor_42797fc8bb925a7c = []byte{
-	// 229 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4f, 0xce, 0xcf, 0x2d,
-	0x48, 0xcc, 0xcb, 0x4c, 0x2d, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x4c, 0x2a, 0x2d,
-	0xce, 0xcc, 0x4b, 0x2d, 0x2e, 0x76, 0x86, 0x49, 0x28, 0xad, 0x67, 0xe4, 0xe2, 0x77, 0x42, 0x11,
-	0xad, 0x14, 0xd2, 0xe1, 0x42, 0x53, 0x58, 0xe9, 0xe9, 0x22, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x1c,
-	0x84, 0x29, 0x21, 0x64, 0xc0, 0x25, 0x8c, 0x26, 0xe8, 0x97, 0x98, 0x9b, 0x2a, 0xc1, 0xa4, 0xc0,
-	0xa8, 0xc1, 0x19, 0x84, 0x4d, 0x4a, 0xc8, 0x86, 0x4b, 0x12, 0x4d, 0xd8, 0x39, 0xb1, 0x24, 0x35,
-	0x3d, 0xbf, 0x08, 0x64, 0x0f, 0x33, 0xd8, 0x1e, 0xdc, 0x0a, 0x94, 0xfa, 0x18, 0xb9, 0x64, 0x9c,
-	0x8b, 0x52, 0x13, 0x4b, 0x52, 0xd1, 0xdc, 0x1d, 0x94, 0x5a, 0x58, 0x9a, 0x5a, 0x5c, 0x82, 0xcb,
-	0x41, 0x8c, 0x64, 0x3a, 0x88, 0x89, 0x90, 0x83, 0x72, 0xb9, 0x64, 0x71, 0xb8, 0xa7, 0xb8, 0x20,
-	0x3f, 0xaf, 0x38, 0x55, 0xc8, 0x07, 0x23, 0x88, 0xc1, 0x8e, 0xe1, 0x36, 0x52, 0xd2, 0xc3, 0x88,
-	0x10, 0x3d, 0x74, 0x43, 0xd0, 0xb5, 0x1a, 0xcd, 0x60, 0xe4, 0x92, 0x70, 0x42, 0xd7, 0x16, 0x9c,
-	0x5a, 0x54, 0x96, 0x99, 0x9c, 0x2a, 0x54, 0xc3, 0x25, 0x8a, 0xd5, 0x2d, 0x42, 0xfa, 0x58, 0xac,
-	0xc2, 0x17, 0x8a, 0x52, 0x06, 0xc4, 0x6b, 0x80, 0x78, 0x53, 0x89, 0xc1, 0x89, 0x3b, 0x8a, 0x13,
-	0x9e, 0xe4, 0x92, 0xd8, 0xc0, 0x69, 0xce, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0x70, 0x20, 0xb5,
-	0xd9, 0x86, 0x02, 0x00, 0x00,
+	// 462 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0xee, 0xd6, 0x08, 0xa9, 0xd3, 0x43, 0x61, 0x00, 0xcb, 0x35, 0x45, 0x32, 0x7b, 0x0a, 0xa8,
+	0x38, 0x55, 0xf9, 0x39, 0x71, 0x4a, 0x82, 0x50, 0x24, 0x84, 0x82, 0xb9, 0x71, 0xb3, 0xad, 0x25,
+	0x32, 0xc2, 0x5e, 0xe3, 0xb5, 0x91, 0x22, 0x71, 0xe7, 0x80, 0xc4, 0xab, 0xf0, 0x46, 0x3c, 0x0a,
+	0x42, 0x76, 0x6c, 0x37, 0xde, 0x5d, 0x27, 0x4e, 0xae, 0x33, 0xf3, 0xcd, 0xf7, 0xed, 0xfc, 0x2d,
+	0x9c, 0x85, 0x3c, 0x4e, 0xfd, 0x24, 0x62, 0xc2, 0x4d, 0x33, 0x9e, 0x73, 0xbc, 0x1b, 0x14, 0x22,
+	0x4a, 0x98, 0x10, 0xd3, 0xc6, 0x61, 0x3f, 0x5c, 0x72, 0xbe, 0xfc, 0xca, 0xc6, 0x55, 0x40, 0x50,
+	0x7c, 0x1e, 0xb3, 0x38, 0xcd, 0x57, 0xeb, 0x78, 0xfa, 0x87, 0xc0, 0xd9, 0xa4, 0x03, 0x59, 0xe1,
+	0x25, 0x48, 0x59, 0x56, 0xf3, 0x99, 0x45, 0x1c, 0x32, 0x32, 0x3c, 0xd5, 0x81, 0x57, 0x70, 0x4f,
+	0x32, 0xbe, 0xf7, 0x63, 0x66, 0x1d, 0x3b, 0x64, 0x74, 0xe2, 0xe9, 0x5c, 0xf8, 0x1a, 0xce, 0x25,
+	0xf3, 0xd4, 0xcf, 0xd9, 0x92, 0x67, 0x25, 0x8f, 0x51, 0xf1, 0xf4, 0x07, 0xd0, 0xdf, 0x04, 0x2e,
+	0xa6, 0x19, 0xf3, 0x73, 0x26, 0xe9, 0xf6, 0xd8, 0xb7, 0x82, 0x89, 0xbc, 0x4f, 0x10, 0x39, 0x50,
+	0xd0, 0xf1, 0x2e, 0x41, 0x31, 0x3c, 0xea, 0xd1, 0x23, 0x52, 0x9e, 0x08, 0x86, 0xef, 0x94, 0x12,
+	0x57, 0x62, 0x4e, 0xaf, 0xa9, 0xab, 0x74, 0xcb, 0x95, 0x93, 0xc8, 0x50, 0x3a, 0x87, 0xf3, 0xb7,
+	0x2c, 0xef, 0x79, 0xfb, 0x5e, 0xad, 0xa3, 0x5f, 0xc0, 0xd6, 0xa5, 0xba, 0x91, 0x1d, 0x1c, 0x2e,
+	0x5b, 0x82, 0xd2, 0x14, 0x2e, 0x14, 0xae, 0x88, 0x89, 0x96, 0x6d, 0x01, 0xea, 0xe8, 0x5a, 0xc4,
+	0x31, 0x06, 0xf2, 0xa9, 0x60, 0xfa, 0x01, 0x1e, 0xab, 0xaf, 0xfb, 0xc8, 0xb2, 0xef, 0x51, 0x58,
+	0xf2, 0x1e, 0x52, 0xb0, 0xbf, 0x04, 0x4c, 0x7d, 0x42, 0x7c, 0x0a, 0x77, 0xc2, 0x8e, 0xa5, 0xcd,
+	0xa3, 0xd8, 0xd1, 0x05, 0xec, 0xda, 0x36, 0x36, 0x46, 0xe3, 0xc1, 0x57, 0x60, 0x76, 0xad, 0xb3,
+	0x22, 0xf3, 0xf3, 0x88, 0x27, 0xf5, 0xb6, 0xf4, 0x78, 0xcb, 0x4d, 0xe8, 0x7a, 0x16, 0x59, 0x14,
+	0x32, 0xeb, 0x96, 0x43, 0x46, 0xc4, 0xd3, 0xb9, 0xe8, 0x4f, 0x02, 0x74, 0x5b, 0xd1, 0xea, 0x66,
+	0xf9, 0x60, 0x06, 0xda, 0x90, 0xba, 0x63, 0x4f, 0x76, 0x77, 0xac, 0x06, 0x78, 0x3d, 0x89, 0xae,
+	0xff, 0x19, 0x60, 0x29, 0xd3, 0xd2, 0x14, 0x5b, 0x00, 0xaa, 0x2a, 0xf1, 0x52, 0xc3, 0xda, 0xbb,
+	0x2a, 0xf6, 0xb3, 0x81, 0xd1, 0xeb, 0x27, 0xd3, 0x23, 0xf4, 0xe1, 0xbe, 0x6e, 0x82, 0xd1, 0x74,
+	0xd7, 0x07, 0xd6, 0x6d, 0x0e, 0xac, 0xfb, 0xa6, 0x3c, 0xb0, 0xf6, 0x78, 0x08, 0xc1, 0xc6, 0x0a,
+	0xd0, 0x23, 0xfc, 0x45, 0x74, 0x1b, 0xd9, 0x94, 0x1f, 0x5f, 0x0c, 0x92, 0x2c, 0x8d, 0xb8, 0xfd,
+	0x72, 0x4f, 0x54, 0xab, 0xe6, 0x07, 0x3c, 0xd0, 0x1e, 0x36, 0xd4, 0xbd, 0x6c, 0xdb, 0x49, 0xb6,
+	0xaf, 0x86, 0x03, 0x1a, 0xf6, 0xc9, 0xe9, 0xa7, 0x93, 0xf6, 0x73, 0x0b, 0x6e, 0x57, 0xb5, 0x7d,
+	0xfe, 0x3f, 0x00, 0x00, 0xff, 0xff, 0xfa, 0x90, 0xe3, 0x31, 0xf0, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -204,6 +483,9 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BusinessCompaniesServiceClient interface {
+	GetBusinessCompany(ctx context.Context, in *GetBusinessCompanyRequest, opts ...grpc.CallOption) (*GetBusinessCompanyResponse, error)
+	GetBusinessCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetBusinessCompaniesResponse, error)
+	GetBusinessCompanyServices(ctx context.Context, in *GetBusinessCompanyServicesRequest, opts ...grpc.CallOption) (*GetBusinessCompanyServicesResponse, error)
 	CreateBusinessCompany(ctx context.Context, in *CreateBusinessCompanyRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyResponse, error)
 }
 
@@ -213,6 +495,33 @@ type businessCompaniesServiceClient struct {
 
 func NewBusinessCompaniesServiceClient(cc grpc.ClientConnInterface) BusinessCompaniesServiceClient {
 	return &businessCompaniesServiceClient{cc}
+}
+
+func (c *businessCompaniesServiceClient) GetBusinessCompany(ctx context.Context, in *GetBusinessCompanyRequest, opts ...grpc.CallOption) (*GetBusinessCompanyResponse, error) {
+	out := new(GetBusinessCompanyResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/GetBusinessCompany", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *businessCompaniesServiceClient) GetBusinessCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetBusinessCompaniesResponse, error) {
+	out := new(GetBusinessCompaniesResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/GetBusinessCompanies", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *businessCompaniesServiceClient) GetBusinessCompanyServices(ctx context.Context, in *GetBusinessCompanyServicesRequest, opts ...grpc.CallOption) (*GetBusinessCompanyServicesResponse, error) {
+	out := new(GetBusinessCompanyServicesResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/GetBusinessCompanyServices", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *businessCompaniesServiceClient) CreateBusinessCompany(ctx context.Context, in *CreateBusinessCompanyRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyResponse, error) {
@@ -226,6 +535,9 @@ func (c *businessCompaniesServiceClient) CreateBusinessCompany(ctx context.Conte
 
 // BusinessCompaniesServiceServer is the server API for BusinessCompaniesService service.
 type BusinessCompaniesServiceServer interface {
+	GetBusinessCompany(context.Context, *GetBusinessCompanyRequest) (*GetBusinessCompanyResponse, error)
+	GetBusinessCompanies(context.Context, *empty.Empty) (*GetBusinessCompaniesResponse, error)
+	GetBusinessCompanyServices(context.Context, *GetBusinessCompanyServicesRequest) (*GetBusinessCompanyServicesResponse, error)
 	CreateBusinessCompany(context.Context, *CreateBusinessCompanyRequest) (*CreateBusinessCompanyResponse, error)
 }
 
@@ -233,12 +545,75 @@ type BusinessCompaniesServiceServer interface {
 type UnimplementedBusinessCompaniesServiceServer struct {
 }
 
+func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompany(ctx context.Context, req *GetBusinessCompanyRequest) (*GetBusinessCompanyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBusinessCompany not implemented")
+}
+func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompanies(ctx context.Context, req *empty.Empty) (*GetBusinessCompaniesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBusinessCompanies not implemented")
+}
+func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompanyServices(ctx context.Context, req *GetBusinessCompanyServicesRequest) (*GetBusinessCompanyServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBusinessCompanyServices not implemented")
+}
 func (*UnimplementedBusinessCompaniesServiceServer) CreateBusinessCompany(ctx context.Context, req *CreateBusinessCompanyRequest) (*CreateBusinessCompanyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBusinessCompany not implemented")
 }
 
 func RegisterBusinessCompaniesServiceServer(s *grpc.Server, srv BusinessCompaniesServiceServer) {
 	s.RegisterService(&_BusinessCompaniesService_serviceDesc, srv)
+}
+
+func _BusinessCompaniesService_GetBusinessCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBusinessCompanyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/GetBusinessCompany",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompany(ctx, req.(*GetBusinessCompanyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BusinessCompaniesService_GetBusinessCompanies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/GetBusinessCompanies",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanies(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BusinessCompaniesService_GetBusinessCompanyServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBusinessCompanyServicesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanyServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/GetBusinessCompanyServices",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanyServices(ctx, req.(*GetBusinessCompanyServicesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _BusinessCompaniesService_CreateBusinessCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -263,6 +638,18 @@ var _BusinessCompaniesService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "businessCompanies.BusinessCompaniesService",
 	HandlerType: (*BusinessCompaniesServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetBusinessCompany",
+			Handler:    _BusinessCompaniesService_GetBusinessCompany_Handler,
+		},
+		{
+			MethodName: "GetBusinessCompanies",
+			Handler:    _BusinessCompaniesService_GetBusinessCompanies_Handler,
+		},
+		{
+			MethodName: "GetBusinessCompanyServices",
+			Handler:    _BusinessCompaniesService_GetBusinessCompanyServices_Handler,
+		},
 		{
 			MethodName: "CreateBusinessCompany",
 			Handler:    _BusinessCompaniesService_CreateBusinessCompany_Handler,

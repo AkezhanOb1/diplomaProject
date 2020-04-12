@@ -1,4 +1,5 @@
 syntax="proto3";
+import "google/protobuf/empty.proto";
 
 package businessCompanies;
 option go_package="companies";
@@ -18,6 +19,39 @@ message CreateBusinessCompanyResponse {
     BusinessCompany BusinessCompany = 1;
 }
 
+message GetBusinessCompanyRequest {
+    int64 businessCompanyID = 1;
+}
+
+message GetBusinessCompanyResponse {
+    BusinessCompany businessCompany = 1;
+}
+
+message GetBusinessCompaniesResponse {
+    repeated BusinessCompany businessCompanies = 1;
+}
+
+message GetBusinessCompanyServicesRequest {
+    int64 businessCompanyID = 1;
+}
+
+message BusinessCompanyService {
+    int64 companyServiceID = 1;
+    string companyServiceName = 2;
+    int64  companyServiceDuration = 3;
+    double  companyServicePrice = 4;
+}
+
+
+message GetBusinessCompanyServicesResponse {
+   repeated BusinessCompanyService businessCompanyService = 1;
+}
+
+
 service BusinessCompaniesService {
+    rpc GetBusinessCompany(GetBusinessCompanyRequest) returns (GetBusinessCompanyResponse) {}
+    rpc GetBusinessCompanies(google.protobuf.Empty) returns (GetBusinessCompaniesResponse) {}
+    rpc GetBusinessCompanyServices(GetBusinessCompanyServicesRequest) returns (GetBusinessCompanyServicesResponse) {}
+
     rpc CreateBusinessCompany(CreateBusinessCompanyRequest) returns (CreateBusinessCompanyResponse) {}
 }
