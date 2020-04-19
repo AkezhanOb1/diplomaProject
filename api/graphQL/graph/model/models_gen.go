@@ -21,6 +21,18 @@ type BusinessCompany struct {
 	BusinessCompanyCategoryID int64  `json:"businessCompanyCategoryID"`
 }
 
+type BusinessCompanyOperationHour struct {
+	CompanyOperationHourID int64  `json:"companyOperationHourID"`
+	BusinessCompanyID      int64  `json:"businessCompanyID"`
+	DayOfWeek              int64  `json:"dayOfWeek"`
+	OpenTime               string `json:"openTime"`
+	CloseTime              string `json:"closeTime"`
+}
+
+type BusinessCompanyOperationHours struct {
+	BusinessCompanyOperationHour []BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
+}
+
 type BusinessOwner struct {
 	BusinessOwnerID                int64  `json:"businessOwnerID"`
 	BusinessOwnerName              string `json:"businessOwnerName"`
@@ -86,11 +98,26 @@ type CreateBusinessOwnerRequest struct {
 	BusinessOwnerPhoneNumber       string `json:"businessOwnerPhoneNumber"`
 }
 
+type BusinessCompanyOperationHourResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
+}
+
 type BusinessCompanyService struct {
 	CompanyServiceID       int64   `json:"companyServiceID"`
 	CompanyServiceName     string  `json:"companyServiceName"`
 	CompanyServiceDuration int64   `json:"companyServiceDuration"`
 	CompanyServicePrice    float64 `json:"companyServicePrice"`
+}
+
+type CreateBusinessCompanyOperationHoursRequest struct {
+	BusinessCompanyID int64  `json:"businessCompanyID"`
+	DayOfWeek         int64  `json:"dayOfWeek"`
+	OpenTime          string `json:"openTime"`
+	CloseTime         string `json:"closeTime"`
+}
+
+type CreateBusinessCompanyOperationHoursResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
 }
 
 type CreateBusinessServiceRequest struct {
@@ -114,12 +141,24 @@ type CreateCompanyServiceResponse struct {
 	CompanyService *CompanyService `json:"companyService"`
 }
 
+type DeleteBusinessCompanyOperationHoursRequest struct {
+	CompanyOperationHourID int64 `json:"companyOperationHourID"`
+}
+
+type DeleteBusinessCompanyOperationHoursResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
+}
+
 type DeleteCompanyServiceRequest struct {
 	CompanyServiceID int64 `json:"companyServiceID"`
 }
 
 type DeleteCompanyServiceResponse struct {
 	CompanyService *CompanyService `json:"companyService"`
+}
+
+type GetBusinessCompanyOperationHoursRequest struct {
+	BusinessCompanyID int64 `json:"businessCompanyID"`
 }
 
 type GetBusinessCompanyRequest struct {
@@ -148,6 +187,23 @@ type GetCompanyServiceRequest struct {
 
 type GetCompanyServicesUnderSubCategoryRequest struct {
 	SubCategoryID int64 `json:"subCategoryID"`
+}
+
+type GetGetBusinessCompanyOperationHourByDayRequest struct {
+	BusinessCompanyID int64 `json:"businessCompanyID"`
+	DayOfWeek         int64 `json:"dayOfWeek"`
+}
+
+type UpdateBusinessCompanyOperationHoursRequest struct {
+	CompanyOperationHourID int64  `json:"companyOperationHourID"`
+	BusinessCompanyID      int64  `json:"businessCompanyID"`
+	DayOfWeek              int64  `json:"dayOfWeek"`
+	OpenTime               string `json:"openTime"`
+	CloseTime              string `json:"closeTime"`
+}
+
+type UpdateBusinessCompanyOperationHoursResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
 }
 
 type UpdateCompanyServiceRequest struct {

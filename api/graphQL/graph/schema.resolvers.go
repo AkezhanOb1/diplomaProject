@@ -131,6 +131,66 @@ func (r *mutationResolver) DeleteCompanyService(ctx context.Context, input model
 	return resp, nil
 }
 
+func (r *mutationResolver) CreateBusinessCompanyOperationHours(ctx context.Context, input model.CreateBusinessCompanyOperationHoursRequest) (*model.CreateBusinessCompanyOperationHoursResponse, error) {
+	newOperationHours, err := bc.CreateBusinessCompanyOperationHour(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var operationHours = newOperationHours.GetBusinessCompanyOperationHour()
+	var resp = &model.CreateBusinessCompanyOperationHoursResponse{
+		BusinessCompanyOperationHour: &model.BusinessCompanyOperationHour{
+			CompanyOperationHourID: operationHours.GetCompanyOperationHourID(),
+			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
+			DayOfWeek:              operationHours.GetDayOfWeek(),
+			OpenTime:               operationHours.GetOpenTime(),
+			CloseTime:              operationHours.GetCloseTime(),
+		},
+	}
+
+	return resp, nil
+}
+
+func (r *mutationResolver) UpdateBusinessCompanyOperationHours(ctx context.Context, input model.UpdateBusinessCompanyOperationHoursRequest) (*model.UpdateBusinessCompanyOperationHoursResponse, error) {
+	updatesOperationHour, err := bc.UpdateBusinessCompanyOperationHour(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var operationHours = updatesOperationHour.GetBusinessCompanyOperationHour()
+	var resp = &model.UpdateBusinessCompanyOperationHoursResponse{
+		BusinessCompanyOperationHour: &model.BusinessCompanyOperationHour{
+			CompanyOperationHourID: operationHours.GetCompanyOperationHourID(),
+			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
+			DayOfWeek:              operationHours.GetDayOfWeek(),
+			OpenTime:               operationHours.GetOpenTime(),
+			CloseTime:              operationHours.GetCloseTime(),
+		},
+	}
+
+	return resp, nil
+}
+
+func (r *mutationResolver) DeleteBusinessCompanyOperationHours(ctx context.Context, input model.DeleteBusinessCompanyOperationHoursRequest) (*model.DeleteBusinessCompanyOperationHoursResponse, error) {
+	deletedOperationHour, err := bc.DeleteBusinessCompanyOperationHour(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var operationHours = deletedOperationHour.GetBusinessCompanyOperationHour()
+	var resp = &model.DeleteBusinessCompanyOperationHoursResponse{
+		BusinessCompanyOperationHour: &model.BusinessCompanyOperationHour{
+			CompanyOperationHourID: operationHours.GetCompanyOperationHourID(),
+			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
+			DayOfWeek:              operationHours.GetDayOfWeek(),
+			OpenTime:               operationHours.GetOpenTime(),
+			CloseTime:              operationHours.GetCloseTime(),
+		},
+	}
+
+	return resp, nil
+}
+
 func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error) {
 	company, err := bc.GetBusinessCompany(ctx, input.BusinessCompanyID)
 	if err != nil {
@@ -139,7 +199,7 @@ func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetB
 	var resp = &model.BusinessCompany{
 		BusinessCompanyID:         company.BusinessCompany.BusinessCompanyID,
 		BusinessCompanyName:       company.BusinessCompany.BusinessCompanyName,
-		BusinessCompanyCategoryID:  company.BusinessCompany.BusinessCompanyCategoryID,
+		BusinessCompanyCategoryID: company.BusinessCompany.BusinessCompanyCategoryID,
 	}
 
 	return resp, nil
@@ -177,6 +237,46 @@ func (r *queryResolver) GetBusinessCompanyServices(ctx context.Context, input *m
 	}
 
 	var resp model.GetBusinessCompanyServicesResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
+func (r *queryResolver) GetBusinessCompanyOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyOperationHourByDayRequest) (*model.BusinessCompanyOperationHourResponse, error) {
+	operationHours, err := bc.GetBusinessCompanyOperationHourByDay(ctx, input.BusinessCompanyID, input.DayOfWeek)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(operationHours)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.BusinessCompanyOperationHourResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
+func (r *queryResolver) GetBusinessCompanyOperationHours(ctx context.Context, input *model.GetBusinessCompanyOperationHoursRequest) (*model.BusinessCompanyOperationHours, error) {
+	operationHours, err := bc.GetBusinessCompanyOperationHours(ctx, input.BusinessCompanyID)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(operationHours)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.BusinessCompanyOperationHours
 	err = json.Unmarshal(b, &resp)
 	if err != nil {
 		return nil, err

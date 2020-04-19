@@ -424,6 +424,529 @@ func (m *GetBusinessCompanyServicesResponse) GetBusinessCompanyService() []*Busi
 	return nil
 }
 
+type BusinessCompanyOperationHour struct {
+	CompanyOperationHourID int64    `protobuf:"varint,1,opt,name=companyOperationHourID,proto3" json:"companyOperationHourID,omitempty"`
+	BusinessCompanyID      int64    `protobuf:"varint,2,opt,name=businessCompanyID,proto3" json:"businessCompanyID,omitempty"`
+	DayOfWeek              int64    `protobuf:"varint,3,opt,name=dayOfWeek,proto3" json:"dayOfWeek,omitempty"`
+	OpenTime               string   `protobuf:"bytes,4,opt,name=openTime,proto3" json:"openTime,omitempty"`
+	CloseTime              string   `protobuf:"bytes,5,opt,name=closeTime,proto3" json:"closeTime,omitempty"`
+	XXX_NoUnkeyedLiteral   struct{} `json:"-"`
+	XXX_unrecognized       []byte   `json:"-"`
+	XXX_sizecache          int32    `json:"-"`
+}
+
+func (m *BusinessCompanyOperationHour) Reset()         { *m = BusinessCompanyOperationHour{} }
+func (m *BusinessCompanyOperationHour) String() string { return proto.CompactTextString(m) }
+func (*BusinessCompanyOperationHour) ProtoMessage()    {}
+func (*BusinessCompanyOperationHour) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{9}
+}
+
+func (m *BusinessCompanyOperationHour) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BusinessCompanyOperationHour.Unmarshal(m, b)
+}
+func (m *BusinessCompanyOperationHour) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BusinessCompanyOperationHour.Marshal(b, m, deterministic)
+}
+func (m *BusinessCompanyOperationHour) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BusinessCompanyOperationHour.Merge(m, src)
+}
+func (m *BusinessCompanyOperationHour) XXX_Size() int {
+	return xxx_messageInfo_BusinessCompanyOperationHour.Size(m)
+}
+func (m *BusinessCompanyOperationHour) XXX_DiscardUnknown() {
+	xxx_messageInfo_BusinessCompanyOperationHour.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BusinessCompanyOperationHour proto.InternalMessageInfo
+
+func (m *BusinessCompanyOperationHour) GetCompanyOperationHourID() int64 {
+	if m != nil {
+		return m.CompanyOperationHourID
+	}
+	return 0
+}
+
+func (m *BusinessCompanyOperationHour) GetBusinessCompanyID() int64 {
+	if m != nil {
+		return m.BusinessCompanyID
+	}
+	return 0
+}
+
+func (m *BusinessCompanyOperationHour) GetDayOfWeek() int64 {
+	if m != nil {
+		return m.DayOfWeek
+	}
+	return 0
+}
+
+func (m *BusinessCompanyOperationHour) GetOpenTime() string {
+	if m != nil {
+		return m.OpenTime
+	}
+	return ""
+}
+
+func (m *BusinessCompanyOperationHour) GetCloseTime() string {
+	if m != nil {
+		return m.CloseTime
+	}
+	return ""
+}
+
+type GetBusinessCompanyOperationHourByDayRequest struct {
+	CompanyID            int64    `protobuf:"varint,1,opt,name=companyID,proto3" json:"companyID,omitempty"`
+	DayOfWeek            int64    `protobuf:"varint,2,opt,name=dayOfWeek,proto3" json:"dayOfWeek,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetBusinessCompanyOperationHourByDayRequest) Reset() {
+	*m = GetBusinessCompanyOperationHourByDayRequest{}
+}
+func (m *GetBusinessCompanyOperationHourByDayRequest) String() string {
+	return proto.CompactTextString(m)
+}
+func (*GetBusinessCompanyOperationHourByDayRequest) ProtoMessage() {}
+func (*GetBusinessCompanyOperationHourByDayRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{10}
+}
+
+func (m *GetBusinessCompanyOperationHourByDayRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyOperationHourByDayRequest.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyOperationHourByDayRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyOperationHourByDayRequest.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyOperationHourByDayRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyOperationHourByDayRequest.Merge(m, src)
+}
+func (m *GetBusinessCompanyOperationHourByDayRequest) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyOperationHourByDayRequest.Size(m)
+}
+func (m *GetBusinessCompanyOperationHourByDayRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyOperationHourByDayRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyOperationHourByDayRequest proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyOperationHourByDayRequest) GetCompanyID() int64 {
+	if m != nil {
+		return m.CompanyID
+	}
+	return 0
+}
+
+func (m *GetBusinessCompanyOperationHourByDayRequest) GetDayOfWeek() int64 {
+	if m != nil {
+		return m.DayOfWeek
+	}
+	return 0
+}
+
+type GetBusinessCompanyOperationHourByDayResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `protobuf:"bytes,1,opt,name=businessCompanyOperationHour,proto3" json:"businessCompanyOperationHour,omitempty"`
+	XXX_NoUnkeyedLiteral         struct{}                      `json:"-"`
+	XXX_unrecognized             []byte                        `json:"-"`
+	XXX_sizecache                int32                         `json:"-"`
+}
+
+func (m *GetBusinessCompanyOperationHourByDayResponse) Reset() {
+	*m = GetBusinessCompanyOperationHourByDayResponse{}
+}
+func (m *GetBusinessCompanyOperationHourByDayResponse) String() string {
+	return proto.CompactTextString(m)
+}
+func (*GetBusinessCompanyOperationHourByDayResponse) ProtoMessage() {}
+func (*GetBusinessCompanyOperationHourByDayResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{11}
+}
+
+func (m *GetBusinessCompanyOperationHourByDayResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyOperationHourByDayResponse.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyOperationHourByDayResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyOperationHourByDayResponse.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyOperationHourByDayResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyOperationHourByDayResponse.Merge(m, src)
+}
+func (m *GetBusinessCompanyOperationHourByDayResponse) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyOperationHourByDayResponse.Size(m)
+}
+func (m *GetBusinessCompanyOperationHourByDayResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyOperationHourByDayResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyOperationHourByDayResponse proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyOperationHourByDayResponse) GetBusinessCompanyOperationHour() *BusinessCompanyOperationHour {
+	if m != nil {
+		return m.BusinessCompanyOperationHour
+	}
+	return nil
+}
+
+type GetBusinessCompanyOperationHoursRequest struct {
+	CompanyID            int64    `protobuf:"varint,1,opt,name=companyID,proto3" json:"companyID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetBusinessCompanyOperationHoursRequest) Reset() {
+	*m = GetBusinessCompanyOperationHoursRequest{}
+}
+func (m *GetBusinessCompanyOperationHoursRequest) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompanyOperationHoursRequest) ProtoMessage()    {}
+func (*GetBusinessCompanyOperationHoursRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{12}
+}
+
+func (m *GetBusinessCompanyOperationHoursRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyOperationHoursRequest.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyOperationHoursRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyOperationHoursRequest.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyOperationHoursRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyOperationHoursRequest.Merge(m, src)
+}
+func (m *GetBusinessCompanyOperationHoursRequest) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyOperationHoursRequest.Size(m)
+}
+func (m *GetBusinessCompanyOperationHoursRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyOperationHoursRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyOperationHoursRequest proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyOperationHoursRequest) GetCompanyID() int64 {
+	if m != nil {
+		return m.CompanyID
+	}
+	return 0
+}
+
+type GetBusinessCompanyOperationHoursResponse struct {
+	BusinessCompanyOperationHour []*BusinessCompanyOperationHour `protobuf:"bytes,1,rep,name=businessCompanyOperationHour,proto3" json:"businessCompanyOperationHour,omitempty"`
+	XXX_NoUnkeyedLiteral         struct{}                        `json:"-"`
+	XXX_unrecognized             []byte                          `json:"-"`
+	XXX_sizecache                int32                           `json:"-"`
+}
+
+func (m *GetBusinessCompanyOperationHoursResponse) Reset() {
+	*m = GetBusinessCompanyOperationHoursResponse{}
+}
+func (m *GetBusinessCompanyOperationHoursResponse) String() string { return proto.CompactTextString(m) }
+func (*GetBusinessCompanyOperationHoursResponse) ProtoMessage()    {}
+func (*GetBusinessCompanyOperationHoursResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{13}
+}
+
+func (m *GetBusinessCompanyOperationHoursResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetBusinessCompanyOperationHoursResponse.Unmarshal(m, b)
+}
+func (m *GetBusinessCompanyOperationHoursResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetBusinessCompanyOperationHoursResponse.Marshal(b, m, deterministic)
+}
+func (m *GetBusinessCompanyOperationHoursResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetBusinessCompanyOperationHoursResponse.Merge(m, src)
+}
+func (m *GetBusinessCompanyOperationHoursResponse) XXX_Size() int {
+	return xxx_messageInfo_GetBusinessCompanyOperationHoursResponse.Size(m)
+}
+func (m *GetBusinessCompanyOperationHoursResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetBusinessCompanyOperationHoursResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetBusinessCompanyOperationHoursResponse proto.InternalMessageInfo
+
+func (m *GetBusinessCompanyOperationHoursResponse) GetBusinessCompanyOperationHour() []*BusinessCompanyOperationHour {
+	if m != nil {
+		return m.BusinessCompanyOperationHour
+	}
+	return nil
+}
+
+type CreateBusinessCompanyOperationHourRequest struct {
+	BusinessCompanyID    int64    `protobuf:"varint,1,opt,name=businessCompanyID,proto3" json:"businessCompanyID,omitempty"`
+	DayOfWeek            int64    `protobuf:"varint,2,opt,name=dayOfWeek,proto3" json:"dayOfWeek,omitempty"`
+	OpenTime             string   `protobuf:"bytes,3,opt,name=openTime,proto3" json:"openTime,omitempty"`
+	CloseTime            string   `protobuf:"bytes,4,opt,name=closeTime,proto3" json:"closeTime,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateBusinessCompanyOperationHourRequest) Reset() {
+	*m = CreateBusinessCompanyOperationHourRequest{}
+}
+func (m *CreateBusinessCompanyOperationHourRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateBusinessCompanyOperationHourRequest) ProtoMessage()    {}
+func (*CreateBusinessCompanyOperationHourRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{14}
+}
+
+func (m *CreateBusinessCompanyOperationHourRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateBusinessCompanyOperationHourRequest.Unmarshal(m, b)
+}
+func (m *CreateBusinessCompanyOperationHourRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateBusinessCompanyOperationHourRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateBusinessCompanyOperationHourRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateBusinessCompanyOperationHourRequest.Merge(m, src)
+}
+func (m *CreateBusinessCompanyOperationHourRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateBusinessCompanyOperationHourRequest.Size(m)
+}
+func (m *CreateBusinessCompanyOperationHourRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateBusinessCompanyOperationHourRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateBusinessCompanyOperationHourRequest proto.InternalMessageInfo
+
+func (m *CreateBusinessCompanyOperationHourRequest) GetBusinessCompanyID() int64 {
+	if m != nil {
+		return m.BusinessCompanyID
+	}
+	return 0
+}
+
+func (m *CreateBusinessCompanyOperationHourRequest) GetDayOfWeek() int64 {
+	if m != nil {
+		return m.DayOfWeek
+	}
+	return 0
+}
+
+func (m *CreateBusinessCompanyOperationHourRequest) GetOpenTime() string {
+	if m != nil {
+		return m.OpenTime
+	}
+	return ""
+}
+
+func (m *CreateBusinessCompanyOperationHourRequest) GetCloseTime() string {
+	if m != nil {
+		return m.CloseTime
+	}
+	return ""
+}
+
+type CreateBusinessCompanyOperationHourResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `protobuf:"bytes,1,opt,name=businessCompanyOperationHour,proto3" json:"businessCompanyOperationHour,omitempty"`
+	XXX_NoUnkeyedLiteral         struct{}                      `json:"-"`
+	XXX_unrecognized             []byte                        `json:"-"`
+	XXX_sizecache                int32                         `json:"-"`
+}
+
+func (m *CreateBusinessCompanyOperationHourResponse) Reset() {
+	*m = CreateBusinessCompanyOperationHourResponse{}
+}
+func (m *CreateBusinessCompanyOperationHourResponse) String() string {
+	return proto.CompactTextString(m)
+}
+func (*CreateBusinessCompanyOperationHourResponse) ProtoMessage() {}
+func (*CreateBusinessCompanyOperationHourResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{15}
+}
+
+func (m *CreateBusinessCompanyOperationHourResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateBusinessCompanyOperationHourResponse.Unmarshal(m, b)
+}
+func (m *CreateBusinessCompanyOperationHourResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateBusinessCompanyOperationHourResponse.Marshal(b, m, deterministic)
+}
+func (m *CreateBusinessCompanyOperationHourResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateBusinessCompanyOperationHourResponse.Merge(m, src)
+}
+func (m *CreateBusinessCompanyOperationHourResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateBusinessCompanyOperationHourResponse.Size(m)
+}
+func (m *CreateBusinessCompanyOperationHourResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateBusinessCompanyOperationHourResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateBusinessCompanyOperationHourResponse proto.InternalMessageInfo
+
+func (m *CreateBusinessCompanyOperationHourResponse) GetBusinessCompanyOperationHour() *BusinessCompanyOperationHour {
+	if m != nil {
+		return m.BusinessCompanyOperationHour
+	}
+	return nil
+}
+
+type UpdateBusinessCompanyOperationHourRequest struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `protobuf:"bytes,1,opt,name=businessCompanyOperationHour,proto3" json:"businessCompanyOperationHour,omitempty"`
+	XXX_NoUnkeyedLiteral         struct{}                      `json:"-"`
+	XXX_unrecognized             []byte                        `json:"-"`
+	XXX_sizecache                int32                         `json:"-"`
+}
+
+func (m *UpdateBusinessCompanyOperationHourRequest) Reset() {
+	*m = UpdateBusinessCompanyOperationHourRequest{}
+}
+func (m *UpdateBusinessCompanyOperationHourRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateBusinessCompanyOperationHourRequest) ProtoMessage()    {}
+func (*UpdateBusinessCompanyOperationHourRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{16}
+}
+
+func (m *UpdateBusinessCompanyOperationHourRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateBusinessCompanyOperationHourRequest.Unmarshal(m, b)
+}
+func (m *UpdateBusinessCompanyOperationHourRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateBusinessCompanyOperationHourRequest.Marshal(b, m, deterministic)
+}
+func (m *UpdateBusinessCompanyOperationHourRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateBusinessCompanyOperationHourRequest.Merge(m, src)
+}
+func (m *UpdateBusinessCompanyOperationHourRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateBusinessCompanyOperationHourRequest.Size(m)
+}
+func (m *UpdateBusinessCompanyOperationHourRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateBusinessCompanyOperationHourRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateBusinessCompanyOperationHourRequest proto.InternalMessageInfo
+
+func (m *UpdateBusinessCompanyOperationHourRequest) GetBusinessCompanyOperationHour() *BusinessCompanyOperationHour {
+	if m != nil {
+		return m.BusinessCompanyOperationHour
+	}
+	return nil
+}
+
+type UpdateBusinessCompanyOperationHourResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `protobuf:"bytes,1,opt,name=businessCompanyOperationHour,proto3" json:"businessCompanyOperationHour,omitempty"`
+	XXX_NoUnkeyedLiteral         struct{}                      `json:"-"`
+	XXX_unrecognized             []byte                        `json:"-"`
+	XXX_sizecache                int32                         `json:"-"`
+}
+
+func (m *UpdateBusinessCompanyOperationHourResponse) Reset() {
+	*m = UpdateBusinessCompanyOperationHourResponse{}
+}
+func (m *UpdateBusinessCompanyOperationHourResponse) String() string {
+	return proto.CompactTextString(m)
+}
+func (*UpdateBusinessCompanyOperationHourResponse) ProtoMessage() {}
+func (*UpdateBusinessCompanyOperationHourResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{17}
+}
+
+func (m *UpdateBusinessCompanyOperationHourResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateBusinessCompanyOperationHourResponse.Unmarshal(m, b)
+}
+func (m *UpdateBusinessCompanyOperationHourResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateBusinessCompanyOperationHourResponse.Marshal(b, m, deterministic)
+}
+func (m *UpdateBusinessCompanyOperationHourResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateBusinessCompanyOperationHourResponse.Merge(m, src)
+}
+func (m *UpdateBusinessCompanyOperationHourResponse) XXX_Size() int {
+	return xxx_messageInfo_UpdateBusinessCompanyOperationHourResponse.Size(m)
+}
+func (m *UpdateBusinessCompanyOperationHourResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateBusinessCompanyOperationHourResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateBusinessCompanyOperationHourResponse proto.InternalMessageInfo
+
+func (m *UpdateBusinessCompanyOperationHourResponse) GetBusinessCompanyOperationHour() *BusinessCompanyOperationHour {
+	if m != nil {
+		return m.BusinessCompanyOperationHour
+	}
+	return nil
+}
+
+type DeleteBusinessCompanyOperationHourRequest struct {
+	OperationHourID      int64    `protobuf:"varint,1,opt,name=OperationHourID,proto3" json:"OperationHourID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DeleteBusinessCompanyOperationHourRequest) Reset() {
+	*m = DeleteBusinessCompanyOperationHourRequest{}
+}
+func (m *DeleteBusinessCompanyOperationHourRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteBusinessCompanyOperationHourRequest) ProtoMessage()    {}
+func (*DeleteBusinessCompanyOperationHourRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{18}
+}
+
+func (m *DeleteBusinessCompanyOperationHourRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteBusinessCompanyOperationHourRequest.Unmarshal(m, b)
+}
+func (m *DeleteBusinessCompanyOperationHourRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteBusinessCompanyOperationHourRequest.Marshal(b, m, deterministic)
+}
+func (m *DeleteBusinessCompanyOperationHourRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteBusinessCompanyOperationHourRequest.Merge(m, src)
+}
+func (m *DeleteBusinessCompanyOperationHourRequest) XXX_Size() int {
+	return xxx_messageInfo_DeleteBusinessCompanyOperationHourRequest.Size(m)
+}
+func (m *DeleteBusinessCompanyOperationHourRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteBusinessCompanyOperationHourRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteBusinessCompanyOperationHourRequest proto.InternalMessageInfo
+
+func (m *DeleteBusinessCompanyOperationHourRequest) GetOperationHourID() int64 {
+	if m != nil {
+		return m.OperationHourID
+	}
+	return 0
+}
+
+type DeleteBusinessCompanyOperationHourResponse struct {
+	BusinessCompanyOperationHour *BusinessCompanyOperationHour `protobuf:"bytes,1,opt,name=businessCompanyOperationHour,proto3" json:"businessCompanyOperationHour,omitempty"`
+	XXX_NoUnkeyedLiteral         struct{}                      `json:"-"`
+	XXX_unrecognized             []byte                        `json:"-"`
+	XXX_sizecache                int32                         `json:"-"`
+}
+
+func (m *DeleteBusinessCompanyOperationHourResponse) Reset() {
+	*m = DeleteBusinessCompanyOperationHourResponse{}
+}
+func (m *DeleteBusinessCompanyOperationHourResponse) String() string {
+	return proto.CompactTextString(m)
+}
+func (*DeleteBusinessCompanyOperationHourResponse) ProtoMessage() {}
+func (*DeleteBusinessCompanyOperationHourResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_42797fc8bb925a7c, []int{19}
+}
+
+func (m *DeleteBusinessCompanyOperationHourResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteBusinessCompanyOperationHourResponse.Unmarshal(m, b)
+}
+func (m *DeleteBusinessCompanyOperationHourResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteBusinessCompanyOperationHourResponse.Marshal(b, m, deterministic)
+}
+func (m *DeleteBusinessCompanyOperationHourResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteBusinessCompanyOperationHourResponse.Merge(m, src)
+}
+func (m *DeleteBusinessCompanyOperationHourResponse) XXX_Size() int {
+	return xxx_messageInfo_DeleteBusinessCompanyOperationHourResponse.Size(m)
+}
+func (m *DeleteBusinessCompanyOperationHourResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteBusinessCompanyOperationHourResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteBusinessCompanyOperationHourResponse proto.InternalMessageInfo
+
+func (m *DeleteBusinessCompanyOperationHourResponse) GetBusinessCompanyOperationHour() *BusinessCompanyOperationHour {
+	if m != nil {
+		return m.BusinessCompanyOperationHour
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*BusinessCompany)(nil), "businessCompanies.BusinessCompany")
 	proto.RegisterType((*CreateBusinessCompanyRequest)(nil), "businessCompanies.CreateBusinessCompanyRequest")
@@ -434,41 +957,72 @@ func init() {
 	proto.RegisterType((*GetBusinessCompanyServicesRequest)(nil), "businessCompanies.GetBusinessCompanyServicesRequest")
 	proto.RegisterType((*BusinessCompanyService)(nil), "businessCompanies.BusinessCompanyService")
 	proto.RegisterType((*GetBusinessCompanyServicesResponse)(nil), "businessCompanies.GetBusinessCompanyServicesResponse")
+	proto.RegisterType((*BusinessCompanyOperationHour)(nil), "businessCompanies.BusinessCompanyOperationHour")
+	proto.RegisterType((*GetBusinessCompanyOperationHourByDayRequest)(nil), "businessCompanies.GetBusinessCompanyOperationHourByDayRequest")
+	proto.RegisterType((*GetBusinessCompanyOperationHourByDayResponse)(nil), "businessCompanies.GetBusinessCompanyOperationHourByDayResponse")
+	proto.RegisterType((*GetBusinessCompanyOperationHoursRequest)(nil), "businessCompanies.GetBusinessCompanyOperationHoursRequest")
+	proto.RegisterType((*GetBusinessCompanyOperationHoursResponse)(nil), "businessCompanies.GetBusinessCompanyOperationHoursResponse")
+	proto.RegisterType((*CreateBusinessCompanyOperationHourRequest)(nil), "businessCompanies.CreateBusinessCompanyOperationHourRequest")
+	proto.RegisterType((*CreateBusinessCompanyOperationHourResponse)(nil), "businessCompanies.CreateBusinessCompanyOperationHourResponse")
+	proto.RegisterType((*UpdateBusinessCompanyOperationHourRequest)(nil), "businessCompanies.UpdateBusinessCompanyOperationHourRequest")
+	proto.RegisterType((*UpdateBusinessCompanyOperationHourResponse)(nil), "businessCompanies.UpdateBusinessCompanyOperationHourResponse")
+	proto.RegisterType((*DeleteBusinessCompanyOperationHourRequest)(nil), "businessCompanies.DeleteBusinessCompanyOperationHourRequest")
+	proto.RegisterType((*DeleteBusinessCompanyOperationHourResponse)(nil), "businessCompanies.DeleteBusinessCompanyOperationHourResponse")
 }
 
 func init() { proto.RegisterFile("companies.proto", fileDescriptor_42797fc8bb925a7c) }
 
 var fileDescriptor_42797fc8bb925a7c = []byte{
-	// 462 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0xcd, 0x6e, 0xd3, 0x40,
-	0x10, 0xee, 0xd6, 0x08, 0xa9, 0xd3, 0x43, 0x61, 0x00, 0xcb, 0x35, 0x45, 0x32, 0x7b, 0x0a, 0xa8,
-	0x38, 0x55, 0xf9, 0x39, 0x71, 0x4a, 0x82, 0x50, 0x24, 0x84, 0x82, 0xb9, 0x71, 0xb3, 0xad, 0x25,
-	0x32, 0xc2, 0x5e, 0xe3, 0xb5, 0x91, 0x22, 0x71, 0xe7, 0x80, 0xc4, 0xab, 0xf0, 0x46, 0x3c, 0x0a,
-	0x42, 0x76, 0x6c, 0x37, 0xde, 0x5d, 0x27, 0x4e, 0xae, 0x33, 0xf3, 0xcd, 0xf7, 0xed, 0xfc, 0x2d,
-	0x9c, 0x85, 0x3c, 0x4e, 0xfd, 0x24, 0x62, 0xc2, 0x4d, 0x33, 0x9e, 0x73, 0xbc, 0x1b, 0x14, 0x22,
-	0x4a, 0x98, 0x10, 0xd3, 0xc6, 0x61, 0x3f, 0x5c, 0x72, 0xbe, 0xfc, 0xca, 0xc6, 0x55, 0x40, 0x50,
-	0x7c, 0x1e, 0xb3, 0x38, 0xcd, 0x57, 0xeb, 0x78, 0xfa, 0x87, 0xc0, 0xd9, 0xa4, 0x03, 0x59, 0xe1,
-	0x25, 0x48, 0x59, 0x56, 0xf3, 0x99, 0x45, 0x1c, 0x32, 0x32, 0x3c, 0xd5, 0x81, 0x57, 0x70, 0x4f,
-	0x32, 0xbe, 0xf7, 0x63, 0x66, 0x1d, 0x3b, 0x64, 0x74, 0xe2, 0xe9, 0x5c, 0xf8, 0x1a, 0xce, 0x25,
-	0xf3, 0xd4, 0xcf, 0xd9, 0x92, 0x67, 0x25, 0x8f, 0x51, 0xf1, 0xf4, 0x07, 0xd0, 0xdf, 0x04, 0x2e,
-	0xa6, 0x19, 0xf3, 0x73, 0x26, 0xe9, 0xf6, 0xd8, 0xb7, 0x82, 0x89, 0xbc, 0x4f, 0x10, 0x39, 0x50,
-	0xd0, 0xf1, 0x2e, 0x41, 0x31, 0x3c, 0xea, 0xd1, 0x23, 0x52, 0x9e, 0x08, 0x86, 0xef, 0x94, 0x12,
-	0x57, 0x62, 0x4e, 0xaf, 0xa9, 0xab, 0x74, 0xcb, 0x95, 0x93, 0xc8, 0x50, 0x3a, 0x87, 0xf3, 0xb7,
-	0x2c, 0xef, 0x79, 0xfb, 0x5e, 0xad, 0xa3, 0x5f, 0xc0, 0xd6, 0xa5, 0xba, 0x91, 0x1d, 0x1c, 0x2e,
-	0x5b, 0x82, 0xd2, 0x14, 0x2e, 0x14, 0xae, 0x88, 0x89, 0x96, 0x6d, 0x01, 0xea, 0xe8, 0x5a, 0xc4,
-	0x31, 0x06, 0xf2, 0xa9, 0x60, 0xfa, 0x01, 0x1e, 0xab, 0xaf, 0xfb, 0xc8, 0xb2, 0xef, 0x51, 0x58,
-	0xf2, 0x1e, 0x52, 0xb0, 0xbf, 0x04, 0x4c, 0x7d, 0x42, 0x7c, 0x0a, 0x77, 0xc2, 0x8e, 0xa5, 0xcd,
-	0xa3, 0xd8, 0xd1, 0x05, 0xec, 0xda, 0x36, 0x36, 0x46, 0xe3, 0xc1, 0x57, 0x60, 0x76, 0xad, 0xb3,
-	0x22, 0xf3, 0xf3, 0x88, 0x27, 0xf5, 0xb6, 0xf4, 0x78, 0xcb, 0x4d, 0xe8, 0x7a, 0x16, 0x59, 0x14,
-	0x32, 0xeb, 0x96, 0x43, 0x46, 0xc4, 0xd3, 0xb9, 0xe8, 0x4f, 0x02, 0x74, 0x5b, 0xd1, 0xea, 0x66,
-	0xf9, 0x60, 0x06, 0xda, 0x90, 0xba, 0x63, 0x4f, 0x76, 0x77, 0xac, 0x06, 0x78, 0x3d, 0x89, 0xae,
-	0xff, 0x19, 0x60, 0x29, 0xd3, 0xd2, 0x14, 0x5b, 0x00, 0xaa, 0x2a, 0xf1, 0x52, 0xc3, 0xda, 0xbb,
-	0x2a, 0xf6, 0xb3, 0x81, 0xd1, 0xeb, 0x27, 0xd3, 0x23, 0xf4, 0xe1, 0xbe, 0x6e, 0x82, 0xd1, 0x74,
-	0xd7, 0x07, 0xd6, 0x6d, 0x0e, 0xac, 0xfb, 0xa6, 0x3c, 0xb0, 0xf6, 0x78, 0x08, 0xc1, 0xc6, 0x0a,
-	0xd0, 0x23, 0xfc, 0x45, 0x74, 0x1b, 0xd9, 0x94, 0x1f, 0x5f, 0x0c, 0x92, 0x2c, 0x8d, 0xb8, 0xfd,
-	0x72, 0x4f, 0x54, 0xab, 0xe6, 0x07, 0x3c, 0xd0, 0x1e, 0x36, 0xd4, 0xbd, 0x6c, 0xdb, 0x49, 0xb6,
-	0xaf, 0x86, 0x03, 0x1a, 0xf6, 0xc9, 0xe9, 0xa7, 0x93, 0xf6, 0x73, 0x0b, 0x6e, 0x57, 0xb5, 0x7d,
-	0xfe, 0x3f, 0x00, 0x00, 0xff, 0xff, 0xfa, 0x90, 0xe3, 0x31, 0xf0, 0x06, 0x00, 0x00,
+	// 773 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x58, 0xcf, 0x6e, 0xd3, 0x4c,
+	0x10, 0xef, 0x26, 0xfd, 0x3e, 0x91, 0xe9, 0xa1, 0xb0, 0x40, 0x94, 0x9a, 0x20, 0x85, 0x15, 0x12,
+	0x49, 0x29, 0x4e, 0x55, 0xfe, 0x1c, 0xa0, 0x80, 0xd4, 0x06, 0x95, 0x4a, 0x88, 0x16, 0x43, 0x85,
+	0xc4, 0xcd, 0x4e, 0xb7, 0x95, 0xa1, 0x89, 0x8d, 0xd7, 0x41, 0x8a, 0xc4, 0x9d, 0x03, 0x12, 0x6f,
+	0x80, 0x00, 0xf5, 0xc4, 0x09, 0x71, 0xe7, 0x51, 0x10, 0xcf, 0x82, 0xec, 0x38, 0x4e, 0x76, 0xbd,
+	0xb6, 0x37, 0x16, 0x52, 0x8e, 0x9d, 0xd9, 0x99, 0xf9, 0xcd, 0x6f, 0xc6, 0x33, 0xd3, 0xc0, 0x72,
+	0xd7, 0xe9, 0xb9, 0x66, 0xdf, 0xa6, 0x4c, 0x77, 0x3d, 0xc7, 0x77, 0xf0, 0x39, 0x6b, 0xc0, 0xec,
+	0x3e, 0x65, 0x6c, 0x7b, 0xac, 0xd0, 0x2e, 0x1d, 0x3b, 0xce, 0xf1, 0x09, 0x6d, 0x87, 0x0f, 0xac,
+	0xc1, 0x51, 0x9b, 0xf6, 0x5c, 0x7f, 0x38, 0x7a, 0x4f, 0x7e, 0x20, 0x58, 0xde, 0xe2, 0x4c, 0x86,
+	0x78, 0x0d, 0x04, 0x2f, 0xc3, 0xdd, 0x4e, 0x0d, 0x35, 0x50, 0xb3, 0x6c, 0x24, 0x15, 0x78, 0x1d,
+	0xce, 0x0b, 0xc2, 0xa7, 0x66, 0x8f, 0xd6, 0x4a, 0x0d, 0xd4, 0xac, 0x18, 0x32, 0x15, 0xde, 0x84,
+	0x15, 0x41, 0xbc, 0x6d, 0xfa, 0xf4, 0xd8, 0xf1, 0x82, 0x38, 0xe5, 0x30, 0x4e, 0xfa, 0x03, 0xf2,
+	0x09, 0x41, 0x7d, 0xdb, 0xa3, 0xa6, 0x4f, 0x05, 0xdc, 0x06, 0x7d, 0x3b, 0xa0, 0xcc, 0x4f, 0x03,
+	0x84, 0x0a, 0x02, 0x2a, 0xe5, 0x01, 0xea, 0xc1, 0xe5, 0x14, 0x3c, 0xcc, 0x75, 0xfa, 0x8c, 0xe2,
+	0x27, 0x09, 0x8a, 0x43, 0x30, 0x4b, 0x1b, 0x44, 0x4f, 0x54, 0x4b, 0x17, 0x9d, 0x88, 0xa6, 0x64,
+	0x17, 0x56, 0x76, 0xa8, 0x9f, 0x92, 0xfb, 0x4c, 0xa5, 0x23, 0xaf, 0x41, 0x93, 0xb9, 0x9a, 0xc0,
+	0xb6, 0x8a, 0xc3, 0x16, 0x4c, 0x89, 0x0b, 0xf5, 0x44, 0x2c, 0x9b, 0xb2, 0x38, 0xda, 0x3e, 0x24,
+	0x5b, 0xb7, 0x86, 0x1a, 0x65, 0xc5, 0x78, 0x49, 0x63, 0xf2, 0x0c, 0xae, 0x24, 0xb3, 0x7b, 0x4e,
+	0xbd, 0x77, 0x76, 0x37, 0x88, 0x5b, 0x84, 0xb0, 0x3f, 0x08, 0xaa, 0x72, 0x87, 0x78, 0x15, 0xce,
+	0x76, 0x39, 0x49, 0xec, 0x27, 0x21, 0xc7, 0x3a, 0x60, 0x5e, 0x36, 0xf5, 0xc5, 0x48, 0x34, 0xf8,
+	0x0e, 0x54, 0x79, 0x69, 0x67, 0xe0, 0x99, 0xbe, 0xed, 0xf4, 0xa3, 0xaf, 0x25, 0x45, 0x1b, 0x7c,
+	0x09, 0xbc, 0x66, 0xdf, 0xb3, 0xbb, 0xb4, 0xb6, 0xd8, 0x40, 0x4d, 0x64, 0xc8, 0x54, 0xe4, 0x03,
+	0x02, 0x92, 0x45, 0x5a, 0x54, 0x2c, 0x13, 0xaa, 0x96, 0xf4, 0x49, 0x54, 0xb1, 0x56, 0x7e, 0xc5,
+	0x22, 0x03, 0x23, 0xc5, 0x11, 0xf9, 0x8d, 0xa0, 0x2e, 0x98, 0xec, 0xb9, 0x74, 0x94, 0xd8, 0x63,
+	0x67, 0xe0, 0x4d, 0x91, 0xc2, 0xc9, 0x63, 0xda, 0x53, 0xb4, 0xf2, 0x8a, 0x97, 0xd2, 0xa6, 0x5b,
+	0x1d, 0x2a, 0x87, 0xe6, 0x70, 0xef, 0xe8, 0x25, 0xa5, 0x6f, 0x22, 0xb6, 0x27, 0x02, 0xac, 0xc1,
+	0x19, 0xc7, 0xa5, 0xfd, 0x17, 0x76, 0x6f, 0xc4, 0x6a, 0xc5, 0x88, 0xff, 0x0e, 0x2c, 0xbb, 0x27,
+	0x0e, 0xa3, 0xa1, 0xf2, 0xbf, 0x50, 0x39, 0x11, 0x10, 0x1b, 0xae, 0x27, 0x79, 0xe6, 0xa0, 0x6e,
+	0x0d, 0x3b, 0x66, 0xfc, 0x5d, 0x07, 0xce, 0x84, 0xf6, 0x9c, 0x08, 0x78, 0x90, 0x25, 0x01, 0x24,
+	0x39, 0x45, 0xb0, 0xa6, 0x16, 0x2b, 0xaa, 0x2e, 0x83, 0xba, 0x95, 0xf1, 0x38, 0x9a, 0x02, 0xed,
+	0xfc, 0x1a, 0x73, 0x66, 0x46, 0xa6, 0x53, 0xb2, 0x03, 0xd7, 0x72, 0x40, 0x32, 0x25, 0x32, 0xc8,
+	0x17, 0x04, 0xcd, 0x7c, 0x4f, 0xca, 0xa9, 0x96, 0xff, 0x7d, 0xaa, 0x3f, 0x11, 0xb4, 0xa4, 0x1b,
+	0x83, 0x77, 0x52, 0x64, 0x42, 0x65, 0xb7, 0x02, 0xd7, 0xaf, 0xe5, 0xac, 0x7e, 0x5d, 0x14, 0xfb,
+	0xf5, 0x1b, 0x82, 0x55, 0x15, 0xcc, 0xf3, 0x6c, 0xa1, 0xaf, 0x08, 0x5a, 0x07, 0xee, 0xa1, 0x22,
+	0xaf, 0x73, 0x81, 0x18, 0xd0, 0xa8, 0x02, 0x71, 0x9e, 0x34, 0x1e, 0x40, 0xab, 0x43, 0x4f, 0xa8,
+	0x1a, 0x8b, 0x4d, 0x58, 0x96, 0x8f, 0x5f, 0x51, 0x1c, 0xa6, 0xae, 0xe2, 0x77, 0x8e, 0xa9, 0x6f,
+	0xfc, 0x02, 0xa8, 0x25, 0x4e, 0x94, 0xf1, 0x86, 0x67, 0x80, 0x93, 0x73, 0x05, 0xaf, 0x49, 0x10,
+	0xa4, 0xde, 0x67, 0xda, 0x0d, 0xc5, 0xd7, 0x23, 0x12, 0xc8, 0x02, 0x36, 0xe1, 0x82, 0xec, 0x6c,
+	0xc2, 0x55, 0x7d, 0x74, 0xd5, 0xeb, 0xe3, 0xab, 0x5e, 0x7f, 0x14, 0x5c, 0xf5, 0x5a, 0x5b, 0x25,
+	0xc0, 0xd4, 0xdd, 0x45, 0x16, 0xf0, 0x47, 0x24, 0x3b, 0x03, 0xc7, 0x3b, 0x1f, 0xdf, 0x52, 0x82,
+	0x2c, 0xdc, 0x55, 0xda, 0xed, 0x19, 0xad, 0x62, 0x34, 0xdf, 0x11, 0x5c, 0x55, 0xd9, 0x56, 0xf8,
+	0x81, 0x52, 0x84, 0xd4, 0x95, 0xaa, 0x3d, 0x2c, 0x6c, 0x1f, 0x63, 0xfd, 0x8c, 0xa0, 0x91, 0xb7,
+	0x6a, 0xf0, 0xdd, 0xd9, 0xe3, 0xc4, 0x2c, 0xde, 0x2b, 0x64, 0x1b, 0xe3, 0x7b, 0x0f, 0x17, 0xa5,
+	0x33, 0x1b, 0xcb, 0xba, 0x24, 0xeb, 0x7f, 0x2a, 0x6d, 0x5d, 0xdd, 0x20, 0x8e, 0x7e, 0x8a, 0x80,
+	0xe4, 0xaf, 0x0c, 0xbc, 0xa9, 0xea, 0x5a, 0x36, 0x7f, 0xb4, 0xfb, 0x05, 0xad, 0x39, 0x94, 0xf9,
+	0x13, 0x59, 0x8a, 0x52, 0x79, 0xd7, 0x48, 0x51, 0xaa, 0xaf, 0x81, 0x08, 0x65, 0xfe, 0xf0, 0x94,
+	0xa2, 0x54, 0x9e, 0xe5, 0x52, 0x94, 0xea, 0x13, 0x9b, 0x2c, 0x6c, 0x2d, 0xbd, 0xaa, 0xc4, 0xbf,
+	0x47, 0x58, 0xff, 0x87, 0x93, 0xe9, 0xe6, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x42, 0xb4, 0xde,
+	0xbc, 0xa3, 0x10, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -486,7 +1040,12 @@ type BusinessCompaniesServiceClient interface {
 	GetBusinessCompany(ctx context.Context, in *GetBusinessCompanyRequest, opts ...grpc.CallOption) (*GetBusinessCompanyResponse, error)
 	GetBusinessCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetBusinessCompaniesResponse, error)
 	GetBusinessCompanyServices(ctx context.Context, in *GetBusinessCompanyServicesRequest, opts ...grpc.CallOption) (*GetBusinessCompanyServicesResponse, error)
+	GetBusinessCompanyOperationHourByDay(ctx context.Context, in *GetBusinessCompanyOperationHourByDayRequest, opts ...grpc.CallOption) (*GetBusinessCompanyOperationHourByDayResponse, error)
+	GetBusinessCompanyOperationHours(ctx context.Context, in *GetBusinessCompanyOperationHoursRequest, opts ...grpc.CallOption) (*GetBusinessCompanyOperationHoursResponse, error)
 	CreateBusinessCompany(ctx context.Context, in *CreateBusinessCompanyRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyResponse, error)
+	CreateBusinessCompanyOperationHour(ctx context.Context, in *CreateBusinessCompanyOperationHourRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyOperationHourResponse, error)
+	UpdateBusinessCompanyOperationHour(ctx context.Context, in *UpdateBusinessCompanyOperationHourRequest, opts ...grpc.CallOption) (*UpdateBusinessCompanyOperationHourResponse, error)
+	DeleteBusinessCompanyOperationHour(ctx context.Context, in *DeleteBusinessCompanyOperationHourRequest, opts ...grpc.CallOption) (*DeleteBusinessCompanyOperationHourResponse, error)
 }
 
 type businessCompaniesServiceClient struct {
@@ -524,9 +1083,54 @@ func (c *businessCompaniesServiceClient) GetBusinessCompanyServices(ctx context.
 	return out, nil
 }
 
+func (c *businessCompaniesServiceClient) GetBusinessCompanyOperationHourByDay(ctx context.Context, in *GetBusinessCompanyOperationHourByDayRequest, opts ...grpc.CallOption) (*GetBusinessCompanyOperationHourByDayResponse, error) {
+	out := new(GetBusinessCompanyOperationHourByDayResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/GetBusinessCompanyOperationHourByDay", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *businessCompaniesServiceClient) GetBusinessCompanyOperationHours(ctx context.Context, in *GetBusinessCompanyOperationHoursRequest, opts ...grpc.CallOption) (*GetBusinessCompanyOperationHoursResponse, error) {
+	out := new(GetBusinessCompanyOperationHoursResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/GetBusinessCompanyOperationHours", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *businessCompaniesServiceClient) CreateBusinessCompany(ctx context.Context, in *CreateBusinessCompanyRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyResponse, error) {
 	out := new(CreateBusinessCompanyResponse)
 	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/CreateBusinessCompany", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *businessCompaniesServiceClient) CreateBusinessCompanyOperationHour(ctx context.Context, in *CreateBusinessCompanyOperationHourRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyOperationHourResponse, error) {
+	out := new(CreateBusinessCompanyOperationHourResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/CreateBusinessCompanyOperationHour", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *businessCompaniesServiceClient) UpdateBusinessCompanyOperationHour(ctx context.Context, in *UpdateBusinessCompanyOperationHourRequest, opts ...grpc.CallOption) (*UpdateBusinessCompanyOperationHourResponse, error) {
+	out := new(UpdateBusinessCompanyOperationHourResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/UpdateBusinessCompanyOperationHour", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *businessCompaniesServiceClient) DeleteBusinessCompanyOperationHour(ctx context.Context, in *DeleteBusinessCompanyOperationHourRequest, opts ...grpc.CallOption) (*DeleteBusinessCompanyOperationHourResponse, error) {
+	out := new(DeleteBusinessCompanyOperationHourResponse)
+	err := c.cc.Invoke(ctx, "/businessCompanies.BusinessCompaniesService/DeleteBusinessCompanyOperationHour", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -538,7 +1142,12 @@ type BusinessCompaniesServiceServer interface {
 	GetBusinessCompany(context.Context, *GetBusinessCompanyRequest) (*GetBusinessCompanyResponse, error)
 	GetBusinessCompanies(context.Context, *empty.Empty) (*GetBusinessCompaniesResponse, error)
 	GetBusinessCompanyServices(context.Context, *GetBusinessCompanyServicesRequest) (*GetBusinessCompanyServicesResponse, error)
+	GetBusinessCompanyOperationHourByDay(context.Context, *GetBusinessCompanyOperationHourByDayRequest) (*GetBusinessCompanyOperationHourByDayResponse, error)
+	GetBusinessCompanyOperationHours(context.Context, *GetBusinessCompanyOperationHoursRequest) (*GetBusinessCompanyOperationHoursResponse, error)
 	CreateBusinessCompany(context.Context, *CreateBusinessCompanyRequest) (*CreateBusinessCompanyResponse, error)
+	CreateBusinessCompanyOperationHour(context.Context, *CreateBusinessCompanyOperationHourRequest) (*CreateBusinessCompanyOperationHourResponse, error)
+	UpdateBusinessCompanyOperationHour(context.Context, *UpdateBusinessCompanyOperationHourRequest) (*UpdateBusinessCompanyOperationHourResponse, error)
+	DeleteBusinessCompanyOperationHour(context.Context, *DeleteBusinessCompanyOperationHourRequest) (*DeleteBusinessCompanyOperationHourResponse, error)
 }
 
 // UnimplementedBusinessCompaniesServiceServer can be embedded to have forward compatible implementations.
@@ -554,8 +1163,23 @@ func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompanies(ctx con
 func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompanyServices(ctx context.Context, req *GetBusinessCompanyServicesRequest) (*GetBusinessCompanyServicesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBusinessCompanyServices not implemented")
 }
+func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompanyOperationHourByDay(ctx context.Context, req *GetBusinessCompanyOperationHourByDayRequest) (*GetBusinessCompanyOperationHourByDayResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBusinessCompanyOperationHourByDay not implemented")
+}
+func (*UnimplementedBusinessCompaniesServiceServer) GetBusinessCompanyOperationHours(ctx context.Context, req *GetBusinessCompanyOperationHoursRequest) (*GetBusinessCompanyOperationHoursResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBusinessCompanyOperationHours not implemented")
+}
 func (*UnimplementedBusinessCompaniesServiceServer) CreateBusinessCompany(ctx context.Context, req *CreateBusinessCompanyRequest) (*CreateBusinessCompanyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBusinessCompany not implemented")
+}
+func (*UnimplementedBusinessCompaniesServiceServer) CreateBusinessCompanyOperationHour(ctx context.Context, req *CreateBusinessCompanyOperationHourRequest) (*CreateBusinessCompanyOperationHourResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBusinessCompanyOperationHour not implemented")
+}
+func (*UnimplementedBusinessCompaniesServiceServer) UpdateBusinessCompanyOperationHour(ctx context.Context, req *UpdateBusinessCompanyOperationHourRequest) (*UpdateBusinessCompanyOperationHourResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBusinessCompanyOperationHour not implemented")
+}
+func (*UnimplementedBusinessCompaniesServiceServer) DeleteBusinessCompanyOperationHour(ctx context.Context, req *DeleteBusinessCompanyOperationHourRequest) (*DeleteBusinessCompanyOperationHourResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBusinessCompanyOperationHour not implemented")
 }
 
 func RegisterBusinessCompaniesServiceServer(s *grpc.Server, srv BusinessCompaniesServiceServer) {
@@ -616,6 +1240,42 @@ func _BusinessCompaniesService_GetBusinessCompanyServices_Handler(srv interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BusinessCompaniesService_GetBusinessCompanyOperationHourByDay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBusinessCompanyOperationHourByDayRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanyOperationHourByDay(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/GetBusinessCompanyOperationHourByDay",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanyOperationHourByDay(ctx, req.(*GetBusinessCompanyOperationHourByDayRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BusinessCompaniesService_GetBusinessCompanyOperationHours_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBusinessCompanyOperationHoursRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanyOperationHours(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/GetBusinessCompanyOperationHours",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).GetBusinessCompanyOperationHours(ctx, req.(*GetBusinessCompanyOperationHoursRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BusinessCompaniesService_CreateBusinessCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateBusinessCompanyRequest)
 	if err := dec(in); err != nil {
@@ -630,6 +1290,60 @@ func _BusinessCompaniesService_CreateBusinessCompany_Handler(srv interface{}, ct
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BusinessCompaniesServiceServer).CreateBusinessCompany(ctx, req.(*CreateBusinessCompanyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BusinessCompaniesService_CreateBusinessCompanyOperationHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBusinessCompanyOperationHourRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).CreateBusinessCompanyOperationHour(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/CreateBusinessCompanyOperationHour",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).CreateBusinessCompanyOperationHour(ctx, req.(*CreateBusinessCompanyOperationHourRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BusinessCompaniesService_UpdateBusinessCompanyOperationHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBusinessCompanyOperationHourRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).UpdateBusinessCompanyOperationHour(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/UpdateBusinessCompanyOperationHour",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).UpdateBusinessCompanyOperationHour(ctx, req.(*UpdateBusinessCompanyOperationHourRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BusinessCompaniesService_DeleteBusinessCompanyOperationHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBusinessCompanyOperationHourRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BusinessCompaniesServiceServer).DeleteBusinessCompanyOperationHour(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/businessCompanies.BusinessCompaniesService/DeleteBusinessCompanyOperationHour",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BusinessCompaniesServiceServer).DeleteBusinessCompanyOperationHour(ctx, req.(*DeleteBusinessCompanyOperationHourRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -651,8 +1365,28 @@ var _BusinessCompaniesService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _BusinessCompaniesService_GetBusinessCompanyServices_Handler,
 		},
 		{
+			MethodName: "GetBusinessCompanyOperationHourByDay",
+			Handler:    _BusinessCompaniesService_GetBusinessCompanyOperationHourByDay_Handler,
+		},
+		{
+			MethodName: "GetBusinessCompanyOperationHours",
+			Handler:    _BusinessCompaniesService_GetBusinessCompanyOperationHours_Handler,
+		},
+		{
 			MethodName: "CreateBusinessCompany",
 			Handler:    _BusinessCompaniesService_CreateBusinessCompany_Handler,
+		},
+		{
+			MethodName: "CreateBusinessCompanyOperationHour",
+			Handler:    _BusinessCompaniesService_CreateBusinessCompanyOperationHour_Handler,
+		},
+		{
+			MethodName: "UpdateBusinessCompanyOperationHour",
+			Handler:    _BusinessCompaniesService_UpdateBusinessCompanyOperationHour_Handler,
+		},
+		{
+			MethodName: "DeleteBusinessCompanyOperationHour",
+			Handler:    _BusinessCompaniesService_DeleteBusinessCompanyOperationHour_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

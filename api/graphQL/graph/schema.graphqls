@@ -106,6 +106,64 @@ type createBusinessServiceResponse {
   businessService: BusinessService!
 }
 
+
+type BusinessCompanyOperationHour {
+  companyOperationHourID: ID!
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+input getGetBusinessCompanyOperationHourByDayRequest {
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+}
+
+type businessCompanyOperationHourResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+input getBusinessCompanyOperationHoursRequest {
+  businessCompanyID: Int!
+}
+
+type BusinessCompanyOperationHours {
+  businessCompanyOperationHour: [BusinessCompanyOperationHour!]!
+}
+
+input createBusinessCompanyOperationHoursRequest {
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+type createBusinessCompanyOperationHoursResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+input updateBusinessCompanyOperationHoursRequest {
+  companyOperationHourID: ID!
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+type updateBusinessCompanyOperationHoursResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+input deleteBusinessCompanyOperationHoursRequest {
+  companyOperationHourID: Int!
+}
+
+type deleteBusinessCompanyOperationHoursResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+
 type CompanyService {
   companyServiceID: ID!
   companyServiceName: String!
@@ -165,11 +223,13 @@ type deleteCompanyServiceResponse {
 }
 
 
-
 type Query {
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
+
+  getBusinessCompanyOperationHourByDay(input: getGetBusinessCompanyOperationHourByDayRequest): businessCompanyOperationHourResponse!
+  getBusinessCompanyOperationHours(input: getBusinessCompanyOperationHoursRequest): BusinessCompanyOperationHours!
 
   getBusinessCategory(input: BusinessCategoryRequest!): BusinessCategory!
   getBusinessCategories: [BusinessCategory!]!
@@ -197,6 +257,10 @@ type Mutation {
   createCompanyService(input: createCompanyServiceRequest!): createCompanyServiceResponse!
   updateCompanyService(input: updateCompanyServiceRequest!): updateCompanyServiceResponse!
   deleteCompanyService(input: deleteCompanyServiceRequest!): deleteCompanyServiceResponse!
+
+  createBusinessCompanyOperationHours(input: createBusinessCompanyOperationHoursRequest!): createBusinessCompanyOperationHoursResponse!
+  updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
+  deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
 }
 
 

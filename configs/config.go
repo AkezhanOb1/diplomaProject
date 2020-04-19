@@ -3,8 +3,8 @@ package config
 import "fmt"
 
 //postgresAddress is the address of the postgres
-//const postgresAddress = "127.0.0.1"
-const postgresAddress = "46.101.138.224"
+const postgresAddress = "127.0.0.1"
+//const postgresAddress = "46.101.138.224"
 
 //postgresPort is the port of the postgres
 const postgresPort = "5432"
@@ -23,8 +23,8 @@ var PostgresConnection = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname
 	postgresAddress, postgresPort, postgresUsername, postgresPassword, postgresDataBase)
 
 //RpcServerAddress is an address to the gRPC server
-var RpcServerAddress = "server:50051"
-//var RpcServerAddress = "localhost:50051"
+//var RpcServerAddress = "server:50051"
+var RpcServerAddress = "localhost:50051"
 
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"

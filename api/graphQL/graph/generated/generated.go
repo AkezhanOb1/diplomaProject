@@ -58,6 +58,18 @@ type ComplexityRoot struct {
 		BusinessCompanyName       func(childComplexity int) int
 	}
 
+	BusinessCompanyOperationHour struct {
+		BusinessCompanyID      func(childComplexity int) int
+		CloseTime              func(childComplexity int) int
+		CompanyOperationHourID func(childComplexity int) int
+		DayOfWeek              func(childComplexity int) int
+		OpenTime               func(childComplexity int) int
+	}
+
+	BusinessCompanyOperationHours struct {
+		BusinessCompanyOperationHour func(childComplexity int) int
+	}
+
 	BusinessOwner struct {
 		BusinessOwnerEmail             func(childComplexity int) int
 		BusinessOwnerID                func(childComplexity int) int
@@ -102,12 +114,15 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateBusinessCompany func(childComplexity int, input model.CreateBusinessCompanyRequest) int
-		CreateBusinessOwner   func(childComplexity int, input model.CreateBusinessOwnerRequest) int
-		CreateBusinessService func(childComplexity int, input model.CreateBusinessServiceRequest) int
-		CreateCompanyService  func(childComplexity int, input model.CreateCompanyServiceRequest) int
-		DeleteCompanyService  func(childComplexity int, input model.DeleteCompanyServiceRequest) int
-		UpdateCompanyService  func(childComplexity int, input model.UpdateCompanyServiceRequest) int
+		CreateBusinessCompany               func(childComplexity int, input model.CreateBusinessCompanyRequest) int
+		CreateBusinessCompanyOperationHours func(childComplexity int, input model.CreateBusinessCompanyOperationHoursRequest) int
+		CreateBusinessOwner                 func(childComplexity int, input model.CreateBusinessOwnerRequest) int
+		CreateBusinessService               func(childComplexity int, input model.CreateBusinessServiceRequest) int
+		CreateCompanyService                func(childComplexity int, input model.CreateCompanyServiceRequest) int
+		DeleteBusinessCompanyOperationHours func(childComplexity int, input model.DeleteBusinessCompanyOperationHoursRequest) int
+		DeleteCompanyService                func(childComplexity int, input model.DeleteCompanyServiceRequest) int
+		UpdateBusinessCompanyOperationHours func(childComplexity int, input model.UpdateBusinessCompanyOperationHoursRequest) int
+		UpdateCompanyService                func(childComplexity int, input model.UpdateCompanyServiceRequest) int
 	}
 
 	Query struct {
@@ -115,6 +130,8 @@ type ComplexityRoot struct {
 		GetBusinessCategory                   func(childComplexity int, input model.BusinessCategoryRequest) int
 		GetBusinessCompanies                  func(childComplexity int) int
 		GetBusinessCompany                    func(childComplexity int, input model.GetBusinessCompanyRequest) int
+		GetBusinessCompanyOperationHourByDay  func(childComplexity int, input *model.GetGetBusinessCompanyOperationHourByDayRequest) int
+		GetBusinessCompanyOperationHours      func(childComplexity int, input *model.GetBusinessCompanyOperationHoursRequest) int
 		GetBusinessCompanyServices            func(childComplexity int, input *model.GetBusinessCompanyServicesRequest) int
 		GetBusinessService                    func(childComplexity int, input model.GetBusinessServiceRequest) int
 		GetBusinessServices                   func(childComplexity int) int
@@ -127,11 +144,19 @@ type ComplexityRoot struct {
 		GetCompanyServicesUnderSubCategory    func(childComplexity int, input model.GetCompanyServicesUnderSubCategoryRequest) int
 	}
 
+	BusinessCompanyOperationHourResponse struct {
+		BusinessCompanyOperationHour func(childComplexity int) int
+	}
+
 	BusinessCompanyService struct {
 		CompanyServiceDuration func(childComplexity int) int
 		CompanyServiceID       func(childComplexity int) int
 		CompanyServiceName     func(childComplexity int) int
 		CompanyServicePrice    func(childComplexity int) int
+	}
+
+	CreateBusinessCompanyOperationHoursResponse struct {
+		BusinessCompanyOperationHour func(childComplexity int) int
 	}
 
 	CreateBusinessServiceResponse struct {
@@ -142,12 +167,20 @@ type ComplexityRoot struct {
 		CompanyService func(childComplexity int) int
 	}
 
+	DeleteBusinessCompanyOperationHoursResponse struct {
+		BusinessCompanyOperationHour func(childComplexity int) int
+	}
+
 	DeleteCompanyServiceResponse struct {
 		CompanyService func(childComplexity int) int
 	}
 
 	GetBusinessCompanyServicesResponse struct {
 		BusinessCompanyService func(childComplexity int) int
+	}
+
+	UpdateBusinessCompanyOperationHoursResponse struct {
+		BusinessCompanyOperationHour func(childComplexity int) int
 	}
 
 	UpdateCompanyServiceResponse struct {
@@ -162,11 +195,16 @@ type MutationResolver interface {
 	CreateCompanyService(ctx context.Context, input model.CreateCompanyServiceRequest) (*model.CreateCompanyServiceResponse, error)
 	UpdateCompanyService(ctx context.Context, input model.UpdateCompanyServiceRequest) (*model.UpdateCompanyServiceResponse, error)
 	DeleteCompanyService(ctx context.Context, input model.DeleteCompanyServiceRequest) (*model.DeleteCompanyServiceResponse, error)
+	CreateBusinessCompanyOperationHours(ctx context.Context, input model.CreateBusinessCompanyOperationHoursRequest) (*model.CreateBusinessCompanyOperationHoursResponse, error)
+	UpdateBusinessCompanyOperationHours(ctx context.Context, input model.UpdateBusinessCompanyOperationHoursRequest) (*model.UpdateBusinessCompanyOperationHoursResponse, error)
+	DeleteBusinessCompanyOperationHours(ctx context.Context, input model.DeleteBusinessCompanyOperationHoursRequest) (*model.DeleteBusinessCompanyOperationHoursResponse, error)
 }
 type QueryResolver interface {
 	GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error)
 	GetBusinessCompanies(ctx context.Context) (*model.BusinessCompanies, error)
 	GetBusinessCompanyServices(ctx context.Context, input *model.GetBusinessCompanyServicesRequest) (*model.GetBusinessCompanyServicesResponse, error)
+	GetBusinessCompanyOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyOperationHourByDayRequest) (*model.BusinessCompanyOperationHourResponse, error)
+	GetBusinessCompanyOperationHours(ctx context.Context, input *model.GetBusinessCompanyOperationHoursRequest) (*model.BusinessCompanyOperationHours, error)
 	GetBusinessCategory(ctx context.Context, input model.BusinessCategoryRequest) (*model.BusinessCategory, error)
 	GetBusinessCategories(ctx context.Context) ([]model.BusinessCategory, error)
 	GetBusinessSubCategory(ctx context.Context, input model.BusinessSubCategoryRequest) (*model.BusinessSubCategory, error)
@@ -236,6 +274,48 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BusinessCompany.BusinessCompanyName(childComplexity), true
+
+	case "BusinessCompanyOperationHour.businessCompanyID":
+		if e.complexity.BusinessCompanyOperationHour.BusinessCompanyID == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHour.BusinessCompanyID(childComplexity), true
+
+	case "BusinessCompanyOperationHour.closeTime":
+		if e.complexity.BusinessCompanyOperationHour.CloseTime == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHour.CloseTime(childComplexity), true
+
+	case "BusinessCompanyOperationHour.companyOperationHourID":
+		if e.complexity.BusinessCompanyOperationHour.CompanyOperationHourID == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHour.CompanyOperationHourID(childComplexity), true
+
+	case "BusinessCompanyOperationHour.dayOfWeek":
+		if e.complexity.BusinessCompanyOperationHour.DayOfWeek == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHour.DayOfWeek(childComplexity), true
+
+	case "BusinessCompanyOperationHour.openTime":
+		if e.complexity.BusinessCompanyOperationHour.OpenTime == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHour.OpenTime(childComplexity), true
+
+	case "BusinessCompanyOperationHours.businessCompanyOperationHour":
+		if e.complexity.BusinessCompanyOperationHours.BusinessCompanyOperationHour == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHours.BusinessCompanyOperationHour(childComplexity), true
 
 	case "BusinessOwner.businessOwnerEmail":
 		if e.complexity.BusinessOwner.BusinessOwnerEmail == nil {
@@ -403,6 +483,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateBusinessCompany(childComplexity, args["input"].(model.CreateBusinessCompanyRequest)), true
 
+	case "Mutation.createBusinessCompanyOperationHours":
+		if e.complexity.Mutation.CreateBusinessCompanyOperationHours == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createBusinessCompanyOperationHours_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateBusinessCompanyOperationHours(childComplexity, args["input"].(model.CreateBusinessCompanyOperationHoursRequest)), true
+
 	case "Mutation.createBusinessOwner":
 		if e.complexity.Mutation.CreateBusinessOwner == nil {
 			break
@@ -439,6 +531,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateCompanyService(childComplexity, args["input"].(model.CreateCompanyServiceRequest)), true
 
+	case "Mutation.deleteBusinessCompanyOperationHours":
+		if e.complexity.Mutation.DeleteBusinessCompanyOperationHours == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteBusinessCompanyOperationHours_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteBusinessCompanyOperationHours(childComplexity, args["input"].(model.DeleteBusinessCompanyOperationHoursRequest)), true
+
 	case "Mutation.deleteCompanyService":
 		if e.complexity.Mutation.DeleteCompanyService == nil {
 			break
@@ -450,6 +554,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteCompanyService(childComplexity, args["input"].(model.DeleteCompanyServiceRequest)), true
+
+	case "Mutation.updateBusinessCompanyOperationHours":
+		if e.complexity.Mutation.UpdateBusinessCompanyOperationHours == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateBusinessCompanyOperationHours_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateBusinessCompanyOperationHours(childComplexity, args["input"].(model.UpdateBusinessCompanyOperationHoursRequest)), true
 
 	case "Mutation.updateCompanyService":
 		if e.complexity.Mutation.UpdateCompanyService == nil {
@@ -500,6 +616,30 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.GetBusinessCompany(childComplexity, args["input"].(model.GetBusinessCompanyRequest)), true
+
+	case "Query.getBusinessCompanyOperationHourByDay":
+		if e.complexity.Query.GetBusinessCompanyOperationHourByDay == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getBusinessCompanyOperationHourByDay_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetBusinessCompanyOperationHourByDay(childComplexity, args["input"].(*model.GetGetBusinessCompanyOperationHourByDayRequest)), true
+
+	case "Query.getBusinessCompanyOperationHours":
+		if e.complexity.Query.GetBusinessCompanyOperationHours == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getBusinessCompanyOperationHours_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetBusinessCompanyOperationHours(childComplexity, args["input"].(*model.GetBusinessCompanyOperationHoursRequest)), true
 
 	case "Query.getBusinessCompanyServices":
 		if e.complexity.Query.GetBusinessCompanyServices == nil {
@@ -606,6 +746,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetCompanyServicesUnderSubCategory(childComplexity, args["input"].(model.GetCompanyServicesUnderSubCategoryRequest)), true
 
+	case "businessCompanyOperationHourResponse.businessCompanyOperationHour":
+		if e.complexity.BusinessCompanyOperationHourResponse.BusinessCompanyOperationHour == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyOperationHourResponse.BusinessCompanyOperationHour(childComplexity), true
+
 	case "businessCompanyService.companyServiceDuration":
 		if e.complexity.BusinessCompanyService.CompanyServiceDuration == nil {
 			break
@@ -634,6 +781,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.BusinessCompanyService.CompanyServicePrice(childComplexity), true
 
+	case "createBusinessCompanyOperationHoursResponse.businessCompanyOperationHour":
+		if e.complexity.CreateBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour == nil {
+			break
+		}
+
+		return e.complexity.CreateBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour(childComplexity), true
+
 	case "createBusinessServiceResponse.businessService":
 		if e.complexity.CreateBusinessServiceResponse.BusinessService == nil {
 			break
@@ -648,6 +802,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CreateCompanyServiceResponse.CompanyService(childComplexity), true
 
+	case "deleteBusinessCompanyOperationHoursResponse.businessCompanyOperationHour":
+		if e.complexity.DeleteBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour == nil {
+			break
+		}
+
+		return e.complexity.DeleteBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour(childComplexity), true
+
 	case "deleteCompanyServiceResponse.companyService":
 		if e.complexity.DeleteCompanyServiceResponse.CompanyService == nil {
 			break
@@ -661,6 +822,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.GetBusinessCompanyServicesResponse.BusinessCompanyService(childComplexity), true
+
+	case "updateBusinessCompanyOperationHoursResponse.businessCompanyOperationHour":
+		if e.complexity.UpdateBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour == nil {
+			break
+		}
+
+		return e.complexity.UpdateBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour(childComplexity), true
 
 	case "updateCompanyServiceResponse.companyService":
 		if e.complexity.UpdateCompanyServiceResponse.CompanyService == nil {
@@ -841,6 +1009,64 @@ type createBusinessServiceResponse {
   businessService: BusinessService!
 }
 
+
+type BusinessCompanyOperationHour {
+  companyOperationHourID: ID!
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+input getGetBusinessCompanyOperationHourByDayRequest {
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+}
+
+type businessCompanyOperationHourResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+input getBusinessCompanyOperationHoursRequest {
+  businessCompanyID: Int!
+}
+
+type BusinessCompanyOperationHours {
+  businessCompanyOperationHour: [BusinessCompanyOperationHour!]!
+}
+
+input createBusinessCompanyOperationHoursRequest {
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+type createBusinessCompanyOperationHoursResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+input updateBusinessCompanyOperationHoursRequest {
+  companyOperationHourID: ID!
+  businessCompanyID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+type updateBusinessCompanyOperationHoursResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+input deleteBusinessCompanyOperationHoursRequest {
+  companyOperationHourID: Int!
+}
+
+type deleteBusinessCompanyOperationHoursResponse {
+  businessCompanyOperationHour: BusinessCompanyOperationHour!
+}
+
+
 type CompanyService {
   companyServiceID: ID!
   companyServiceName: String!
@@ -900,11 +1126,13 @@ type deleteCompanyServiceResponse {
 }
 
 
-
 type Query {
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
+
+  getBusinessCompanyOperationHourByDay(input: getGetBusinessCompanyOperationHourByDayRequest): businessCompanyOperationHourResponse!
+  getBusinessCompanyOperationHours(input: getBusinessCompanyOperationHoursRequest): BusinessCompanyOperationHours!
 
   getBusinessCategory(input: BusinessCategoryRequest!): BusinessCategory!
   getBusinessCategories: [BusinessCategory!]!
@@ -932,6 +1160,10 @@ type Mutation {
   createCompanyService(input: createCompanyServiceRequest!): createCompanyServiceResponse!
   updateCompanyService(input: updateCompanyServiceRequest!): updateCompanyServiceResponse!
   deleteCompanyService(input: deleteCompanyServiceRequest!): deleteCompanyServiceResponse!
+
+  createBusinessCompanyOperationHours(input: createBusinessCompanyOperationHoursRequest!): createBusinessCompanyOperationHoursResponse!
+  updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
+  deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
 }
 
 
@@ -942,6 +1174,20 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Mutation_createBusinessCompanyOperationHours_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateBusinessCompanyOperationHoursRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNcreateBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessCompanyOperationHoursRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_Mutation_createBusinessCompany_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -999,12 +1245,40 @@ func (ec *executionContext) field_Mutation_createCompanyService_args(ctx context
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteBusinessCompanyOperationHours_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.DeleteBusinessCompanyOperationHoursRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNdeleteBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessCompanyOperationHoursRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteCompanyService_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.DeleteCompanyServiceRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNdeleteCompanyServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteCompanyServiceRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateBusinessCompanyOperationHours_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdateBusinessCompanyOperationHoursRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNupdateBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateBusinessCompanyOperationHoursRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1047,6 +1321,34 @@ func (ec *executionContext) field_Query_getBusinessCategory_args(ctx context.Con
 	var arg0 model.BusinessCategoryRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNBusinessCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCategoryRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getBusinessCompanyOperationHourByDay_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.GetGetBusinessCompanyOperationHourByDayRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalOgetGetBusinessCompanyOperationHourByDayRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetGetBusinessCompanyOperationHourByDayRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getBusinessCompanyOperationHours_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.GetBusinessCompanyOperationHoursRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalOgetBusinessCompanyOperationHoursRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyOperationHoursRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1405,6 +1707,210 @@ func (ec *executionContext) _BusinessCompany_businessCompanyCategoryID(ctx conte
 	res := resTmp.(int64)
 	fc.Result = res
 	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyOperationHour_companyOperationHourID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyOperationHour",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CompanyOperationHourID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyOperationHour_businessCompanyID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyOperationHour",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyOperationHour_dayOfWeek(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyOperationHour",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DayOfWeek, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyOperationHour_openTime(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyOperationHour",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OpenTime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyOperationHour_closeTime(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyOperationHour",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CloseTime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyOperationHours_businessCompanyOperationHour(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHours) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyOperationHours",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyOperationHour, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]model.BusinessCompanyOperationHour)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyOperationHour2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHourᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BusinessOwner_businessOwnerID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessOwner) (ret graphql.Marshaler) {
@@ -2389,6 +2895,129 @@ func (ec *executionContext) _Mutation_deleteCompanyService(ctx context.Context, 
 	return ec.marshalNdeleteCompanyServiceResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteCompanyServiceResponse(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Mutation_createBusinessCompanyOperationHours(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createBusinessCompanyOperationHours_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateBusinessCompanyOperationHours(rctx, args["input"].(model.CreateBusinessCompanyOperationHoursRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CreateBusinessCompanyOperationHoursResponse)
+	fc.Result = res
+	return ec.marshalNcreateBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessCompanyOperationHoursResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_updateBusinessCompanyOperationHours(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_updateBusinessCompanyOperationHours_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateBusinessCompanyOperationHours(rctx, args["input"].(model.UpdateBusinessCompanyOperationHoursRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.UpdateBusinessCompanyOperationHoursResponse)
+	fc.Result = res
+	return ec.marshalNupdateBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateBusinessCompanyOperationHoursResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_deleteBusinessCompanyOperationHours(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_deleteBusinessCompanyOperationHours_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteBusinessCompanyOperationHours(rctx, args["input"].(model.DeleteBusinessCompanyOperationHoursRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DeleteBusinessCompanyOperationHoursResponse)
+	fc.Result = res
+	return ec.marshalNdeleteBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessCompanyOperationHoursResponse(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_getBusinessCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2503,6 +3132,88 @@ func (ec *executionContext) _Query_getBusinessCompanyServices(ctx context.Contex
 	res := resTmp.(*model.GetBusinessCompanyServicesResponse)
 	fc.Result = res
 	return ec.marshalNgetBusinessCompanyServicesResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyServicesResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getBusinessCompanyOperationHourByDay(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getBusinessCompanyOperationHourByDay_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetBusinessCompanyOperationHourByDay(rctx, args["input"].(*model.GetGetBusinessCompanyOperationHourByDayRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyOperationHourResponse)
+	fc.Result = res
+	return ec.marshalNbusinessCompanyOperationHourResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHourResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getBusinessCompanyOperationHours(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getBusinessCompanyOperationHours_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetBusinessCompanyOperationHours(rctx, args["input"].(*model.GetBusinessCompanyOperationHoursRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyOperationHours)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyOperationHours2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHours(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getBusinessCategory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -4048,6 +4759,40 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 	return ec.marshalO__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐType(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _businessCompanyOperationHourResponse_businessCompanyOperationHour(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHourResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "businessCompanyOperationHourResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyOperationHour, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyOperationHour)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyOperationHour2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _businessCompanyService_companyServiceID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyService) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4184,6 +4929,40 @@ func (ec *executionContext) _businessCompanyService_companyServicePrice(ctx cont
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _createBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx context.Context, field graphql.CollectedField, obj *model.CreateBusinessCompanyOperationHoursResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "createBusinessCompanyOperationHoursResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyOperationHour, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyOperationHour)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyOperationHour2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _createBusinessServiceResponse_businessService(ctx context.Context, field graphql.CollectedField, obj *model.CreateBusinessServiceResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4252,6 +5031,40 @@ func (ec *executionContext) _createCompanyServiceResponse_companyService(ctx con
 	return ec.marshalNCompanyService2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCompanyService(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _deleteBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx context.Context, field graphql.CollectedField, obj *model.DeleteBusinessCompanyOperationHoursResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "deleteBusinessCompanyOperationHoursResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyOperationHour, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyOperationHour)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyOperationHour2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _deleteCompanyServiceResponse_companyService(ctx context.Context, field graphql.CollectedField, obj *model.DeleteCompanyServiceResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4315,6 +5128,40 @@ func (ec *executionContext) _getBusinessCompanyServicesResponse_businessCompanyS
 	res := resTmp.([]model.BusinessCompanyService)
 	fc.Result = res
 	return ec.marshalObusinessCompanyService2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyServiceᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _updateBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx context.Context, field graphql.CollectedField, obj *model.UpdateBusinessCompanyOperationHoursResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "updateBusinessCompanyOperationHoursResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyOperationHour, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyOperationHour)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyOperationHour2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _updateCompanyServiceResponse_companyService(ctx context.Context, field graphql.CollectedField, obj *model.UpdateCompanyServiceResponse) (ret graphql.Marshaler) {
@@ -4481,6 +5328,42 @@ func (ec *executionContext) unmarshalInputCreateBusinessOwnerRequest(ctx context
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputcreateBusinessCompanyOperationHoursRequest(ctx context.Context, obj interface{}) (model.CreateBusinessCompanyOperationHoursRequest, error) {
+	var it model.CreateBusinessCompanyOperationHoursRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessCompanyID":
+			var err error
+			it.BusinessCompanyID, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "dayOfWeek":
+			var err error
+			it.DayOfWeek, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "openTime":
+			var err error
+			it.OpenTime, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "closeTime":
+			var err error
+			it.CloseTime, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputcreateBusinessServiceRequest(ctx context.Context, obj interface{}) (model.CreateBusinessServiceRequest, error) {
 	var it model.CreateBusinessServiceRequest
 	var asMap = obj.(map[string]interface{})
@@ -4547,6 +5430,24 @@ func (ec *executionContext) unmarshalInputcreateCompanyServiceRequest(ctx contex
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputdeleteBusinessCompanyOperationHoursRequest(ctx context.Context, obj interface{}) (model.DeleteBusinessCompanyOperationHoursRequest, error) {
+	var it model.DeleteBusinessCompanyOperationHoursRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "companyOperationHourID":
+			var err error
+			it.CompanyOperationHourID, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputdeleteCompanyServiceRequest(ctx context.Context, obj interface{}) (model.DeleteCompanyServiceRequest, error) {
 	var it model.DeleteCompanyServiceRequest
 	var asMap = obj.(map[string]interface{})
@@ -4556,6 +5457,24 @@ func (ec *executionContext) unmarshalInputdeleteCompanyServiceRequest(ctx contex
 		case "companyServiceID":
 			var err error
 			it.CompanyServiceID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputgetBusinessCompanyOperationHoursRequest(ctx context.Context, obj interface{}) (model.GetBusinessCompanyOperationHoursRequest, error) {
+	var it model.GetBusinessCompanyOperationHoursRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessCompanyID":
+			var err error
+			it.BusinessCompanyID, err = ec.unmarshalNInt2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4664,6 +5583,72 @@ func (ec *executionContext) unmarshalInputgetCompanyServicesUnderSubCategoryRequ
 		case "subCategoryID":
 			var err error
 			it.SubCategoryID, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputgetGetBusinessCompanyOperationHourByDayRequest(ctx context.Context, obj interface{}) (model.GetGetBusinessCompanyOperationHourByDayRequest, error) {
+	var it model.GetGetBusinessCompanyOperationHourByDayRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessCompanyID":
+			var err error
+			it.BusinessCompanyID, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "dayOfWeek":
+			var err error
+			it.DayOfWeek, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputupdateBusinessCompanyOperationHoursRequest(ctx context.Context, obj interface{}) (model.UpdateBusinessCompanyOperationHoursRequest, error) {
+	var it model.UpdateBusinessCompanyOperationHoursRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "companyOperationHourID":
+			var err error
+			it.CompanyOperationHourID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "businessCompanyID":
+			var err error
+			it.BusinessCompanyID, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "dayOfWeek":
+			var err error
+			it.DayOfWeek, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "openTime":
+			var err error
+			it.OpenTime, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "closeTime":
+			var err error
+			it.CloseTime, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4811,6 +5796,80 @@ func (ec *executionContext) _BusinessCompany(ctx context.Context, sel ast.Select
 			}
 		case "businessCompanyCategoryID":
 			out.Values[i] = ec._BusinessCompany_businessCompanyCategoryID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var businessCompanyOperationHourImplementors = []string{"BusinessCompanyOperationHour"}
+
+func (ec *executionContext) _BusinessCompanyOperationHour(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyOperationHour) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, businessCompanyOperationHourImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BusinessCompanyOperationHour")
+		case "companyOperationHourID":
+			out.Values[i] = ec._BusinessCompanyOperationHour_companyOperationHourID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "businessCompanyID":
+			out.Values[i] = ec._BusinessCompanyOperationHour_businessCompanyID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "dayOfWeek":
+			out.Values[i] = ec._BusinessCompanyOperationHour_dayOfWeek(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "openTime":
+			out.Values[i] = ec._BusinessCompanyOperationHour_openTime(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "closeTime":
+			out.Values[i] = ec._BusinessCompanyOperationHour_closeTime(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var businessCompanyOperationHoursImplementors = []string{"BusinessCompanyOperationHours"}
+
+func (ec *executionContext) _BusinessCompanyOperationHours(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyOperationHours) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, businessCompanyOperationHoursImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BusinessCompanyOperationHours")
+		case "businessCompanyOperationHour":
+			out.Values[i] = ec._BusinessCompanyOperationHours_businessCompanyOperationHour(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -5122,6 +6181,21 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createBusinessCompanyOperationHours":
+			out.Values[i] = ec._Mutation_createBusinessCompanyOperationHours(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateBusinessCompanyOperationHours":
+			out.Values[i] = ec._Mutation_updateBusinessCompanyOperationHours(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deleteBusinessCompanyOperationHours":
+			out.Values[i] = ec._Mutation_deleteBusinessCompanyOperationHours(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -5185,6 +6259,34 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getBusinessCompanyServices(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getBusinessCompanyOperationHourByDay":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getBusinessCompanyOperationHourByDay(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getBusinessCompanyOperationHours":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getBusinessCompanyOperationHours(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -5600,6 +6702,33 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var businessCompanyOperationHourResponseImplementors = []string{"businessCompanyOperationHourResponse"}
+
+func (ec *executionContext) _businessCompanyOperationHourResponse(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyOperationHourResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, businessCompanyOperationHourResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("businessCompanyOperationHourResponse")
+		case "businessCompanyOperationHour":
+			out.Values[i] = ec._businessCompanyOperationHourResponse_businessCompanyOperationHour(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var businessCompanyServiceImplementors = []string{"businessCompanyService"}
 
 func (ec *executionContext) _businessCompanyService(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyService) graphql.Marshaler {
@@ -5628,6 +6757,33 @@ func (ec *executionContext) _businessCompanyService(ctx context.Context, sel ast
 			}
 		case "companyServicePrice":
 			out.Values[i] = ec._businessCompanyService_companyServicePrice(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var createBusinessCompanyOperationHoursResponseImplementors = []string{"createBusinessCompanyOperationHoursResponse"}
+
+func (ec *executionContext) _createBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, obj *model.CreateBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, createBusinessCompanyOperationHoursResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("createBusinessCompanyOperationHoursResponse")
+		case "businessCompanyOperationHour":
+			out.Values[i] = ec._createBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -5696,6 +6852,33 @@ func (ec *executionContext) _createCompanyServiceResponse(ctx context.Context, s
 	return out
 }
 
+var deleteBusinessCompanyOperationHoursResponseImplementors = []string{"deleteBusinessCompanyOperationHoursResponse"}
+
+func (ec *executionContext) _deleteBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, obj *model.DeleteBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, deleteBusinessCompanyOperationHoursResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("deleteBusinessCompanyOperationHoursResponse")
+		case "businessCompanyOperationHour":
+			out.Values[i] = ec._deleteBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var deleteCompanyServiceResponseImplementors = []string{"deleteCompanyServiceResponse"}
 
 func (ec *executionContext) _deleteCompanyServiceResponse(ctx context.Context, sel ast.SelectionSet, obj *model.DeleteCompanyServiceResponse) graphql.Marshaler {
@@ -5736,6 +6919,33 @@ func (ec *executionContext) _getBusinessCompanyServicesResponse(ctx context.Cont
 			out.Values[i] = graphql.MarshalString("getBusinessCompanyServicesResponse")
 		case "businessCompanyService":
 			out.Values[i] = ec._getBusinessCompanyServicesResponse_businessCompanyService(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var updateBusinessCompanyOperationHoursResponseImplementors = []string{"updateBusinessCompanyOperationHoursResponse"}
+
+func (ec *executionContext) _updateBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, obj *model.UpdateBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, updateBusinessCompanyOperationHoursResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("updateBusinessCompanyOperationHoursResponse")
+		case "businessCompanyOperationHour":
+			out.Values[i] = ec._updateBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -5910,6 +7120,71 @@ func (ec *executionContext) marshalNBusinessCompany2ᚖgithubᚗcomᚋAkezhanOb1
 		return graphql.Null
 	}
 	return ec._BusinessCompany(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyOperationHour2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyOperationHour) graphql.Marshaler {
+	return ec._BusinessCompanyOperationHour(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyOperationHour2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHourᚄ(ctx context.Context, sel ast.SelectionSet, v []model.BusinessCompanyOperationHour) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNBusinessCompanyOperationHour2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNBusinessCompanyOperationHour2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx context.Context, sel ast.SelectionSet, v *model.BusinessCompanyOperationHour) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._BusinessCompanyOperationHour(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyOperationHours2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHours(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyOperationHours) graphql.Marshaler {
+	return ec._BusinessCompanyOperationHours(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyOperationHours2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHours(ctx context.Context, sel ast.SelectionSet, v *model.BusinessCompanyOperationHours) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._BusinessCompanyOperationHours(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNBusinessOwner2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwner(ctx context.Context, sel ast.SelectionSet, v model.BusinessOwner) graphql.Marshaler {
@@ -6444,8 +7719,40 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) marshalNbusinessCompanyOperationHourResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHourResponse(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyOperationHourResponse) graphql.Marshaler {
+	return ec._businessCompanyOperationHourResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNbusinessCompanyOperationHourResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHourResponse(ctx context.Context, sel ast.SelectionSet, v *model.BusinessCompanyOperationHourResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._businessCompanyOperationHourResponse(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNbusinessCompanyService2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyService(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyService) graphql.Marshaler {
 	return ec._businessCompanyService(ctx, sel, &v)
+}
+
+func (ec *executionContext) unmarshalNcreateBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessCompanyOperationHoursRequest(ctx context.Context, v interface{}) (model.CreateBusinessCompanyOperationHoursRequest, error) {
+	return ec.unmarshalInputcreateBusinessCompanyOperationHoursRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNcreateBusinessCompanyOperationHoursResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, v model.CreateBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	return ec._createBusinessCompanyOperationHoursResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNcreateBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, v *model.CreateBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._createBusinessCompanyOperationHoursResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNcreateBusinessServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessServiceRequest(ctx context.Context, v interface{}) (model.CreateBusinessServiceRequest, error) {
@@ -6482,6 +7789,24 @@ func (ec *executionContext) marshalNcreateCompanyServiceResponse2ᚖgithubᚗcom
 		return graphql.Null
 	}
 	return ec._createCompanyServiceResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNdeleteBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessCompanyOperationHoursRequest(ctx context.Context, v interface{}) (model.DeleteBusinessCompanyOperationHoursRequest, error) {
+	return ec.unmarshalInputdeleteBusinessCompanyOperationHoursRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNdeleteBusinessCompanyOperationHoursResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, v model.DeleteBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	return ec._deleteBusinessCompanyOperationHoursResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNdeleteBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, v *model.DeleteBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._deleteBusinessCompanyOperationHoursResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNdeleteCompanyServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteCompanyServiceRequest(ctx context.Context, v interface{}) (model.DeleteCompanyServiceRequest, error) {
@@ -6530,6 +7855,24 @@ func (ec *executionContext) unmarshalNgetCompanyServiceRequest2githubᚗcomᚋAk
 
 func (ec *executionContext) unmarshalNgetCompanyServicesUnderSubCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderSubCategoryRequest(ctx context.Context, v interface{}) (model.GetCompanyServicesUnderSubCategoryRequest, error) {
 	return ec.unmarshalInputgetCompanyServicesUnderSubCategoryRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNupdateBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateBusinessCompanyOperationHoursRequest(ctx context.Context, v interface{}) (model.UpdateBusinessCompanyOperationHoursRequest, error) {
+	return ec.unmarshalInputupdateBusinessCompanyOperationHoursRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNupdateBusinessCompanyOperationHoursResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, v model.UpdateBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	return ec._updateBusinessCompanyOperationHoursResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNupdateBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateBusinessCompanyOperationHoursResponse(ctx context.Context, sel ast.SelectionSet, v *model.UpdateBusinessCompanyOperationHoursResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._updateBusinessCompanyOperationHoursResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNupdateCompanyServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateCompanyServiceRequest(ctx context.Context, v interface{}) (model.UpdateCompanyServiceRequest, error) {
@@ -6853,6 +8196,18 @@ func (ec *executionContext) marshalObusinessCompanyService2ᚕgithubᚗcomᚋAke
 	return ret
 }
 
+func (ec *executionContext) unmarshalOgetBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyOperationHoursRequest(ctx context.Context, v interface{}) (model.GetBusinessCompanyOperationHoursRequest, error) {
+	return ec.unmarshalInputgetBusinessCompanyOperationHoursRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOgetBusinessCompanyOperationHoursRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyOperationHoursRequest(ctx context.Context, v interface{}) (*model.GetBusinessCompanyOperationHoursRequest, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOgetBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyOperationHoursRequest(ctx, v)
+	return &res, err
+}
+
 func (ec *executionContext) unmarshalOgetBusinessCompanyServicesRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyServicesRequest(ctx context.Context, v interface{}) (model.GetBusinessCompanyServicesRequest, error) {
 	return ec.unmarshalInputgetBusinessCompanyServicesRequest(ctx, v)
 }
@@ -6874,6 +8229,18 @@ func (ec *executionContext) unmarshalOgetBusinessServicesUnderSubCategoryRequest
 		return nil, nil
 	}
 	res, err := ec.unmarshalOgetBusinessServicesUnderSubCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServicesUnderSubCategoryRequest(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOgetGetBusinessCompanyOperationHourByDayRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetGetBusinessCompanyOperationHourByDayRequest(ctx context.Context, v interface{}) (model.GetGetBusinessCompanyOperationHourByDayRequest, error) {
+	return ec.unmarshalInputgetGetBusinessCompanyOperationHourByDayRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOgetGetBusinessCompanyOperationHourByDayRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetGetBusinessCompanyOperationHourByDayRequest(ctx context.Context, v interface{}) (*model.GetGetBusinessCompanyOperationHourByDayRequest, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOgetGetBusinessCompanyOperationHourByDayRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetGetBusinessCompanyOperationHourByDayRequest(ctx, v)
 	return &res, err
 }
 

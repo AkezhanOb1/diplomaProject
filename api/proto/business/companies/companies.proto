@@ -42,16 +42,72 @@ message BusinessCompanyService {
     double  companyServicePrice = 4;
 }
 
-
 message GetBusinessCompanyServicesResponse {
    repeated BusinessCompanyService businessCompanyService = 1;
 }
 
+message BusinessCompanyOperationHour {
+    int64 companyOperationHourID = 1;
+    int64 businessCompanyID = 2;
+    int64 dayOfWeek = 3;
+    string openTime = 4;
+    string closeTime = 5;
+}
 
-service BusinessCompaniesService {
+message GetBusinessCompanyOperationHourByDayRequest {
+    int64 companyID = 1;
+    int64 dayOfWeek = 2;
+}
+
+message GetBusinessCompanyOperationHourByDayResponse {
+    BusinessCompanyOperationHour businessCompanyOperationHour = 1;
+}
+
+message GetBusinessCompanyOperationHoursRequest {
+    int64 companyID = 1;
+}
+
+message GetBusinessCompanyOperationHoursResponse {
+    repeated BusinessCompanyOperationHour businessCompanyOperationHour = 1;
+}
+
+
+message CreateBusinessCompanyOperationHourRequest {
+    int64 businessCompanyID = 1;
+    int64 dayOfWeek = 2;
+    string openTime = 3;
+    string closeTime = 4;
+}
+
+message CreateBusinessCompanyOperationHourResponse {
+    BusinessCompanyOperationHour businessCompanyOperationHour = 1;
+}
+
+message UpdateBusinessCompanyOperationHourRequest {
+    BusinessCompanyOperationHour businessCompanyOperationHour = 1;
+}
+
+message UpdateBusinessCompanyOperationHourResponse {
+    BusinessCompanyOperationHour businessCompanyOperationHour = 1;
+}
+
+message DeleteBusinessCompanyOperationHourRequest {
+    int64 OperationHourID = 1;
+}
+
+message DeleteBusinessCompanyOperationHourResponse {
+    BusinessCompanyOperationHour businessCompanyOperationHour = 1;
+}
+
+ service BusinessCompaniesService {
     rpc GetBusinessCompany(GetBusinessCompanyRequest) returns (GetBusinessCompanyResponse) {}
     rpc GetBusinessCompanies(google.protobuf.Empty) returns (GetBusinessCompaniesResponse) {}
     rpc GetBusinessCompanyServices(GetBusinessCompanyServicesRequest) returns (GetBusinessCompanyServicesResponse) {}
+    rpc GetBusinessCompanyOperationHourByDay(GetBusinessCompanyOperationHourByDayRequest) returns (GetBusinessCompanyOperationHourByDayResponse) {}
+    rpc GetBusinessCompanyOperationHours(GetBusinessCompanyOperationHoursRequest) returns (GetBusinessCompanyOperationHoursResponse) {}
 
     rpc CreateBusinessCompany(CreateBusinessCompanyRequest) returns (CreateBusinessCompanyResponse) {}
+    rpc CreateBusinessCompanyOperationHour(CreateBusinessCompanyOperationHourRequest) returns (CreateBusinessCompanyOperationHourResponse){}
+    rpc UpdateBusinessCompanyOperationHour(UpdateBusinessCompanyOperationHourRequest) returns (UpdateBusinessCompanyOperationHourResponse) {}
+    rpc DeleteBusinessCompanyOperationHour(DeleteBusinessCompanyOperationHourRequest) returns (DeleteBusinessCompanyOperationHourResponse) {}
 }
