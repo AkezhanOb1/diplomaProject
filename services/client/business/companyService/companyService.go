@@ -58,11 +58,7 @@ func GetCompanyServices(ctx context.Context) (*pb.GetCompanyServicesResponse, er
 	}()
 
 	c := pb.NewCompanyServicesClient(cc)
-	e := empty.Empty{
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
-	}
+	e := empty.Empty{}
 
 	services, err := c.GetCompanyServices(ctx, &e)
 	if err != nil {

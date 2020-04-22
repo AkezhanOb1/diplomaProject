@@ -121,6 +121,7 @@ type ComplexityRoot struct {
 		CreateCompanyService                func(childComplexity int, input model.CreateCompanyServiceRequest) int
 		DeleteBusinessCompanyOperationHours func(childComplexity int, input model.DeleteBusinessCompanyOperationHoursRequest) int
 		DeleteCompanyService                func(childComplexity int, input model.DeleteCompanyServiceRequest) int
+		GenerateToken                       func(childComplexity int, input model.GenerateTokenRequest) int
 		UpdateBusinessCompanyOperationHours func(childComplexity int, input model.UpdateBusinessCompanyOperationHoursRequest) int
 		UpdateCompanyService                func(childComplexity int, input model.UpdateCompanyServiceRequest) int
 	}
@@ -142,6 +143,7 @@ type ComplexityRoot struct {
 		GetCompanyService                     func(childComplexity int, input model.GetCompanyServiceRequest) int
 		GetCompanyServices                    func(childComplexity int) int
 		GetCompanyServicesUnderSubCategory    func(childComplexity int, input model.GetCompanyServicesUnderSubCategoryRequest) int
+		RetrieveTokenInfo                     func(childComplexity int, input model.RetrieveTokenInfoRequst) int
 	}
 
 	BusinessCompanyOperationHourResponse struct {
@@ -175,8 +177,21 @@ type ComplexityRoot struct {
 		CompanyService func(childComplexity int) int
 	}
 
+	GenerateTokenResponse struct {
+		AccessToken  func(childComplexity int) int
+		ExpiresIn    func(childComplexity int) int
+		RefreshToken func(childComplexity int) int
+		TokenType    func(childComplexity int) int
+	}
+
 	GetBusinessCompanyServicesResponse struct {
 		BusinessCompanyService func(childComplexity int) int
+	}
+
+	RetrieveTokenInfoResponse struct {
+		Email     func(childComplexity int) int
+		ExpiresAt func(childComplexity int) int
+		IssuedAt  func(childComplexity int) int
 	}
 
 	UpdateBusinessCompanyOperationHoursResponse struct {
@@ -198,6 +213,7 @@ type MutationResolver interface {
 	CreateBusinessCompanyOperationHours(ctx context.Context, input model.CreateBusinessCompanyOperationHoursRequest) (*model.CreateBusinessCompanyOperationHoursResponse, error)
 	UpdateBusinessCompanyOperationHours(ctx context.Context, input model.UpdateBusinessCompanyOperationHoursRequest) (*model.UpdateBusinessCompanyOperationHoursResponse, error)
 	DeleteBusinessCompanyOperationHours(ctx context.Context, input model.DeleteBusinessCompanyOperationHoursRequest) (*model.DeleteBusinessCompanyOperationHoursResponse, error)
+	GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.GenerateTokenResponse, error)
 }
 type QueryResolver interface {
 	GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error)
@@ -216,6 +232,7 @@ type QueryResolver interface {
 	GetCompanyService(ctx context.Context, input model.GetCompanyServiceRequest) (*model.CompanyService, error)
 	GetCompanyServices(ctx context.Context) (*model.CompanyServices, error)
 	GetCompanyServicesUnderSubCategory(ctx context.Context, input model.GetCompanyServicesUnderSubCategoryRequest) (*model.CompanyServices, error)
+	RetrieveTokenInfo(ctx context.Context, input model.RetrieveTokenInfoRequst) (*model.RetrieveTokenInfoResponse, error)
 }
 
 type executableSchema struct {
@@ -555,6 +572,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.DeleteCompanyService(childComplexity, args["input"].(model.DeleteCompanyServiceRequest)), true
 
+	case "Mutation.generateToken":
+		if e.complexity.Mutation.GenerateToken == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_generateToken_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.GenerateToken(childComplexity, args["input"].(model.GenerateTokenRequest)), true
+
 	case "Mutation.updateBusinessCompanyOperationHours":
 		if e.complexity.Mutation.UpdateBusinessCompanyOperationHours == nil {
 			break
@@ -746,6 +775,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetCompanyServicesUnderSubCategory(childComplexity, args["input"].(model.GetCompanyServicesUnderSubCategoryRequest)), true
 
+	case "Query.retrieveTokenInfo":
+		if e.complexity.Query.RetrieveTokenInfo == nil {
+			break
+		}
+
+		args, err := ec.field_Query_retrieveTokenInfo_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.RetrieveTokenInfo(childComplexity, args["input"].(model.RetrieveTokenInfoRequst)), true
+
 	case "businessCompanyOperationHourResponse.businessCompanyOperationHour":
 		if e.complexity.BusinessCompanyOperationHourResponse.BusinessCompanyOperationHour == nil {
 			break
@@ -816,12 +857,61 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.DeleteCompanyServiceResponse.CompanyService(childComplexity), true
 
+	case "generateTokenResponse.accessToken":
+		if e.complexity.GenerateTokenResponse.AccessToken == nil {
+			break
+		}
+
+		return e.complexity.GenerateTokenResponse.AccessToken(childComplexity), true
+
+	case "generateTokenResponse.expiresIn":
+		if e.complexity.GenerateTokenResponse.ExpiresIn == nil {
+			break
+		}
+
+		return e.complexity.GenerateTokenResponse.ExpiresIn(childComplexity), true
+
+	case "generateTokenResponse.refreshToken":
+		if e.complexity.GenerateTokenResponse.RefreshToken == nil {
+			break
+		}
+
+		return e.complexity.GenerateTokenResponse.RefreshToken(childComplexity), true
+
+	case "generateTokenResponse.tokenType":
+		if e.complexity.GenerateTokenResponse.TokenType == nil {
+			break
+		}
+
+		return e.complexity.GenerateTokenResponse.TokenType(childComplexity), true
+
 	case "getBusinessCompanyServicesResponse.businessCompanyService":
 		if e.complexity.GetBusinessCompanyServicesResponse.BusinessCompanyService == nil {
 			break
 		}
 
 		return e.complexity.GetBusinessCompanyServicesResponse.BusinessCompanyService(childComplexity), true
+
+	case "retrieveTokenInfoResponse.email":
+		if e.complexity.RetrieveTokenInfoResponse.Email == nil {
+			break
+		}
+
+		return e.complexity.RetrieveTokenInfoResponse.Email(childComplexity), true
+
+	case "retrieveTokenInfoResponse.expiresAt":
+		if e.complexity.RetrieveTokenInfoResponse.ExpiresAt == nil {
+			break
+		}
+
+		return e.complexity.RetrieveTokenInfoResponse.ExpiresAt(childComplexity), true
+
+	case "retrieveTokenInfoResponse.issuedAt":
+		if e.complexity.RetrieveTokenInfoResponse.IssuedAt == nil {
+			break
+		}
+
+		return e.complexity.RetrieveTokenInfoResponse.IssuedAt(childComplexity), true
 
 	case "updateBusinessCompanyOperationHoursResponse.businessCompanyOperationHour":
 		if e.complexity.UpdateBusinessCompanyOperationHoursResponse.BusinessCompanyOperationHour == nil {
@@ -1125,6 +1215,27 @@ type deleteCompanyServiceResponse {
   companyService: CompanyService!
 }
 
+input retrieveTokenInfoRequst {
+  accessToken: String!
+}
+
+type retrieveTokenInfoResponse {
+  email: String!
+  expiresAt: Int!
+  issuedAt: Int!
+}
+
+input generateTokenRequest {
+  email: String!
+  password: String!
+}
+
+type generateTokenResponse {
+  accessToken: String!
+  refreshToken: String!
+  expiresIn: Int!
+  tokenType: String!
+}
 
 type Query {
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
@@ -1149,6 +1260,7 @@ type Query {
   getCompanyServices: CompanyServices!
   getCompanyServicesUnderSubCategory(input: getCompanyServicesUnderSubCategoryRequest!): CompanyServices!
 
+  retrieveTokenInfo(input: retrieveTokenInfoRequst!) : retrieveTokenInfoResponse!
 }
 
 type Mutation {
@@ -1164,6 +1276,8 @@ type Mutation {
   createBusinessCompanyOperationHours(input: createBusinessCompanyOperationHoursRequest!): createBusinessCompanyOperationHoursResponse!
   updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
   deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
+
+  generateToken(input: generateTokenRequest!) : generateTokenResponse!
 }
 
 
@@ -1265,6 +1379,20 @@ func (ec *executionContext) field_Mutation_deleteCompanyService_args(ctx context
 	var arg0 model.DeleteCompanyServiceRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNdeleteCompanyServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteCompanyServiceRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_generateToken_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GenerateTokenRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNgenerateTokenRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1461,6 +1589,20 @@ func (ec *executionContext) field_Query_getCompanyServicesUnderSubCategory_args(
 	var arg0 model.GetCompanyServicesUnderSubCategoryRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNgetCompanyServicesUnderSubCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderSubCategoryRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_retrieveTokenInfo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.RetrieveTokenInfoRequst
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNretrieveTokenInfoRequst2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoRequst(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3018,6 +3160,47 @@ func (ec *executionContext) _Mutation_deleteBusinessCompanyOperationHours(ctx co
 	return ec.marshalNdeleteBusinessCompanyOperationHoursResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessCompanyOperationHoursResponse(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Mutation_generateToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_generateToken_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().GenerateToken(rctx, args["input"].(model.GenerateTokenRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GenerateTokenResponse)
+	fc.Result = res
+	return ec.marshalNgenerateTokenResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenResponse(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_getBusinessCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3637,6 +3820,47 @@ func (ec *executionContext) _Query_getCompanyServicesUnderSubCategory(ctx contex
 	res := resTmp.(*model.CompanyServices)
 	fc.Result = res
 	return ec.marshalNCompanyServices2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCompanyServices(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_retrieveTokenInfo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_retrieveTokenInfo_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().RetrieveTokenInfo(rctx, args["input"].(model.RetrieveTokenInfoRequst))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.RetrieveTokenInfoResponse)
+	fc.Result = res
+	return ec.marshalNretrieveTokenInfoResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -5099,6 +5323,142 @@ func (ec *executionContext) _deleteCompanyServiceResponse_companyService(ctx con
 	return ec.marshalNCompanyService2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCompanyService(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _generateTokenResponse_accessToken(ctx context.Context, field graphql.CollectedField, obj *model.GenerateTokenResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "generateTokenResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AccessToken, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _generateTokenResponse_refreshToken(ctx context.Context, field graphql.CollectedField, obj *model.GenerateTokenResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "generateTokenResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RefreshToken, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _generateTokenResponse_expiresIn(ctx context.Context, field graphql.CollectedField, obj *model.GenerateTokenResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "generateTokenResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExpiresIn, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _generateTokenResponse_tokenType(ctx context.Context, field graphql.CollectedField, obj *model.GenerateTokenResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "generateTokenResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TokenType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _getBusinessCompanyServicesResponse_businessCompanyService(ctx context.Context, field graphql.CollectedField, obj *model.GetBusinessCompanyServicesResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5128,6 +5488,108 @@ func (ec *executionContext) _getBusinessCompanyServicesResponse_businessCompanyS
 	res := resTmp.([]model.BusinessCompanyService)
 	fc.Result = res
 	return ec.marshalObusinessCompanyService2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyServiceᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _retrieveTokenInfoResponse_email(ctx context.Context, field graphql.CollectedField, obj *model.RetrieveTokenInfoResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "retrieveTokenInfoResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _retrieveTokenInfoResponse_expiresAt(ctx context.Context, field graphql.CollectedField, obj *model.RetrieveTokenInfoResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "retrieveTokenInfoResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExpiresAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _retrieveTokenInfoResponse_issuedAt(ctx context.Context, field graphql.CollectedField, obj *model.RetrieveTokenInfoResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "retrieveTokenInfoResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IssuedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _updateBusinessCompanyOperationHoursResponse_businessCompanyOperationHour(ctx context.Context, field graphql.CollectedField, obj *model.UpdateBusinessCompanyOperationHoursResponse) (ret graphql.Marshaler) {
@@ -5466,6 +5928,30 @@ func (ec *executionContext) unmarshalInputdeleteCompanyServiceRequest(ctx contex
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputgenerateTokenRequest(ctx context.Context, obj interface{}) (model.GenerateTokenRequest, error) {
+	var it model.GenerateTokenRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "email":
+			var err error
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+			it.Password, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputgetBusinessCompanyOperationHoursRequest(ctx context.Context, obj interface{}) (model.GetBusinessCompanyOperationHoursRequest, error) {
 	var it model.GetBusinessCompanyOperationHoursRequest
 	var asMap = obj.(map[string]interface{})
@@ -5607,6 +6093,24 @@ func (ec *executionContext) unmarshalInputgetGetBusinessCompanyOperationHourByDa
 		case "dayOfWeek":
 			var err error
 			it.DayOfWeek, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputretrieveTokenInfoRequst(ctx context.Context, obj interface{}) (model.RetrieveTokenInfoRequst, error) {
+	var it model.RetrieveTokenInfoRequst
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "accessToken":
+			var err error
+			it.AccessToken, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6196,6 +6700,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "generateToken":
+			out.Values[i] = ec._Mutation_generateToken(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6441,6 +6950,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getCompanyServicesUnderSubCategory(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "retrieveTokenInfo":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_retrieveTokenInfo(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -6906,6 +7429,48 @@ func (ec *executionContext) _deleteCompanyServiceResponse(ctx context.Context, s
 	return out
 }
 
+var generateTokenResponseImplementors = []string{"generateTokenResponse"}
+
+func (ec *executionContext) _generateTokenResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GenerateTokenResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, generateTokenResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("generateTokenResponse")
+		case "accessToken":
+			out.Values[i] = ec._generateTokenResponse_accessToken(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "refreshToken":
+			out.Values[i] = ec._generateTokenResponse_refreshToken(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "expiresIn":
+			out.Values[i] = ec._generateTokenResponse_expiresIn(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "tokenType":
+			out.Values[i] = ec._generateTokenResponse_tokenType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var getBusinessCompanyServicesResponseImplementors = []string{"getBusinessCompanyServicesResponse"}
 
 func (ec *executionContext) _getBusinessCompanyServicesResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetBusinessCompanyServicesResponse) graphql.Marshaler {
@@ -6919,6 +7484,43 @@ func (ec *executionContext) _getBusinessCompanyServicesResponse(ctx context.Cont
 			out.Values[i] = graphql.MarshalString("getBusinessCompanyServicesResponse")
 		case "businessCompanyService":
 			out.Values[i] = ec._getBusinessCompanyServicesResponse_businessCompanyService(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var retrieveTokenInfoResponseImplementors = []string{"retrieveTokenInfoResponse"}
+
+func (ec *executionContext) _retrieveTokenInfoResponse(ctx context.Context, sel ast.SelectionSet, obj *model.RetrieveTokenInfoResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, retrieveTokenInfoResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("retrieveTokenInfoResponse")
+		case "email":
+			out.Values[i] = ec._retrieveTokenInfoResponse_email(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "expiresAt":
+			out.Values[i] = ec._retrieveTokenInfoResponse_expiresAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "issuedAt":
+			out.Values[i] = ec._retrieveTokenInfoResponse_issuedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7827,6 +8429,24 @@ func (ec *executionContext) marshalNdeleteCompanyServiceResponse2ᚖgithubᚗcom
 	return ec._deleteCompanyServiceResponse(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNgenerateTokenRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenRequest(ctx context.Context, v interface{}) (model.GenerateTokenRequest, error) {
+	return ec.unmarshalInputgenerateTokenRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNgenerateTokenResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenResponse(ctx context.Context, sel ast.SelectionSet, v model.GenerateTokenResponse) graphql.Marshaler {
+	return ec._generateTokenResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNgenerateTokenResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenResponse(ctx context.Context, sel ast.SelectionSet, v *model.GenerateTokenResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._generateTokenResponse(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNgetBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyRequest(ctx context.Context, v interface{}) (model.GetBusinessCompanyRequest, error) {
 	return ec.unmarshalInputgetBusinessCompanyRequest(ctx, v)
 }
@@ -7855,6 +8475,24 @@ func (ec *executionContext) unmarshalNgetCompanyServiceRequest2githubᚗcomᚋAk
 
 func (ec *executionContext) unmarshalNgetCompanyServicesUnderSubCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderSubCategoryRequest(ctx context.Context, v interface{}) (model.GetCompanyServicesUnderSubCategoryRequest, error) {
 	return ec.unmarshalInputgetCompanyServicesUnderSubCategoryRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNretrieveTokenInfoRequst2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoRequst(ctx context.Context, v interface{}) (model.RetrieveTokenInfoRequst, error) {
+	return ec.unmarshalInputretrieveTokenInfoRequst(ctx, v)
+}
+
+func (ec *executionContext) marshalNretrieveTokenInfoResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoResponse(ctx context.Context, sel ast.SelectionSet, v model.RetrieveTokenInfoResponse) graphql.Marshaler {
+	return ec._retrieveTokenInfoResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNretrieveTokenInfoResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoResponse(ctx context.Context, sel ast.SelectionSet, v *model.RetrieveTokenInfoResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._retrieveTokenInfoResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNupdateBusinessCompanyOperationHoursRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐUpdateBusinessCompanyOperationHoursRequest(ctx context.Context, v interface{}) (model.UpdateBusinessCompanyOperationHoursRequest, error) {

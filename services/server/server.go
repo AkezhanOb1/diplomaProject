@@ -1,9 +1,10 @@
 package main
 
 import (
-	"google.golang.org/grpc"
 	"log"
 	"net"
+
+	"google.golang.org/grpc"
 
 	pbCategory "github.com/AkezhanOb1/diplomaProject/api/proto/business/categories"
 	pbCompany "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
@@ -19,7 +20,6 @@ import (
 	"github.com/AkezhanOb1/diplomaProject/services/business/service"
 	"github.com/AkezhanOb1/diplomaProject/services/business/subCategory"
 )
-
 
 func main() {
 	address := "0.0.0.0:50051"

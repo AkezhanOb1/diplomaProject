@@ -58,11 +58,7 @@ func GetBusinessSubCategories(ctx context.Context) (*pb.BusinessSubCategoriesRes
 	}()
 
 	c := pb.NewBusinessSubCategoryServiceClient(cc)
-	e := empty.Empty{
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
-	}
+	e := empty.Empty{}
 
 	subCategories, err := c.GetBusinessSubCategories(ctx, &e)
 	if err != nil {

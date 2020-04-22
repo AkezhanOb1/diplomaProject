@@ -43,3 +43,32 @@ func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerReque
 	return businessOwner, nil
 }
 
+
+//CheckOwnerPassword is
+func CheckOwnerPassword(ctx context.Context, email string, password string) (*pb.CheckOwnerPasswordResponse, error) {
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer func(){
+		err = cc.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+
+	c := pb.NewBusinessOwnerServiceClient(cc)
+
+	r := pb.CheckOwnerPasswordRequest{
+		Email: email,
+		Password: password,
+	}
+
+	valid, err := c.CheckOwnerPassword(context.Background(), &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return valid, nil
+}

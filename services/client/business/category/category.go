@@ -24,11 +24,7 @@ func GetBusinessCategories(ctx context.Context) ([]*pb.BusinessCategory, error) 
 	}()
 
 	c := pb.NewBusinessCategoryServiceClient(cc)
-	e := empty.Empty{
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
-	}
+	e := empty.Empty{}
 
 	categories, err := c.GetBusinessCategories(ctx, &e)
 	if err != nil {

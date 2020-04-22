@@ -6,17 +6,20 @@ package graph
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/generated"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	"github.com/AkezhanOb1/diplomaProject/pkg"
+	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
 	c "github.com/AkezhanOb1/diplomaProject/services/client/business/category"
 	bc "github.com/AkezhanOb1/diplomaProject/services/client/business/company"
 	cs "github.com/AkezhanOb1/diplomaProject/services/client/business/companyService"
 	bo "github.com/AkezhanOb1/diplomaProject/services/client/business/owner"
 	bs "github.com/AkezhanOb1/diplomaProject/services/client/business/service"
 	sc "github.com/AkezhanOb1/diplomaProject/services/client/business/subCategories"
+
 )
 
 func (r *mutationResolver) CreateBusinessCompany(ctx context.Context, input model.CreateBusinessCompanyRequest) (*model.BusinessCompany, error) {
@@ -189,6 +192,29 @@ func (r *mutationResolver) DeleteBusinessCompanyOperationHours(ctx context.Conte
 	}
 
 	return resp, nil
+}
+
+func (r *mutationResolver) GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.GenerateTokenResponse, error) {
+	validatePassword, err := bo.CheckOwnerPassword(ctx, input.Email, input.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	if validatePassword.GetValid() == false {
+		return nil, fmt.Errorf("password or email is invalid")
+	}
+
+	token, err := t.GenerateToken(input.Email, input.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.GenerateTokenResponse{
+		AccessToken:  token.GetAccessToken(),
+		RefreshToken: token.GetRefreshToken(),
+		ExpiresIn:    token.GetExpiresIn(),
+		TokenType:    token.GetTokenType(),
+	}, nil
 }
 
 func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error) {
@@ -493,6 +519,20 @@ func (r *queryResolver) GetCompanyServicesUnderSubCategory(ctx context.Context, 
 	}
 
 	return &resp, nil
+}
+
+func (r *queryResolver) RetrieveTokenInfo(ctx context.Context, input model.RetrieveTokenInfoRequst) (*model.RetrieveTokenInfoResponse, error) {
+
+	token, err := t.RetrieveTokenInformation(input.AccessToken)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.RetrieveTokenInfoResponse{
+		Email:     token.GetEmail(),
+		ExpiresAt: token.GetExpiresAt(),
+		IssuedAt:  token.GetIssuedAt(),
+	}, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

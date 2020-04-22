@@ -59,11 +59,7 @@ func GetBusinessCompanies(ctx context.Context) (*pb.GetBusinessCompaniesResponse
 	}()
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
-	e := empty.Empty{
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
-	}
+	e := empty.Empty{}
 
 	companies, err := c.GetBusinessCompanies(ctx, &e)
 	if err != nil {

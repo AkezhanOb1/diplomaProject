@@ -222,6 +222,27 @@ type deleteCompanyServiceResponse {
   companyService: CompanyService!
 }
 
+input retrieveTokenInfoRequst {
+  accessToken: String!
+}
+
+type retrieveTokenInfoResponse {
+  email: String!
+  expiresAt: Int!
+  issuedAt: Int!
+}
+
+input generateTokenRequest {
+  email: String!
+  password: String!
+}
+
+type generateTokenResponse {
+  accessToken: String!
+  refreshToken: String!
+  expiresIn: Int!
+  tokenType: String!
+}
 
 type Query {
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
@@ -246,6 +267,7 @@ type Query {
   getCompanyServices: CompanyServices!
   getCompanyServicesUnderSubCategory(input: getCompanyServicesUnderSubCategoryRequest!): CompanyServices!
 
+  retrieveTokenInfo(input: retrieveTokenInfoRequst!) : retrieveTokenInfoResponse!
 }
 
 type Mutation {
@@ -261,6 +283,8 @@ type Mutation {
   createBusinessCompanyOperationHours(input: createBusinessCompanyOperationHoursRequest!): createBusinessCompanyOperationHoursResponse!
   updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
   deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
+
+  generateToken(input: generateTokenRequest!) : generateTokenResponse!
 }
 
 

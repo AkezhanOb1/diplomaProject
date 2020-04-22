@@ -157,6 +157,18 @@ type DeleteCompanyServiceResponse struct {
 	CompanyService *CompanyService `json:"companyService"`
 }
 
+type GenerateTokenRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type GenerateTokenResponse struct {
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	ExpiresIn    int64  `json:"expiresIn"`
+	TokenType    string `json:"tokenType"`
+}
+
 type GetBusinessCompanyOperationHoursRequest struct {
 	BusinessCompanyID int64 `json:"businessCompanyID"`
 }
@@ -192,6 +204,16 @@ type GetCompanyServicesUnderSubCategoryRequest struct {
 type GetGetBusinessCompanyOperationHourByDayRequest struct {
 	BusinessCompanyID int64 `json:"businessCompanyID"`
 	DayOfWeek         int64 `json:"dayOfWeek"`
+}
+
+type RetrieveTokenInfoRequst struct {
+	AccessToken string `json:"accessToken"`
+}
+
+type RetrieveTokenInfoResponse struct {
+	Email     string `json:"email"`
+	ExpiresAt int64  `json:"expiresAt"`
+	IssuedAt  int64  `json:"issuedAt"`
 }
 
 type UpdateBusinessCompanyOperationHoursRequest struct {

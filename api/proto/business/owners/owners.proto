@@ -1,7 +1,8 @@
 syntax="proto3";
 
 package businessOwners;
-option go_package="owners";
+option go_package=".;owners";
+
 
 message BusinessOwner {
     int64 businessOwnerID = 1;
@@ -33,8 +34,17 @@ message BindCompanyToBusinessOwnerResponse{
     bool BindSuccess = 1;
 }
 
+message CheckOwnerPasswordRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message CheckOwnerPasswordResponse {
+    bool valid = 1;
+}
 
 service BusinessOwnerService {
     rpc CreateBusinessOwner(CreateBusinessOwnerRequest) returns (CreateBusinessOwnerResponse) {}
     rpc BindCompanyToBusinessOwner(BindCompanyToBusinessOwnerRequest) returns (BindCompanyToBusinessOwnerResponse) {}
+    rpc CheckOwnerPassword(CheckOwnerPasswordRequest) returns () {}
 }
