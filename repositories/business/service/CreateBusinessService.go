@@ -17,12 +17,7 @@ func  CreateBusinessService(ctx context.Context, serviceName string, subCategori
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(context.Background())
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer conn.Close(ctx)
 
 
 	sqlQuery := `INSERT INTO business_service(name) VALUES ($1) RETURNING id;`
@@ -63,9 +58,6 @@ func  CreateBusinessService(ctx context.Context, serviceName string, subCategori
 			BusinessServiceID:    serviceID,
 			BusinessServiceName:  serviceName,
 			SubCategories:        subCategories,
-			XXX_NoUnkeyedLiteral: struct{}{},
-			XXX_unrecognized:     nil,
-			XXX_sizecache:        0,
 		},
 	}, nil
 }

@@ -3,8 +3,7 @@ syntax="proto3";
 import "google/protobuf/empty.proto";
 
 package companyServices;
-option go_package="companyServices";
-
+option go_package = ".;companyServices";
 
 message CompanyService {
     int64 companyServiceID = 1;
@@ -71,11 +70,75 @@ message GetCompanyServicesUnderSubCategoryResponse {
 }
 
 
+message BusinessCompanyServiceOperationHour {
+    int64 serviceOperationHourID = 1;
+    int64 businessCompanyID = 2;
+    int64 businessServiceID = 3;
+    int64 dayOfWeek = 4;
+    string openTime = 5;
+    string closeTime = 6;
+}
+
+
+message GetBusinessCompanyServiceOperationHourByDayRequest {
+    int64 serviceID = 1;
+    int64 dayOfWeek = 2;
+}
+
+message GetBusinessCompanyServiceOperationHourByDayResponse {
+    BusinessCompanyServiceOperationHour businessCompanyServiceOperationHour = 1;
+}
+
+message GetBusinessCompanyServiceOperationHoursRequest {
+    int64 serviceID = 1;
+}
+
+message GetBusinessCompanyServiceOperationHoursResponse {
+    repeated BusinessCompanyServiceOperationHour businessCompanyServiceOperationHour = 1;
+}
+
+message CreateBusinessCompanyServiceOperationHourRequest {
+    int64 businessCompanyID = 1;
+    int64 businessServiceID = 2;
+    int64 dayOfWeek = 3;
+    string openTime = 4;
+    string closeTime = 5;
+}
+
+message CreateBusinessCompanyServiceOperationHourResponse {
+    BusinessCompanyServiceOperationHour businessCompanyServiceOperationHour = 1;
+}
+
+message UpdateBusinessCompanyServiceOperationHourRequest {
+    BusinessCompanyServiceOperationHour businessCompanyServiceOperationHour = 1;
+}
+
+message UpdateBusinessCompanyServiceOperationHourResponse {
+    BusinessCompanyServiceOperationHour businessCompanyServiceOperationHour = 1;
+}
+
+message DeleteBusinessCompanyServiceOperationHourRequest {
+    int64 OperationHourID = 1;
+}
+
+message DeleteBusinessCompanyServiceOperationHourResponse {
+    BusinessCompanyServiceOperationHour businessCompanyServiceOperationHour = 1;
+}
+
+
+
 service CompanyServices {
     rpc GetCompanyService(GetCompanyServiceRequest) returns (GetCompanyServiceResponse) {}
     rpc GetCompanyServices(google.protobuf.Empty) returns (GetCompanyServicesResponse) {}
+    rpc GetBusinessCompanyServiceOperationHourByDay(GetBusinessCompanyServiceOperationHourByDayRequest) returns (GetBusinessCompanyServiceOperationHourByDayResponse) {}
+    rpc GetBusinessCompanyServiceOperationHours(GetBusinessCompanyServiceOperationHoursRequest) returns (GetBusinessCompanyServiceOperationHoursResponse) {}
+
+
     rpc CreateCompanyService(CreateCompanyServiceRequest) returns (CreateCompanyServiceResponse) {}
     rpc UpdateCompanyService(UpdateCompanyServiceRequest) returns (UpdateCompanyServiceResponse) {}
     rpc DeleteCompanyService(DeleteCompanyServiceRequest) returns (DeleteCompanyServiceResponse) {}
     rpc GetCompanyServicesUnderSubCategory(GetCompanyServicesUnderSubCategoryRequest) returns (GetCompanyServicesUnderSubCategoryResponse) {}
+    rpc CreateBusinessCompanyServiceOperationHour(CreateBusinessCompanyServiceOperationHourRequest) returns (CreateBusinessCompanyServiceOperationHourResponse){}
+    rpc UpdateBusinessCompanyServiceOperationHour(UpdateBusinessCompanyServiceOperationHourRequest) returns (UpdateBusinessCompanyServiceOperationHourResponse) {}
+    rpc DeleteBusinessCompanyServiceOperationHour(DeleteBusinessCompanyServiceOperationHourRequest) returns (DeleteBusinessCompanyServiceOperationHourResponse) {}
 }

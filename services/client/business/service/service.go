@@ -30,9 +30,6 @@ func GetBusinessService(ctx context.Context, id int64) (*pb.GetBusinessServiceRe
 
 	e := pb.GetBusinessServiceRequest{
 		BusinessServiceID:   id,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	service, err := c.GetBusinessService(ctx, &e)
@@ -51,12 +48,8 @@ func GetBusinessServices(ctx context.Context) (*pb.GetBusinessServicesResponse, 
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessServicesClient(cc)
 	e := empty.Empty{}
@@ -87,9 +80,6 @@ func GetServicesUnderSubCategory(ctx context.Context, subCategoryID int64) (*pb.
 	c := pb.NewBusinessServicesClient(cc)
 	e := pb.GetServicesUnderSubCategoryRequest{
 		SubCategoryID:   subCategoryID,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	services, err := c.GetServicesUnderSubCategory(ctx, &e)
@@ -119,9 +109,6 @@ func CreateBusinessService(ctx context.Context, serviceName string, subCategorie
 	e := pb.CreateBusinessServiceRequest{
 		BusinessServiceName: serviceName,
 		SubCategories:  subCategories,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	services, err := c.CreateBusinessService(ctx, &e)

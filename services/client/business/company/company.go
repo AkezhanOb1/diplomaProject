@@ -51,12 +51,7 @@ func GetBusinessCompanies(ctx context.Context) (*pb.GetBusinessCompaniesResponse
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer  cc.Close()
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 	e := empty.Empty{}

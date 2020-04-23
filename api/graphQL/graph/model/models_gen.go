@@ -33,6 +33,19 @@ type BusinessCompanyOperationHours struct {
 	BusinessCompanyOperationHour []BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
 }
 
+type BusinessCompanyServiceOperationHour struct {
+	ServiceOperationHourID int64  `json:"serviceOperationHourID"`
+	BusinessCompanyID      int64  `json:"businessCompanyID"`
+	BusinessServiceID      int64  `json:"businessServiceID"`
+	DayOfWeek              int64  `json:"dayOfWeek"`
+	OpenTime               string `json:"openTime"`
+	CloseTime              string `json:"closeTime"`
+}
+
+type BusinessCompanyServiceOperationHours struct {
+	BusinessCompanyServiceOperationHour []BusinessCompanyServiceOperationHour `json:"businessCompanyServiceOperationHour"`
+}
+
 type BusinessOwner struct {
 	BusinessOwnerID                int64  `json:"businessOwnerID"`
 	BusinessOwnerName              string `json:"businessOwnerName"`
@@ -121,6 +134,10 @@ type BusinessCompanyService struct {
 	CompanyServicePrice    float64 `json:"companyServicePrice"`
 }
 
+type BusinessCompanyServiceOperationHourResponse struct {
+	BusinessCompanyServiceOperationHour *BusinessCompanyServiceOperationHour `json:"businessCompanyServiceOperationHour"`
+}
+
 type CreateBusinessCompanyOperationHoursRequest struct {
 	BusinessCompanyID int64  `json:"businessCompanyID"`
 	DayOfWeek         int64  `json:"dayOfWeek"`
@@ -130,6 +147,18 @@ type CreateBusinessCompanyOperationHoursRequest struct {
 
 type CreateBusinessCompanyOperationHoursResponse struct {
 	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
+}
+
+type CreateBusinessCompanyServiceOperationHoursRequest struct {
+	BusinessCompanyID int64  `json:"businessCompanyID"`
+	BusinessServiceID int64  `json:"businessServiceID"`
+	DayOfWeek         int64  `json:"dayOfWeek"`
+	OpenTime          string `json:"openTime"`
+	CloseTime         string `json:"closeTime"`
+}
+
+type CreateBusinessCompanyServiceOperationHoursResponse struct {
+	BusinessCompanyServiceOperationHour *BusinessCompanyServiceOperationHour `json:"businessCompanyServiceOperationHour"`
 }
 
 type CreateBusinessServiceRequest struct {
@@ -161,6 +190,14 @@ type DeleteBusinessCompanyOperationHoursResponse struct {
 	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
 }
 
+type DeleteBusinessCompanyServiceOperationHoursRequest struct {
+	OperationHourID int64 `json:"operationHourID"`
+}
+
+type DeleteBusinessCompanyServiceOperationHoursResponse struct {
+	BusinessCompanyServiceOperationHour *BusinessCompanyServiceOperationHour `json:"businessCompanyServiceOperationHour"`
+}
+
 type DeleteCompanyServiceRequest struct {
 	CompanyServiceID int64 `json:"companyServiceID"`
 }
@@ -187,6 +224,10 @@ type GetBusinessCompanyOperationHoursRequest struct {
 
 type GetBusinessCompanyRequest struct {
 	BusinessCompanyID int64 `json:"businessCompanyID"`
+}
+
+type GetBusinessCompanyServiceOperationHoursRequest struct {
+	ServiceID int64 `json:"serviceID"`
 }
 
 type GetBusinessCompanyServicesRequest struct {
@@ -226,6 +267,11 @@ type GetGetBusinessCompanyOperationHourByDayRequest struct {
 	DayOfWeek         int64 `json:"dayOfWeek"`
 }
 
+type GetGetBusinessCompanyServiceOperationHourByDayRequest struct {
+	ServiceID int64 `json:"serviceID"`
+	DayOfWeek int64 `json:"dayOfWeek"`
+}
+
 type RetrieveTokenInfoRequst struct {
 	AccessToken string `json:"accessToken"`
 }
@@ -246,6 +292,19 @@ type UpdateBusinessCompanyOperationHoursRequest struct {
 
 type UpdateBusinessCompanyOperationHoursResponse struct {
 	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
+}
+
+type UpdateBusinessCompanyServiceOperationHoursRequest struct {
+	OperationHourID   int64  `json:"operationHourID"`
+	BusinessCompanyID int64  `json:"businessCompanyID"`
+	BusinessServiceID int64  `json:"businessServiceID"`
+	DayOfWeek         int64  `json:"dayOfWeek"`
+	OpenTime          string `json:"openTime"`
+	CloseTime         string `json:"closeTime"`
+}
+
+type UpdateBusinessCompanyServiceOperationHoursResponse struct {
+	BusinessCompanyServiceOperationHour *BusinessCompanyServiceOperationHour `json:"businessCompanyServiceOperationHour"`
 }
 
 type UpdateCompanyServiceRequest struct {

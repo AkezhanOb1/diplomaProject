@@ -208,6 +208,69 @@ func (r *mutationResolver) DeleteBusinessCompanyOperationHours(ctx context.Conte
 	return resp, nil
 }
 
+func (r *mutationResolver) CreateBusinessCompanyServiceOperationHours(ctx context.Context, input model.CreateBusinessCompanyServiceOperationHoursRequest) (*model.CreateBusinessCompanyServiceOperationHoursResponse, error) {
+	newOperationHours, err := cs.CreateBusinessCompanyServiceOperationHour(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var operationHours = newOperationHours.GetBusinessCompanyServiceOperationHour()
+	var resp = &model.CreateBusinessCompanyServiceOperationHoursResponse{
+		BusinessCompanyServiceOperationHour: &model.BusinessCompanyServiceOperationHour{
+			ServiceOperationHourID: operationHours.GetServiceOperationHourID(),
+			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
+			BusinessServiceID:      operationHours.GetBusinessServiceID(),
+			DayOfWeek:              operationHours.GetDayOfWeek(),
+			OpenTime:               operationHours.GetOpenTime(),
+			CloseTime:              operationHours.GetCloseTime(),
+		},
+	}
+
+	return resp, nil
+}
+
+func (r *mutationResolver) UpdateBusinessCompanyServiceOperationHours(ctx context.Context, input model.UpdateBusinessCompanyServiceOperationHoursRequest) (*model.UpdateBusinessCompanyServiceOperationHoursResponse, error) {
+	updatesOperationHour, err := cs.UpdateBusinessCompanyServiceOperationHour(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var operationHours = updatesOperationHour.GetBusinessCompanyServiceOperationHour()
+	var resp = &model.UpdateBusinessCompanyServiceOperationHoursResponse{
+		BusinessCompanyServiceOperationHour: &model.BusinessCompanyServiceOperationHour{
+			ServiceOperationHourID: operationHours.GetServiceOperationHourID(),
+			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
+			BusinessServiceID: 		operationHours.GetBusinessServiceID(),
+			DayOfWeek:              operationHours.GetDayOfWeek(),
+			OpenTime:               operationHours.GetOpenTime(),
+			CloseTime:              operationHours.GetCloseTime(),
+		},
+	}
+
+	return resp, nil
+}
+
+func (r *mutationResolver) DeleteBusinessCompanyServiceOperationHours(ctx context.Context, input model.DeleteBusinessCompanyServiceOperationHoursRequest) (*model.DeleteBusinessCompanyServiceOperationHoursResponse, error) {
+	deletedOperationHour, err := cs.DeleteBusinessCompanyServiceOperationHour(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var operationHours = deletedOperationHour.GetBusinessCompanyServiceOperationHour()
+	var resp = &model.DeleteBusinessCompanyServiceOperationHoursResponse{
+		BusinessCompanyServiceOperationHour: &model.BusinessCompanyServiceOperationHour{
+			ServiceOperationHourID: operationHours.GetServiceOperationHourID(),
+			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
+			BusinessServiceID:      operationHours.GetBusinessServiceID(),
+			DayOfWeek:              operationHours.GetDayOfWeek(),
+			OpenTime:               operationHours.GetOpenTime(),
+			CloseTime:              operationHours.GetCloseTime(),
+		},
+	}
+
+	return resp, nil
+}
+
 func (r *mutationResolver) GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.Token, error) {
 	validatePassword, err := bo.CheckOwnerPassword(ctx, input.Email, input.Password)
 	if err != nil {
@@ -302,7 +365,8 @@ func (r *queryResolver) GetBusinessOwnerCompanies(ctx context.Context, input *mo
 		return nil, err
 	}
 
-	return &resp, nil}
+	return &resp, nil
+}
 
 func (r *queryResolver) GetBusinessCompanyOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyOperationHourByDayRequest) (*model.BusinessCompanyOperationHourResponse, error) {
 	operationHours, err := bc.GetBusinessCompanyOperationHourByDay(ctx, input.BusinessCompanyID, input.DayOfWeek)
@@ -336,6 +400,43 @@ func (r *queryResolver) GetBusinessCompanyOperationHours(ctx context.Context, in
 	}
 
 	var resp model.BusinessCompanyOperationHours
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
+func (r *queryResolver) GetBusinessCompanyServiceOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyServiceOperationHourByDayRequest) (*model.BusinessCompanyServiceOperationHourResponse, error) {
+	operationHours, err := cs.GetBusinessCompanyServiceOperationHourByDay(ctx, input.ServiceID, input.DayOfWeek)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.BusinessCompanyServiceOperationHourResponse{
+		BusinessCompanyServiceOperationHour: &model.BusinessCompanyServiceOperationHour{
+			ServiceOperationHourID: operationHours.BusinessCompanyServiceOperationHour.GetServiceOperationHourID(),
+			BusinessCompanyID:      operationHours.BusinessCompanyServiceOperationHour.GetBusinessCompanyID(),
+			BusinessServiceID:      operationHours.BusinessCompanyServiceOperationHour.GetBusinessServiceID(),
+			DayOfWeek:              operationHours.BusinessCompanyServiceOperationHour.GetDayOfWeek(),
+			OpenTime:               operationHours.BusinessCompanyServiceOperationHour.GetOpenTime(),
+			CloseTime:              operationHours.BusinessCompanyServiceOperationHour.GetCloseTime(),
+	}}, nil
+}
+
+func (r *queryResolver) GetBusinessCompanyServiceOperationHours(ctx context.Context, input *model.GetBusinessCompanyServiceOperationHoursRequest) (*model.BusinessCompanyServiceOperationHours, error) {
+	operationHours, err := cs.GetBusinessCompanyServiceOperationHours(ctx, input.ServiceID)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(operationHours)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.BusinessCompanyServiceOperationHours
 	err = json.Unmarshal(b, &resp)
 	if err != nil {
 		return nil, err

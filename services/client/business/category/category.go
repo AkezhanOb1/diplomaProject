@@ -16,12 +16,7 @@ func GetBusinessCategories(ctx context.Context) ([]*pb.BusinessCategory, error) 
 	if err != nil {
 		return nil, err
 	}
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
 
 	c := pb.NewBusinessCategoryServiceClient(cc)
 	e := empty.Empty{}

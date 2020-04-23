@@ -266,6 +266,66 @@ type generateTokenResponse {
   tokenType: String!
 }
 
+##########################################################
+type BusinessCompanyServiceOperationHour {
+  serviceOperationHourID: ID!
+  businessCompanyID: Int!
+  businessServiceID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+input getGetBusinessCompanyServiceOperationHourByDayRequest {
+  serviceID: Int!
+  dayOfWeek: Int!
+}
+
+type businessCompanyServiceOperationHourResponse {
+  businessCompanyServiceOperationHour: BusinessCompanyServiceOperationHour!
+}
+
+input getBusinessCompanyServiceOperationHoursRequest {
+  serviceID: Int!
+}
+
+type BusinessCompanyServiceOperationHours {
+  businessCompanyServiceOperationHour: [BusinessCompanyServiceOperationHour!]!
+}
+
+input createBusinessCompanyServiceOperationHoursRequest {
+  businessCompanyID: Int!
+  businessServiceID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+type createBusinessCompanyServiceOperationHoursResponse {
+  businessCompanyServiceOperationHour: BusinessCompanyServiceOperationHour!
+}
+
+input updateBusinessCompanyServiceOperationHoursRequest {
+  operationHourID: Int!
+  businessCompanyID: Int!
+  businessServiceID: Int!
+  dayOfWeek: Int!
+  openTime: String!
+  closeTime: String!
+}
+
+type updateBusinessCompanyServiceOperationHoursResponse {
+  businessCompanyServiceOperationHour: BusinessCompanyServiceOperationHour!
+}
+
+input deleteBusinessCompanyServiceOperationHoursRequest {
+  operationHourID: Int!
+}
+
+type deleteBusinessCompanyServiceOperationHoursResponse {
+  businessCompanyServiceOperationHour: BusinessCompanyServiceOperationHour!
+}
+
 type Query {
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
@@ -275,6 +335,9 @@ type Query {
 
   getBusinessCompanyOperationHourByDay(input: getGetBusinessCompanyOperationHourByDayRequest): businessCompanyOperationHourResponse!
   getBusinessCompanyOperationHours(input: getBusinessCompanyOperationHoursRequest): BusinessCompanyOperationHours!
+
+  getBusinessCompanyServiceOperationHourByDay(input: getGetBusinessCompanyServiceOperationHourByDayRequest): businessCompanyServiceOperationHourResponse!
+  getBusinessCompanyServiceOperationHours(input: getBusinessCompanyServiceOperationHoursRequest): BusinessCompanyServiceOperationHours!
 
   getBusinessCategory(input: BusinessCategoryRequest!): BusinessCategory!
   getBusinessCategories: [BusinessCategory!]!
@@ -307,6 +370,11 @@ type Mutation {
   createBusinessCompanyOperationHours(input: createBusinessCompanyOperationHoursRequest!): createBusinessCompanyOperationHoursResponse!
   updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
   deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
+
+  createBusinessCompanyServiceOperationHours(input: createBusinessCompanyServiceOperationHoursRequest!): createBusinessCompanyServiceOperationHoursResponse!
+  updateBusinessCompanyServiceOperationHours(input: updateBusinessCompanyServiceOperationHoursRequest!): updateBusinessCompanyServiceOperationHoursResponse!
+  deleteBusinessCompanyServiceOperationHours(input: deleteBusinessCompanyServiceOperationHoursRequest!): deleteBusinessCompanyServiceOperationHoursResponse!
+
 
   generateToken(input: generateTokenRequest!) : Token!
 }

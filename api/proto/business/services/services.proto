@@ -3,7 +3,7 @@ syntax="proto3";
 import "google/protobuf/empty.proto";
 
 package businessServices;
-option go_package="services";
+option go_package=".;services";
 
 
 message BusinessService {
@@ -41,9 +41,12 @@ message GetServicesUnderSubCategoryResponse {
     repeated BusinessService businessServices = 1;
 }
 
+
+
 service BusinessServices {
-    rpc GetBusinessService(GetBusinessServiceRequest) returns (GetBusinessServiceResponse) {}
-    rpc GetBusinessServices(google.protobuf.Empty) returns (GetBusinessServicesResponse) {}
-    rpc GetServicesUnderSubCategory(GetServicesUnderSubCategoryRequest) returns (GetServicesUnderSubCategoryResponse) {}
-    rpc CreateBusinessService(CreateBusinessServiceRequest) returns (CreateBusinessServiceResponse) {}
+    rpc GetBusinessService (GetBusinessServiceRequest) returns (GetBusinessServiceResponse) {}
+    rpc GetBusinessServices (google.protobuf.Empty) returns (GetBusinessServicesResponse) {}
+    rpc GetServicesUnderSubCategory (GetServicesUnderSubCategoryRequest) returns (GetServicesUnderSubCategoryResponse) {}
+
+    rpc CreateBusinessService (CreateBusinessServiceRequest) returns (CreateBusinessServiceResponse) {}
 }

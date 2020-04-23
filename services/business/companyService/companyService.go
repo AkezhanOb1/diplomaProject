@@ -10,6 +10,31 @@ import (
 
 type Server struct {}
 
+
+
+//GetBusinessCompanyServiceOperationHourByDay is
+func (*Server) GetBusinessCompanyServiceOperationHourByDay(ctx context.Context, request *pb.GetBusinessCompanyServiceOperationHourByDayRequest) (*pb.GetBusinessCompanyServiceOperationHourByDayResponse, error) {
+	dayOfWeek := request.GetDayOfWeek()
+	serviceID := request.GetServiceID()
+	operationHour, err := db.GetBusinessCompanyServiceOperationHourByDayRepository(ctx, serviceID, dayOfWeek)
+	if err != nil {
+		return nil, err
+	}
+
+	return operationHour, nil
+}
+
+//GetBusinessCompanyServiceOperationHours is
+func (*Server) GetBusinessCompanyServiceOperationHours(ctx context.Context, request *pb.GetBusinessCompanyServiceOperationHoursRequest) (*pb.GetBusinessCompanyServiceOperationHoursResponse, error) {
+	serviceID := request.GetServiceID()
+	operationHours, err := db.GetBusinessCompanyServiceOperationHoursRepository(ctx, serviceID)
+	if err != nil {
+		return nil, err
+	}
+
+	return operationHours, nil
+}
+
 //GetCompanyService is
 func (*Server) GetCompanyService(ctx context.Context, request *pb.GetCompanyServiceRequest) (*pb.GetCompanyServiceResponse, error) {
 	serviceID := request.GetCompanyServiceID()
@@ -79,4 +104,37 @@ func (*Server) DeleteCompanyService(ctx context.Context, request *pb.DeleteCompa
 }
 
 
+//CreateBusinessCompanyServiceOperationHour is
+func (*Server) CreateBusinessCompanyServiceOperationHour(ctx context.Context, request *pb.CreateBusinessCompanyServiceOperationHourRequest) (*pb.CreateBusinessCompanyServiceOperationHourResponse, error) {
+	businessCompanyService, err := db.CreateBusinessCompanyServiceOperationHourRepository(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return businessCompanyService, nil
+}
+
+
+
+//UpdateBusinessCompanyServiceOperationHour is
+func (*Server) UpdateBusinessCompanyServiceOperationHour(ctx context.Context, request *pb.UpdateBusinessCompanyServiceOperationHourRequest) (*pb.UpdateBusinessCompanyServiceOperationHourResponse, error) {
+	updatedOperationHour, err := db.UpdateBusinessCompanyServiceOperationHourRepository(ctx, request.BusinessCompanyServiceOperationHour)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedOperationHour, nil
+}
+
+
+//DeleteBusinessCompanyServiceOperationHour is
+func (*Server) DeleteBusinessCompanyServiceOperationHour(ctx context.Context, request *pb.DeleteBusinessCompanyServiceOperationHourRequest) (*pb.DeleteBusinessCompanyServiceOperationHourResponse, error) {
+	var operationHourID = request.OperationHourID
+	deletedOperationHour, err := db.DeleteBusinessCompanyServiceOperationHourRepository(ctx, operationHourID)
+	if err != nil {
+		return nil, err
+	}
+
+	return deletedOperationHour, nil
+}
 
