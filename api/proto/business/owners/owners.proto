@@ -43,8 +43,23 @@ message CheckOwnerPasswordResponse {
     bool valid = 1;
 }
 
+message GetBusinessOwnerCompaniesRequest {
+    string email = 1;
+}
+
+message BusinessCompany {
+    int64 businessCompanyID = 1;
+    int64 businessCompanyCategoryID = 2;
+    string businessCompanyName = 3;
+}
+
+message GetBusinessOwnerCompaniesResponse {
+    repeated BusinessCompany companies = 1;
+}
+
 service BusinessOwnerService {
+    rpc GetBusinessOwnerCompanies(GetBusinessOwnerCompaniesRequest) returns (GetBusinessOwnerCompaniesResponse) {}
     rpc CreateBusinessOwner(CreateBusinessOwnerRequest) returns (CreateBusinessOwnerResponse) {}
     rpc BindCompanyToBusinessOwner(BindCompanyToBusinessOwnerRequest) returns (BindCompanyToBusinessOwnerResponse) {}
-    rpc CheckOwnerPassword(CheckOwnerPasswordRequest) returns () {}
+    rpc CheckOwnerPassword(CheckOwnerPasswordRequest) returns (CheckOwnerPasswordResponse) {}
 }

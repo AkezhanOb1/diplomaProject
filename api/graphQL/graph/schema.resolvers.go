@@ -12,14 +12,13 @@ import (
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/generated"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	"github.com/AkezhanOb1/diplomaProject/pkg"
-	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
 	c "github.com/AkezhanOb1/diplomaProject/services/client/business/category"
 	bc "github.com/AkezhanOb1/diplomaProject/services/client/business/company"
 	cs "github.com/AkezhanOb1/diplomaProject/services/client/business/companyService"
 	bo "github.com/AkezhanOb1/diplomaProject/services/client/business/owner"
 	bs "github.com/AkezhanOb1/diplomaProject/services/client/business/service"
 	sc "github.com/AkezhanOb1/diplomaProject/services/client/business/subCategories"
-
+	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
 )
 
 func (r *mutationResolver) CreateBusinessCompany(ctx context.Context, input model.CreateBusinessCompanyRequest) (*model.BusinessCompany, error) {
@@ -37,13 +36,13 @@ func (r *mutationResolver) CreateBusinessCompany(ctx context.Context, input mode
 	return resp, nil
 }
 
-func (r *mutationResolver) CreateBusinessOwner(ctx context.Context, input model.CreateBusinessOwnerRequest) (*model.BusinessOwner, error) {
+func (r *mutationResolver) CreateBusinessOwner(ctx context.Context, input model.CreateBusinessOwnerRequest) (*model.CreateBusinessOwnerResponse, error) {
 	newBusinessOwner, err := bo.CreateBusinessOwner(ctx, input)
 	if err != nil {
 		return nil, err
 	}
 
-	var resp = &model.BusinessOwner{
+	var owner = &model.BusinessOwner{
 		BusinessOwnerID:                newBusinessOwner.BusinessOwner.BusinessOwnerID,
 		BusinessOwnerName:              input.BusinessOwnerName,
 		BusinessOwnerEmail:             input.BusinessOwnerEmail,
@@ -51,7 +50,22 @@ func (r *mutationResolver) CreateBusinessOwner(ctx context.Context, input model.
 		BusinessOwnerPhoneNumber:       input.BusinessOwnerPhoneNumber,
 	}
 
-	return resp, nil
+	newToken, err := t.GenerateToken(input.BusinessOwnerEmail, input.BusinessOwnerPassword)
+	if err != nil {
+		return nil, err
+	}
+
+	var token = &model.Token{
+		AccessToken:  newToken.GetAccessToken(),
+		RefreshToken: newToken.GetRefreshToken(),
+		ExpiresIn:    newToken.GetExpiresIn(),
+		TokenType:    newToken.GetTokenType(),
+	}
+
+	return &model.CreateBusinessOwnerResponse{
+		BusinessOwner: owner,
+		Token:         token,
+	}, nil
 }
 
 func (r *mutationResolver) CreateBusinessService(ctx context.Context, input model.CreateBusinessServiceRequest) (*model.CreateBusinessServiceResponse, error) {
@@ -194,7 +208,7 @@ func (r *mutationResolver) DeleteBusinessCompanyOperationHours(ctx context.Conte
 	return resp, nil
 }
 
-func (r *mutationResolver) GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.GenerateTokenResponse, error) {
+func (r *mutationResolver) GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.Token, error) {
 	validatePassword, err := bo.CheckOwnerPassword(ctx, input.Email, input.Password)
 	if err != nil {
 		return nil, err
@@ -209,7 +223,7 @@ func (r *mutationResolver) GenerateToken(ctx context.Context, input model.Genera
 		return nil, err
 	}
 
-	return &model.GenerateTokenResponse{
+	return &model.Token{
 		AccessToken:  token.GetAccessToken(),
 		RefreshToken: token.GetRefreshToken(),
 		ExpiresIn:    token.GetExpiresIn(),
@@ -270,6 +284,25 @@ func (r *queryResolver) GetBusinessCompanyServices(ctx context.Context, input *m
 
 	return &resp, nil
 }
+
+func (r *queryResolver) GetBusinessOwnerCompanies(ctx context.Context, input *model.GetBusinessOwnerCompaniesRequest) (*model.GetBusinessOwnerCompaniesResponse, error) {
+	operationHours, err := bo.GetBusinessOwnerCompanies(ctx, input.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(operationHours)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.GetBusinessOwnerCompaniesResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil}
 
 func (r *queryResolver) GetBusinessCompanyOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyOperationHourByDayRequest) (*model.BusinessCompanyOperationHourResponse, error) {
 	operationHours, err := bc.GetBusinessCompanyOperationHourByDay(ctx, input.BusinessCompanyID, input.DayOfWeek)
@@ -522,7 +555,6 @@ func (r *queryResolver) GetCompanyServicesUnderSubCategory(ctx context.Context, 
 }
 
 func (r *queryResolver) RetrieveTokenInfo(ctx context.Context, input model.RetrieveTokenInfoRequst) (*model.RetrieveTokenInfoResponse, error) {
-
 	token, err := t.RetrieveTokenInformation(input.AccessToken)
 	if err != nil {
 		return nil, err

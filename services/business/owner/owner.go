@@ -9,6 +9,18 @@ import (
 
 type Server struct{}
 
+
+
+//GetBusinessOwnerCompanies
+func (s *Server) GetBusinessOwnerCompanies(ctx context.Context, request *pb.GetBusinessOwnerCompaniesRequest) (*pb.GetBusinessOwnerCompaniesResponse, error) {
+	companies, err := db.GetBusinessOwnerCompaniesRepository(ctx, request.GetEmail())
+	if err != nil {
+		return nil, err
+	}
+
+	return companies, nil
+}
+
 //CreateBusinessOwner is
 func (s *Server) CreateBusinessOwner(ctx context.Context, request *pb.CreateBusinessOwnerRequest) (*pb.CreateBusinessOwnerResponse, error) {
 	hashedPassword, err := hashPassword(request.GetBusinessOwnerPassword())

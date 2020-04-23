@@ -98,6 +98,18 @@ type CreateBusinessOwnerRequest struct {
 	BusinessOwnerPhoneNumber       string `json:"businessOwnerPhoneNumber"`
 }
 
+type CreateBusinessOwnerResponse struct {
+	BusinessOwner *BusinessOwner `json:"businessOwner"`
+	Token         *Token         `json:"token"`
+}
+
+type Token struct {
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	ExpiresIn    int64  `json:"expiresIn"`
+	TokenType    string `json:"tokenType"`
+}
+
 type BusinessCompanyOperationHourResponse struct {
 	BusinessCompanyOperationHour *BusinessCompanyOperationHour `json:"businessCompanyOperationHour"`
 }
@@ -183,6 +195,14 @@ type GetBusinessCompanyServicesRequest struct {
 
 type GetBusinessCompanyServicesResponse struct {
 	BusinessCompanyService []BusinessCompanyService `json:"businessCompanyService"`
+}
+
+type GetBusinessOwnerCompaniesRequest struct {
+	Email string `json:"email"`
+}
+
+type GetBusinessOwnerCompaniesResponse struct {
+	Companies []BusinessCompany `json:"companies"`
 }
 
 type GetBusinessServiceRequest struct {

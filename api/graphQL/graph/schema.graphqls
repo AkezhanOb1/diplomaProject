@@ -70,6 +70,15 @@ type BusinessOwner {
   businessOwnerPhoneNumber: String!
 }
 
+
+input getBusinessOwnerCompaniesRequest {
+  email: String!
+}
+
+type getBusinessOwnerCompaniesResponse {
+  companies: [BusinessCompany!]!
+}
+
 input CreateBusinessOwnerRequest {
   businessCompanyID: ID!
   businessOwnerName: String!
@@ -78,6 +87,12 @@ input CreateBusinessOwnerRequest {
   businessOwnerPhoneNumberPrefix: String!
   businessOwnerPhoneNumber: String!
 }
+
+type CreateBusinessOwnerResponse{
+  businessOwner: BusinessOwner!
+  token: Token!
+}
+
 
 type BusinessService {
   businessServiceID: ID!
@@ -222,6 +237,13 @@ type deleteCompanyServiceResponse {
   companyService: CompanyService!
 }
 
+type Token {
+  accessToken: String!
+  refreshToken: String!
+  expiresIn: Int!
+  tokenType: String!
+}
+
 input retrieveTokenInfoRequst {
   accessToken: String!
 }
@@ -249,6 +271,8 @@ type Query {
   getBusinessCompanies: BusinessCompanies!
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
 
+  getBusinessOwnerCompanies(input: getBusinessOwnerCompaniesRequest): getBusinessOwnerCompaniesResponse!
+
   getBusinessCompanyOperationHourByDay(input: getGetBusinessCompanyOperationHourByDayRequest): businessCompanyOperationHourResponse!
   getBusinessCompanyOperationHours(input: getBusinessCompanyOperationHoursRequest): BusinessCompanyOperationHours!
 
@@ -272,7 +296,7 @@ type Query {
 
 type Mutation {
   createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
-  createBusinessOwner(input: CreateBusinessOwnerRequest!): BusinessOwner!
+  createBusinessOwner(input: CreateBusinessOwnerRequest!): CreateBusinessOwnerResponse!
 
   createBusinessService(input: createBusinessServiceRequest!): createBusinessServiceResponse!
 
@@ -284,7 +308,7 @@ type Mutation {
   updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
   deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
 
-  generateToken(input: generateTokenRequest!) : generateTokenResponse!
+  generateToken(input: generateTokenRequest!) : Token!
 }
 
 

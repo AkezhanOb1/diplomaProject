@@ -10,6 +10,30 @@ import (
 )
 
 
+
+//GetBusinessOwnerCompanies is a
+func GetBusinessOwnerCompanies(ctx context.Context, email string) (*pb.GetBusinessOwnerCompaniesResponse, error) {
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
+	c := pb.NewBusinessOwnerServiceClient(cc)
+
+	r := pb.GetBusinessOwnerCompaniesRequest{
+		Email:email,
+	}
+
+	businessOwner, err := c.GetBusinessOwnerCompanies(ctx, &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return businessOwner, nil
+}
+
 //CreateBusinessOwner is a client function for creating a business owner
 func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerRequest) (*pb.CreateBusinessOwnerResponse, error) {
 	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
@@ -35,7 +59,7 @@ func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerReque
 		BusinessCompanyID:              req.BusinessCompanyID,
 	}
 
-	businessOwner, err := c.CreateBusinessOwner(context.Background(), &r)
+	businessOwner, err := c.CreateBusinessOwner(ctx, &r)
 	if err != nil {
 		return nil, err
 	}

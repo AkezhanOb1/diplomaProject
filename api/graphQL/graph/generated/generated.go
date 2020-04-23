@@ -113,6 +113,11 @@ type ComplexityRoot struct {
 		CompanyServices func(childComplexity int) int
 	}
 
+	CreateBusinessOwnerResponse struct {
+		BusinessOwner func(childComplexity int) int
+		Token         func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateBusinessCompany               func(childComplexity int, input model.CreateBusinessCompanyRequest) int
 		CreateBusinessCompanyOperationHours func(childComplexity int, input model.CreateBusinessCompanyOperationHoursRequest) int
@@ -134,6 +139,7 @@ type ComplexityRoot struct {
 		GetBusinessCompanyOperationHourByDay  func(childComplexity int, input *model.GetGetBusinessCompanyOperationHourByDayRequest) int
 		GetBusinessCompanyOperationHours      func(childComplexity int, input *model.GetBusinessCompanyOperationHoursRequest) int
 		GetBusinessCompanyServices            func(childComplexity int, input *model.GetBusinessCompanyServicesRequest) int
+		GetBusinessOwnerCompanies             func(childComplexity int, input *model.GetBusinessOwnerCompaniesRequest) int
 		GetBusinessService                    func(childComplexity int, input model.GetBusinessServiceRequest) int
 		GetBusinessServices                   func(childComplexity int) int
 		GetBusinessServicesUnderSubCategory   func(childComplexity int, input *model.GetBusinessServicesUnderSubCategoryRequest) int
@@ -144,6 +150,13 @@ type ComplexityRoot struct {
 		GetCompanyServices                    func(childComplexity int) int
 		GetCompanyServicesUnderSubCategory    func(childComplexity int, input model.GetCompanyServicesUnderSubCategoryRequest) int
 		RetrieveTokenInfo                     func(childComplexity int, input model.RetrieveTokenInfoRequst) int
+	}
+
+	Token struct {
+		AccessToken  func(childComplexity int) int
+		ExpiresIn    func(childComplexity int) int
+		RefreshToken func(childComplexity int) int
+		TokenType    func(childComplexity int) int
 	}
 
 	BusinessCompanyOperationHourResponse struct {
@@ -188,6 +201,10 @@ type ComplexityRoot struct {
 		BusinessCompanyService func(childComplexity int) int
 	}
 
+	GetBusinessOwnerCompaniesResponse struct {
+		Companies func(childComplexity int) int
+	}
+
 	RetrieveTokenInfoResponse struct {
 		Email     func(childComplexity int) int
 		ExpiresAt func(childComplexity int) int
@@ -205,7 +222,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	CreateBusinessCompany(ctx context.Context, input model.CreateBusinessCompanyRequest) (*model.BusinessCompany, error)
-	CreateBusinessOwner(ctx context.Context, input model.CreateBusinessOwnerRequest) (*model.BusinessOwner, error)
+	CreateBusinessOwner(ctx context.Context, input model.CreateBusinessOwnerRequest) (*model.CreateBusinessOwnerResponse, error)
 	CreateBusinessService(ctx context.Context, input model.CreateBusinessServiceRequest) (*model.CreateBusinessServiceResponse, error)
 	CreateCompanyService(ctx context.Context, input model.CreateCompanyServiceRequest) (*model.CreateCompanyServiceResponse, error)
 	UpdateCompanyService(ctx context.Context, input model.UpdateCompanyServiceRequest) (*model.UpdateCompanyServiceResponse, error)
@@ -213,12 +230,13 @@ type MutationResolver interface {
 	CreateBusinessCompanyOperationHours(ctx context.Context, input model.CreateBusinessCompanyOperationHoursRequest) (*model.CreateBusinessCompanyOperationHoursResponse, error)
 	UpdateBusinessCompanyOperationHours(ctx context.Context, input model.UpdateBusinessCompanyOperationHoursRequest) (*model.UpdateBusinessCompanyOperationHoursResponse, error)
 	DeleteBusinessCompanyOperationHours(ctx context.Context, input model.DeleteBusinessCompanyOperationHoursRequest) (*model.DeleteBusinessCompanyOperationHoursResponse, error)
-	GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.GenerateTokenResponse, error)
+	GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.Token, error)
 }
 type QueryResolver interface {
 	GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error)
 	GetBusinessCompanies(ctx context.Context) (*model.BusinessCompanies, error)
 	GetBusinessCompanyServices(ctx context.Context, input *model.GetBusinessCompanyServicesRequest) (*model.GetBusinessCompanyServicesResponse, error)
+	GetBusinessOwnerCompanies(ctx context.Context, input *model.GetBusinessOwnerCompaniesRequest) (*model.GetBusinessOwnerCompaniesResponse, error)
 	GetBusinessCompanyOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyOperationHourByDayRequest) (*model.BusinessCompanyOperationHourResponse, error)
 	GetBusinessCompanyOperationHours(ctx context.Context, input *model.GetBusinessCompanyOperationHoursRequest) (*model.BusinessCompanyOperationHours, error)
 	GetBusinessCategory(ctx context.Context, input model.BusinessCategoryRequest) (*model.BusinessCategory, error)
@@ -488,6 +506,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CompanyServices.CompanyServices(childComplexity), true
 
+	case "CreateBusinessOwnerResponse.businessOwner":
+		if e.complexity.CreateBusinessOwnerResponse.BusinessOwner == nil {
+			break
+		}
+
+		return e.complexity.CreateBusinessOwnerResponse.BusinessOwner(childComplexity), true
+
+	case "CreateBusinessOwnerResponse.token":
+		if e.complexity.CreateBusinessOwnerResponse.Token == nil {
+			break
+		}
+
+		return e.complexity.CreateBusinessOwnerResponse.Token(childComplexity), true
+
 	case "Mutation.createBusinessCompany":
 		if e.complexity.Mutation.CreateBusinessCompany == nil {
 			break
@@ -682,6 +714,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetBusinessCompanyServices(childComplexity, args["input"].(*model.GetBusinessCompanyServicesRequest)), true
 
+	case "Query.getBusinessOwnerCompanies":
+		if e.complexity.Query.GetBusinessOwnerCompanies == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getBusinessOwnerCompanies_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetBusinessOwnerCompanies(childComplexity, args["input"].(*model.GetBusinessOwnerCompaniesRequest)), true
+
 	case "Query.getBusinessService":
 		if e.complexity.Query.GetBusinessService == nil {
 			break
@@ -787,6 +831,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.RetrieveTokenInfo(childComplexity, args["input"].(model.RetrieveTokenInfoRequst)), true
 
+	case "Token.accessToken":
+		if e.complexity.Token.AccessToken == nil {
+			break
+		}
+
+		return e.complexity.Token.AccessToken(childComplexity), true
+
+	case "Token.expiresIn":
+		if e.complexity.Token.ExpiresIn == nil {
+			break
+		}
+
+		return e.complexity.Token.ExpiresIn(childComplexity), true
+
+	case "Token.refreshToken":
+		if e.complexity.Token.RefreshToken == nil {
+			break
+		}
+
+		return e.complexity.Token.RefreshToken(childComplexity), true
+
+	case "Token.tokenType":
+		if e.complexity.Token.TokenType == nil {
+			break
+		}
+
+		return e.complexity.Token.TokenType(childComplexity), true
+
 	case "businessCompanyOperationHourResponse.businessCompanyOperationHour":
 		if e.complexity.BusinessCompanyOperationHourResponse.BusinessCompanyOperationHour == nil {
 			break
@@ -891,6 +963,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.GetBusinessCompanyServicesResponse.BusinessCompanyService(childComplexity), true
+
+	case "getBusinessOwnerCompaniesResponse.companies":
+		if e.complexity.GetBusinessOwnerCompaniesResponse.Companies == nil {
+			break
+		}
+
+		return e.complexity.GetBusinessOwnerCompaniesResponse.Companies(childComplexity), true
 
 	case "retrieveTokenInfoResponse.email":
 		if e.complexity.RetrieveTokenInfoResponse.Email == nil {
@@ -1063,6 +1142,15 @@ type BusinessOwner {
   businessOwnerPhoneNumber: String!
 }
 
+
+input getBusinessOwnerCompaniesRequest {
+  email: String!
+}
+
+type getBusinessOwnerCompaniesResponse {
+  companies: [BusinessCompany!]!
+}
+
 input CreateBusinessOwnerRequest {
   businessCompanyID: ID!
   businessOwnerName: String!
@@ -1071,6 +1159,12 @@ input CreateBusinessOwnerRequest {
   businessOwnerPhoneNumberPrefix: String!
   businessOwnerPhoneNumber: String!
 }
+
+type CreateBusinessOwnerResponse{
+  businessOwner: BusinessOwner!
+  token: Token!
+}
+
 
 type BusinessService {
   businessServiceID: ID!
@@ -1215,6 +1309,13 @@ type deleteCompanyServiceResponse {
   companyService: CompanyService!
 }
 
+type Token {
+  accessToken: String!
+  refreshToken: String!
+  expiresIn: Int!
+  tokenType: String!
+}
+
 input retrieveTokenInfoRequst {
   accessToken: String!
 }
@@ -1242,6 +1343,8 @@ type Query {
   getBusinessCompanies: BusinessCompanies!
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
 
+  getBusinessOwnerCompanies(input: getBusinessOwnerCompaniesRequest): getBusinessOwnerCompaniesResponse!
+
   getBusinessCompanyOperationHourByDay(input: getGetBusinessCompanyOperationHourByDayRequest): businessCompanyOperationHourResponse!
   getBusinessCompanyOperationHours(input: getBusinessCompanyOperationHoursRequest): BusinessCompanyOperationHours!
 
@@ -1265,7 +1368,7 @@ type Query {
 
 type Mutation {
   createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
-  createBusinessOwner(input: CreateBusinessOwnerRequest!): BusinessOwner!
+  createBusinessOwner(input: CreateBusinessOwnerRequest!): CreateBusinessOwnerResponse!
 
   createBusinessService(input: createBusinessServiceRequest!): createBusinessServiceResponse!
 
@@ -1277,7 +1380,7 @@ type Mutation {
   updateBusinessCompanyOperationHours(input: updateBusinessCompanyOperationHoursRequest!): updateBusinessCompanyOperationHoursResponse!
   deleteBusinessCompanyOperationHours(input: deleteBusinessCompanyOperationHoursRequest!): deleteBusinessCompanyOperationHoursResponse!
 
-  generateToken(input: generateTokenRequest!) : generateTokenResponse!
+  generateToken(input: generateTokenRequest!) : Token!
 }
 
 
@@ -1505,6 +1608,20 @@ func (ec *executionContext) field_Query_getBusinessCompany_args(ctx context.Cont
 	var arg0 model.GetBusinessCompanyRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNgetBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getBusinessOwnerCompanies_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.GetBusinessOwnerCompaniesRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalOgetBusinessOwnerCompaniesRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2791,6 +2908,74 @@ func (ec *executionContext) _CompanyServices_companyServices(ctx context.Context
 	return ec.marshalNCompanyService2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCompanyServiceᚄ(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _CreateBusinessOwnerResponse_businessOwner(ctx context.Context, field graphql.CollectedField, obj *model.CreateBusinessOwnerResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CreateBusinessOwnerResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessOwner, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessOwner)
+	fc.Result = res
+	return ec.marshalNBusinessOwner2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwner(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CreateBusinessOwnerResponse_token(ctx context.Context, field graphql.CollectedField, obj *model.CreateBusinessOwnerResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CreateBusinessOwnerResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Token, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Token)
+	fc.Result = res
+	return ec.marshalNToken2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐToken(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Mutation_createBusinessCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2868,9 +3053,9 @@ func (ec *executionContext) _Mutation_createBusinessOwner(ctx context.Context, f
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.BusinessOwner)
+	res := resTmp.(*model.CreateBusinessOwnerResponse)
 	fc.Result = res
-	return ec.marshalNBusinessOwner2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwner(ctx, field.Selections, res)
+	return ec.marshalNCreateBusinessOwnerResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessOwnerResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createBusinessService(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -3196,9 +3381,9 @@ func (ec *executionContext) _Mutation_generateToken(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.GenerateTokenResponse)
+	res := resTmp.(*model.Token)
 	fc.Result = res
-	return ec.marshalNgenerateTokenResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenResponse(ctx, field.Selections, res)
+	return ec.marshalNToken2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐToken(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getBusinessCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -3315,6 +3500,47 @@ func (ec *executionContext) _Query_getBusinessCompanyServices(ctx context.Contex
 	res := resTmp.(*model.GetBusinessCompanyServicesResponse)
 	fc.Result = res
 	return ec.marshalNgetBusinessCompanyServicesResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyServicesResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getBusinessOwnerCompanies(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getBusinessOwnerCompanies_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetBusinessOwnerCompanies(rctx, args["input"].(*model.GetBusinessOwnerCompaniesRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GetBusinessOwnerCompaniesResponse)
+	fc.Result = res
+	return ec.marshalNgetBusinessOwnerCompaniesResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getBusinessCompanyOperationHourByDay(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -3930,6 +4156,142 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 	res := resTmp.(*introspection.Schema)
 	fc.Result = res
 	return ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Token_accessToken(ctx context.Context, field graphql.CollectedField, obj *model.Token) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Token",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AccessToken, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Token_refreshToken(ctx context.Context, field graphql.CollectedField, obj *model.Token) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Token",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RefreshToken, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Token_expiresIn(ctx context.Context, field graphql.CollectedField, obj *model.Token) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Token",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExpiresIn, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Token_tokenType(ctx context.Context, field graphql.CollectedField, obj *model.Token) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Token",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TokenType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
@@ -5490,6 +5852,40 @@ func (ec *executionContext) _getBusinessCompanyServicesResponse_businessCompanyS
 	return ec.marshalObusinessCompanyService2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyServiceᚄ(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _getBusinessOwnerCompaniesResponse_companies(ctx context.Context, field graphql.CollectedField, obj *model.GetBusinessOwnerCompaniesResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "getBusinessOwnerCompaniesResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Companies, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]model.BusinessCompany)
+	fc.Result = res
+	return ec.marshalNBusinessCompany2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _retrieveTokenInfoResponse_email(ctx context.Context, field graphql.CollectedField, obj *model.RetrieveTokenInfoResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5997,6 +6393,24 @@ func (ec *executionContext) unmarshalInputgetBusinessCompanyServicesRequest(ctx 
 		case "businessCompanyID":
 			var err error
 			it.BusinessCompanyID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputgetBusinessOwnerCompaniesRequest(ctx context.Context, obj interface{}) (model.GetBusinessOwnerCompaniesRequest, error) {
+	var it model.GetBusinessOwnerCompaniesRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "email":
+			var err error
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6640,6 +7054,38 @@ func (ec *executionContext) _CompanyServices(ctx context.Context, sel ast.Select
 	return out
 }
 
+var createBusinessOwnerResponseImplementors = []string{"CreateBusinessOwnerResponse"}
+
+func (ec *executionContext) _CreateBusinessOwnerResponse(ctx context.Context, sel ast.SelectionSet, obj *model.CreateBusinessOwnerResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, createBusinessOwnerResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CreateBusinessOwnerResponse")
+		case "businessOwner":
+			out.Values[i] = ec._CreateBusinessOwnerResponse_businessOwner(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "token":
+			out.Values[i] = ec._CreateBusinessOwnerResponse_token(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -6768,6 +7214,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getBusinessCompanyServices(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getBusinessOwnerCompanies":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getBusinessOwnerCompanies(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -6973,6 +7433,48 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
 			out.Values[i] = ec._Query___schema(ctx, field)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var tokenImplementors = []string{"Token"}
+
+func (ec *executionContext) _Token(ctx context.Context, sel ast.SelectionSet, obj *model.Token) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, tokenImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Token")
+		case "accessToken":
+			out.Values[i] = ec._Token_accessToken(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "refreshToken":
+			out.Values[i] = ec._Token_refreshToken(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "expiresIn":
+			out.Values[i] = ec._Token_expiresIn(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "tokenType":
+			out.Values[i] = ec._Token_tokenType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7484,6 +7986,33 @@ func (ec *executionContext) _getBusinessCompanyServicesResponse(ctx context.Cont
 			out.Values[i] = graphql.MarshalString("getBusinessCompanyServicesResponse")
 		case "businessCompanyService":
 			out.Values[i] = ec._getBusinessCompanyServicesResponse_businessCompanyService(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var getBusinessOwnerCompaniesResponseImplementors = []string{"getBusinessOwnerCompaniesResponse"}
+
+func (ec *executionContext) _getBusinessOwnerCompaniesResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetBusinessOwnerCompaniesResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, getBusinessOwnerCompaniesResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("getBusinessOwnerCompaniesResponse")
+		case "companies":
+			out.Values[i] = ec._getBusinessOwnerCompaniesResponse_companies(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -8010,6 +8539,20 @@ func (ec *executionContext) unmarshalNCreateBusinessOwnerRequest2githubᚗcomᚋ
 	return ec.unmarshalInputCreateBusinessOwnerRequest(ctx, v)
 }
 
+func (ec *executionContext) marshalNCreateBusinessOwnerResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessOwnerResponse(ctx context.Context, sel ast.SelectionSet, v model.CreateBusinessOwnerResponse) graphql.Marshaler {
+	return ec._CreateBusinessOwnerResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCreateBusinessOwnerResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateBusinessOwnerResponse(ctx context.Context, sel ast.SelectionSet, v *model.CreateBusinessOwnerResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CreateBusinessOwnerResponse(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	return graphql.UnmarshalFloat(v)
 }
@@ -8093,6 +8636,20 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) marshalNToken2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐToken(ctx context.Context, sel ast.SelectionSet, v model.Token) graphql.Marshaler {
+	return ec._Token(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNToken2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐToken(ctx context.Context, sel ast.SelectionSet, v *model.Token) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Token(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
@@ -8433,20 +8990,6 @@ func (ec *executionContext) unmarshalNgenerateTokenRequest2githubᚗcomᚋAkezha
 	return ec.unmarshalInputgenerateTokenRequest(ctx, v)
 }
 
-func (ec *executionContext) marshalNgenerateTokenResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenResponse(ctx context.Context, sel ast.SelectionSet, v model.GenerateTokenResponse) graphql.Marshaler {
-	return ec._generateTokenResponse(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNgenerateTokenResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenResponse(ctx context.Context, sel ast.SelectionSet, v *model.GenerateTokenResponse) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._generateTokenResponse(ctx, sel, v)
-}
-
 func (ec *executionContext) unmarshalNgetBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyRequest(ctx context.Context, v interface{}) (model.GetBusinessCompanyRequest, error) {
 	return ec.unmarshalInputgetBusinessCompanyRequest(ctx, v)
 }
@@ -8463,6 +9006,20 @@ func (ec *executionContext) marshalNgetBusinessCompanyServicesResponse2ᚖgithub
 		return graphql.Null
 	}
 	return ec._getBusinessCompanyServicesResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNgetBusinessOwnerCompaniesResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesResponse(ctx context.Context, sel ast.SelectionSet, v model.GetBusinessOwnerCompaniesResponse) graphql.Marshaler {
+	return ec._getBusinessOwnerCompaniesResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNgetBusinessOwnerCompaniesResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesResponse(ctx context.Context, sel ast.SelectionSet, v *model.GetBusinessOwnerCompaniesResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._getBusinessOwnerCompaniesResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNgetBusinessServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceRequest(ctx context.Context, v interface{}) (model.GetBusinessServiceRequest, error) {
@@ -8855,6 +9412,18 @@ func (ec *executionContext) unmarshalOgetBusinessCompanyServicesRequest2ᚖgithu
 		return nil, nil
 	}
 	res, err := ec.unmarshalOgetBusinessCompanyServicesRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyServicesRequest(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOgetBusinessOwnerCompaniesRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesRequest(ctx context.Context, v interface{}) (model.GetBusinessOwnerCompaniesRequest, error) {
+	return ec.unmarshalInputgetBusinessOwnerCompaniesRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOgetBusinessOwnerCompaniesRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesRequest(ctx context.Context, v interface{}) (*model.GetBusinessOwnerCompaniesRequest, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOgetBusinessOwnerCompaniesRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesRequest(ctx, v)
 	return &res, err
 }
 
