@@ -60,6 +60,19 @@ type BusinessService struct {
 	SubCategories       []int64 `json:"subCategories"`
 }
 
+type BusinessServiceOrder struct {
+	BusinessServiceOrderID  int64  `json:"businessServiceOrderID"`
+	ClientID                int64  `json:"clientID"`
+	BusinessServiceID       int64  `json:"businessServiceID"`
+	OrderDate               string `json:"orderDate"`
+	CreatedAt               string `json:"createdAt"`
+	PrePaid                 bool   `json:"prePaid"`
+	ClientFirstName         string `json:"clientFirstName"`
+	ClientPhoneNumber       string `json:"clientPhoneNumber"`
+	ClientPhoneNumberPrefix string `json:"clientPhoneNumberPrefix"`
+	ClientCommentary        string `json:"clientCommentary"`
+}
+
 type BusinessServices struct {
 	BusinessServices []BusinessService `json:"businessServices"`
 }
@@ -114,6 +127,33 @@ type CreateBusinessOwnerRequest struct {
 type CreateBusinessOwnerResponse struct {
 	BusinessOwner *BusinessOwner `json:"businessOwner"`
 	Token         *Token         `json:"token"`
+}
+
+type CreateBusinessServiceOrderRequest struct {
+	ClientID                int64  `json:"clientID"`
+	BusinessServiceID       int64  `json:"businessServiceID"`
+	OrderDate               string `json:"orderDate"`
+	PrePaid                 bool   `json:"prePaid"`
+	ClientFirstName         string `json:"clientFirstName"`
+	ClientPhoneNumber       string `json:"clientPhoneNumber"`
+	ClientPhoneNumberPrefix string `json:"clientPhoneNumberPrefix"`
+	ClientCommentary        string `json:"clientCommentary"`
+}
+
+type CreateBusinessServiceOrderResponse struct {
+	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
+}
+
+type GetBusinessServiceOrderRequest struct {
+	BusinessServiceOrderID int64 `json:"businessServiceOrderID"`
+}
+
+type GetBusinessServiceOrderResponse struct {
+	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
+}
+
+type GetBusinessServiceOrdersResponse struct {
+	BusinessServicesOrders []BusinessServiceOrder `json:"businessServicesOrders"`
 }
 
 type Token struct {

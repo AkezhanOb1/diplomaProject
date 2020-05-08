@@ -18,8 +18,34 @@ import (
 	bo "github.com/AkezhanOb1/diplomaProject/services/client/business/owner"
 	bs "github.com/AkezhanOb1/diplomaProject/services/client/business/service"
 	sc "github.com/AkezhanOb1/diplomaProject/services/client/business/subCategories"
+	bso "github.com/AkezhanOb1/diplomaProject/services/client/orders"
 	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
 )
+
+func (r *mutationResolver) CreateBusinessServiceOrder(ctx context.Context, input model.CreateBusinessServiceOrderRequest) (*model.CreateBusinessServiceOrderResponse, error) {
+	businessServiceOrder, err := bso.CreateBusinessServiceOrder(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	var order = businessServiceOrder.GetBusinessServiceOrder()
+	var resp = &model.CreateBusinessServiceOrderResponse{
+		BusinessServiceOrder: &model.BusinessServiceOrder{
+			BusinessServiceOrderID:  order.BusinessServiceOrderID,
+			ClientID:                order.ClientID,
+			BusinessServiceID:       order.BusinessServiceID,
+			OrderDate:               order.OrderDate,
+			CreatedAt:               order.CreatedAt,
+			PrePaid:                 order.PrePaid,
+			ClientFirstName:         order.ClientFirstName,
+			ClientPhoneNumber:       order.ClientPhoneNumber,
+			ClientPhoneNumberPrefix: order.ClientPhoneNumberPrefix,
+			ClientCommentary:        order.ClientCommentary,
+		},
+	}
+
+	return resp, nil
+}
 
 func (r *mutationResolver) CreateBusinessCompany(ctx context.Context, input model.CreateBusinessCompanyRequest) (*model.BusinessCompany, error) {
 	newBusinessCompany, err := bc.CreateBusinessCompany(ctx, input)
@@ -240,7 +266,7 @@ func (r *mutationResolver) UpdateBusinessCompanyServiceOperationHours(ctx contex
 		BusinessCompanyServiceOperationHour: &model.BusinessCompanyServiceOperationHour{
 			ServiceOperationHourID: operationHours.GetServiceOperationHourID(),
 			BusinessCompanyID:      operationHours.GetBusinessCompanyID(),
-			BusinessServiceID: 		operationHours.GetBusinessServiceID(),
+			BusinessServiceID:      operationHours.GetBusinessServiceID(),
 			DayOfWeek:              operationHours.GetDayOfWeek(),
 			OpenTime:               operationHours.GetOpenTime(),
 			CloseTime:              operationHours.GetCloseTime(),
@@ -292,6 +318,51 @@ func (r *mutationResolver) GenerateToken(ctx context.Context, input model.Genera
 		ExpiresIn:    token.GetExpiresIn(),
 		TokenType:    token.GetTokenType(),
 	}, nil
+}
+
+func (r *queryResolver) GetBusinessServiceOrder(ctx context.Context, input model.GetBusinessServiceOrderRequest) (*model.GetBusinessServiceOrderResponse, error) {
+	businessServiceOrder, err := bso.GetBusinessServiceOrder(ctx, input.BusinessServiceOrderID)
+	if err != nil {
+		return nil, err
+	}
+
+	var order = businessServiceOrder.GetBusinessServiceOrder()
+	var resp = &model.GetBusinessServiceOrderResponse{
+		BusinessServiceOrder: &model.BusinessServiceOrder{
+			BusinessServiceOrderID:  order.BusinessServiceOrderID,
+			ClientID:                order.ClientID,
+			BusinessServiceID:       order.BusinessServiceID,
+			OrderDate:               order.OrderDate,
+			CreatedAt:               order.CreatedAt,
+			PrePaid:                 order.PrePaid,
+			ClientFirstName:         order.ClientFirstName,
+			ClientPhoneNumber:       order.ClientPhoneNumber,
+			ClientPhoneNumberPrefix: order.ClientPhoneNumberPrefix,
+			ClientCommentary:        order.ClientCommentary,
+		},
+	}
+
+	return resp, nil
+}
+
+func (r *queryResolver) GetBusinessServiceOrders(ctx context.Context) (*model.GetBusinessServiceOrdersResponse, error) {
+	orders, err := bso.GetBusinessServiceOrders(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(orders)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.GetBusinessServiceOrdersResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }
 
 func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error) {
@@ -422,7 +493,7 @@ func (r *queryResolver) GetBusinessCompanyServiceOperationHourByDay(ctx context.
 			DayOfWeek:              operationHours.BusinessCompanyServiceOperationHour.GetDayOfWeek(),
 			OpenTime:               operationHours.BusinessCompanyServiceOperationHour.GetOpenTime(),
 			CloseTime:              operationHours.BusinessCompanyServiceOperationHour.GetCloseTime(),
-	}}, nil
+		}}, nil
 }
 
 func (r *queryResolver) GetBusinessCompanyServiceOperationHours(ctx context.Context, input *model.GetBusinessCompanyServiceOperationHoursRequest) (*model.BusinessCompanyServiceOperationHours, error) {

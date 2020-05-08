@@ -326,7 +326,50 @@ type deleteBusinessCompanyServiceOperationHoursResponse {
   businessCompanyServiceOperationHour: BusinessCompanyServiceOperationHour!
 }
 
+type BusinessServiceOrder {
+  businessServiceOrderID: ID!
+  clientID: ID!
+  businessServiceID: ID!
+  orderDate: String!
+  createdAt: String!
+  prePaid: Boolean!
+  clientFirstName: String!
+  clientPhoneNumber: String!
+  clientPhoneNumberPrefix: String!
+  clientCommentary: String!
+}
+
+input GetBusinessServiceOrderRequest {
+  businessServiceOrderID: ID!
+}
+
+type GetBusinessServiceOrderResponse {
+  businessServiceOrder: BusinessServiceOrder!
+}
+
+type GetBusinessServiceOrdersResponse {
+  businessServicesOrders: [BusinessServiceOrder!]!
+}
+
+input CreateBusinessServiceOrderRequest {
+  clientID: ID!
+  businessServiceID: ID!
+  orderDate: String!
+  prePaid: Boolean!
+  clientFirstName: String!
+  clientPhoneNumber: String!
+  clientPhoneNumberPrefix: String!
+  clientCommentary: String!
+}
+
+type CreateBusinessServiceOrderResponse {
+  businessServiceOrder: BusinessServiceOrder!
+}
+
 type Query {
+  getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
+  getBusinessServiceOrders: GetBusinessServiceOrdersResponse!
+
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
@@ -358,6 +401,8 @@ type Query {
 }
 
 type Mutation {
+  createBusinessServiceOrder(input: CreateBusinessServiceOrderRequest!): CreateBusinessServiceOrderResponse!
+
   createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
   createBusinessOwner(input: CreateBusinessOwnerRequest!): CreateBusinessOwnerResponse!
 

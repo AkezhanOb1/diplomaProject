@@ -2,11 +2,11 @@ package main
 
 import (
 	"log"
-	c "github.com/AkezhanOb1/diplomaProject/services/client/token"
+	c "github.com/AkezhanOb1/diplomaProject/services/client/orders"
 
 )
 
 func main() {
 	log.Println("Hello world")
-	c.RetrieveTokenInformation()
+	log.Println(c.GetBusinessServiceOrders())
 }

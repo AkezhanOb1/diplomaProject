@@ -27,7 +27,10 @@ var RpcServerAddress = "server:50051"
 //var RpcServerAddress = "localhost:50051"
 
 //TokenServer is an address to the authorization
-var TokenServer = "46.101.138.224:50002"
+var TokenServer = "46.101.138.224:50052"
+
+//BusinessServiceOrderServer is an address to the orders
+var BusinessServiceOrderServer = "46.101.138.224:50053"
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"
 //rabbitPassword is the password of the user
