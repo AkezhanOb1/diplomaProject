@@ -64,7 +64,8 @@ type BusinessServiceOrder struct {
 	BusinessServiceOrderID  int64  `json:"businessServiceOrderID"`
 	ClientID                int64  `json:"clientID"`
 	BusinessServiceID       int64  `json:"businessServiceID"`
-	OrderDate               string `json:"orderDate"`
+	StartAt                 string `json:"startAt"`
+	EndAt                   string `json:"endAt"`
 	CreatedAt               string `json:"createdAt"`
 	PrePaid                 bool   `json:"prePaid"`
 	ClientFirstName         string `json:"clientFirstName"`
@@ -132,7 +133,7 @@ type CreateBusinessOwnerResponse struct {
 type CreateBusinessServiceOrderRequest struct {
 	ClientID                int64  `json:"clientID"`
 	BusinessServiceID       int64  `json:"businessServiceID"`
-	OrderDate               string `json:"orderDate"`
+	StartAt                 string `json:"startAt"`
 	PrePaid                 bool   `json:"prePaid"`
 	ClientFirstName         string `json:"clientFirstName"`
 	ClientPhoneNumber       string `json:"clientPhoneNumber"`
@@ -150,6 +151,10 @@ type GetBusinessServiceOrderRequest struct {
 
 type GetBusinessServiceOrderResponse struct {
 	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
+}
+
+type GetBusinessServiceOrdersRequest struct {
+	BusinessServiceID int64 `json:"businessServiceID"`
 }
 
 type GetBusinessServiceOrdersResponse struct {

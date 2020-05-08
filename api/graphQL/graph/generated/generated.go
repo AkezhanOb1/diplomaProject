@@ -106,8 +106,9 @@ type ComplexityRoot struct {
 		ClientPhoneNumber       func(childComplexity int) int
 		ClientPhoneNumberPrefix func(childComplexity int) int
 		CreatedAt               func(childComplexity int) int
-		OrderDate               func(childComplexity int) int
+		EndAt                   func(childComplexity int) int
 		PrePaid                 func(childComplexity int) int
+		StartAt                 func(childComplexity int) int
 	}
 
 	BusinessServices struct {
@@ -186,7 +187,7 @@ type ComplexityRoot struct {
 		GetBusinessOwnerCompanies                   func(childComplexity int, input *model.GetBusinessOwnerCompaniesRequest) int
 		GetBusinessService                          func(childComplexity int, input model.GetBusinessServiceRequest) int
 		GetBusinessServiceOrder                     func(childComplexity int, input model.GetBusinessServiceOrderRequest) int
-		GetBusinessServiceOrders                    func(childComplexity int) int
+		GetBusinessServiceOrders                    func(childComplexity int, input model.GetBusinessServiceOrdersRequest) int
 		GetBusinessServices                         func(childComplexity int) int
 		GetBusinessServicesUnderSubCategory         func(childComplexity int, input *model.GetBusinessServicesUnderSubCategoryRequest) int
 		GetBusinessSubCategories                    func(childComplexity int) int
@@ -300,7 +301,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	GetBusinessServiceOrder(ctx context.Context, input model.GetBusinessServiceOrderRequest) (*model.GetBusinessServiceOrderResponse, error)
-	GetBusinessServiceOrders(ctx context.Context) (*model.GetBusinessServiceOrdersResponse, error)
+	GetBusinessServiceOrders(ctx context.Context, input model.GetBusinessServiceOrdersRequest) (*model.GetBusinessServiceOrdersResponse, error)
 	GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error)
 	GetBusinessCompanies(ctx context.Context) (*model.BusinessCompanies, error)
 	GetBusinessCompanyServices(ctx context.Context, input *model.GetBusinessCompanyServicesRequest) (*model.GetBusinessCompanyServicesResponse, error)
@@ -583,12 +584,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.BusinessServiceOrder.CreatedAt(childComplexity), true
 
-	case "BusinessServiceOrder.orderDate":
-		if e.complexity.BusinessServiceOrder.OrderDate == nil {
+	case "BusinessServiceOrder.endAt":
+		if e.complexity.BusinessServiceOrder.EndAt == nil {
 			break
 		}
 
-		return e.complexity.BusinessServiceOrder.OrderDate(childComplexity), true
+		return e.complexity.BusinessServiceOrder.EndAt(childComplexity), true
 
 	case "BusinessServiceOrder.prePaid":
 		if e.complexity.BusinessServiceOrder.PrePaid == nil {
@@ -596,6 +597,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BusinessServiceOrder.PrePaid(childComplexity), true
+
+	case "BusinessServiceOrder.startAt":
+		if e.complexity.BusinessServiceOrder.StartAt == nil {
+			break
+		}
+
+		return e.complexity.BusinessServiceOrder.StartAt(childComplexity), true
 
 	case "BusinessServices.businessServices":
 		if e.complexity.BusinessServices.BusinessServices == nil {
@@ -1037,7 +1045,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.GetBusinessServiceOrders(childComplexity), true
+		args, err := ec.field_Query_getBusinessServiceOrders_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetBusinessServiceOrders(childComplexity, args["input"].(model.GetBusinessServiceOrdersRequest)), true
 
 	case "Query.getBusinessServices":
 		if e.complexity.Query.GetBusinessServices == nil {
@@ -1731,7 +1744,8 @@ type BusinessServiceOrder {
   businessServiceOrderID: ID!
   clientID: ID!
   businessServiceID: ID!
-  orderDate: String!
+  startAt: String!
+  endAt: String!
   createdAt: String!
   prePaid: Boolean!
   clientFirstName: String!
@@ -1748,6 +1762,10 @@ type GetBusinessServiceOrderResponse {
   businessServiceOrder: BusinessServiceOrder!
 }
 
+input GetBusinessServiceOrdersRequest {
+  businessServiceID: ID!
+}
+
 type GetBusinessServiceOrdersResponse {
   businessServicesOrders: [BusinessServiceOrder!]!
 }
@@ -1755,7 +1773,7 @@ type GetBusinessServiceOrdersResponse {
 input CreateBusinessServiceOrderRequest {
   clientID: ID!
   businessServiceID: ID!
-  orderDate: String!
+  startAt: String!
   prePaid: Boolean!
   clientFirstName: String!
   clientPhoneNumber: String!
@@ -1769,7 +1787,7 @@ type CreateBusinessServiceOrderResponse {
 
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
-  getBusinessServiceOrders: GetBusinessServiceOrdersResponse!
+  getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
@@ -2162,6 +2180,20 @@ func (ec *executionContext) field_Query_getBusinessServiceOrder_args(ctx context
 	var arg0 model.GetBusinessServiceOrderRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNGetBusinessServiceOrderRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getBusinessServiceOrders_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GetBusinessServiceOrdersRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNGetBusinessServiceOrdersRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrdersRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3324,7 +3356,7 @@ func (ec *executionContext) _BusinessServiceOrder_businessServiceID(ctx context.
 	return ec.marshalNID2int64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _BusinessServiceOrder_orderDate(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
+func (ec *executionContext) _BusinessServiceOrder_startAt(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -3341,7 +3373,41 @@ func (ec *executionContext) _BusinessServiceOrder_orderDate(ctx context.Context,
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.OrderDate, nil
+		return obj.StartAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessServiceOrder_endAt(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessServiceOrder",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EndAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4826,9 +4892,16 @@ func (ec *executionContext) _Query_getBusinessServiceOrders(ctx context.Context,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getBusinessServiceOrders_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().GetBusinessServiceOrders(rctx)
+		return ec.resolvers.Query().GetBusinessServiceOrders(rctx, args["input"].(model.GetBusinessServiceOrdersRequest))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7881,9 +7954,9 @@ func (ec *executionContext) unmarshalInputCreateBusinessServiceOrderRequest(ctx 
 			if err != nil {
 				return it, err
 			}
-		case "orderDate":
+		case "startAt":
 			var err error
-			it.OrderDate, err = ec.unmarshalNString2string(ctx, v)
+			it.StartAt, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -7932,6 +8005,24 @@ func (ec *executionContext) unmarshalInputGetBusinessServiceOrderRequest(ctx con
 		case "businessServiceOrderID":
 			var err error
 			it.BusinessServiceOrderID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputGetBusinessServiceOrdersRequest(ctx context.Context, obj interface{}) (model.GetBusinessServiceOrdersRequest, error) {
+	var it model.GetBusinessServiceOrdersRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessServiceID":
+			var err error
+			it.BusinessServiceID, err = ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -8896,8 +8987,13 @@ func (ec *executionContext) _BusinessServiceOrder(ctx context.Context, sel ast.S
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "orderDate":
-			out.Values[i] = ec._BusinessServiceOrder_orderDate(ctx, field, obj)
+		case "startAt":
+			out.Values[i] = ec._BusinessServiceOrder_startAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "endAt":
+			out.Values[i] = ec._BusinessServiceOrder_endAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -11038,6 +11134,10 @@ func (ec *executionContext) marshalNGetBusinessServiceOrderResponse2ᚖgithubᚗ
 		return graphql.Null
 	}
 	return ec._GetBusinessServiceOrderResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNGetBusinessServiceOrdersRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrdersRequest(ctx context.Context, v interface{}) (model.GetBusinessServiceOrdersRequest, error) {
+	return ec.unmarshalInputGetBusinessServiceOrdersRequest(ctx, v)
 }
 
 func (ec *executionContext) marshalNGetBusinessServiceOrdersResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrdersResponse(ctx context.Context, sel ast.SelectionSet, v model.GetBusinessServiceOrdersResponse) graphql.Marshaler {

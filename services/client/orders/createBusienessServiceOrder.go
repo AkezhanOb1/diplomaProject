@@ -22,7 +22,7 @@ func CreateBusinessServiceOrder(ctx context.Context, req graph.CreateBusinessSer
 	request := &pb.CreateBusinessServiceOrderRequest{
 		ClientID:                req.ClientID,
 		BusinessServiceID:       req.BusinessServiceID,
-		OrderDate:               req.OrderDate,
+		StartAt:                 req.StartAt,
 		PrePaid:                 req.PrePaid,
 		ClientFirstName:         req.ClientFirstName,
 		ClientPhoneNumber:       req.ClientPhoneNumber,

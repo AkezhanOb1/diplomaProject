@@ -34,7 +34,7 @@ func (r *mutationResolver) CreateBusinessServiceOrder(ctx context.Context, input
 			BusinessServiceOrderID:  order.BusinessServiceOrderID,
 			ClientID:                order.ClientID,
 			BusinessServiceID:       order.BusinessServiceID,
-			OrderDate:               order.OrderDate,
+			StartAt:                 order.StartAt,
 			CreatedAt:               order.CreatedAt,
 			PrePaid:                 order.PrePaid,
 			ClientFirstName:         order.ClientFirstName,
@@ -332,7 +332,8 @@ func (r *queryResolver) GetBusinessServiceOrder(ctx context.Context, input model
 			BusinessServiceOrderID:  order.BusinessServiceOrderID,
 			ClientID:                order.ClientID,
 			BusinessServiceID:       order.BusinessServiceID,
-			OrderDate:               order.OrderDate,
+			StartAt:                 order.StartAt,
+			EndAt:					 order.EndAt,
 			CreatedAt:               order.CreatedAt,
 			PrePaid:                 order.PrePaid,
 			ClientFirstName:         order.ClientFirstName,
@@ -345,8 +346,8 @@ func (r *queryResolver) GetBusinessServiceOrder(ctx context.Context, input model
 	return resp, nil
 }
 
-func (r *queryResolver) GetBusinessServiceOrders(ctx context.Context) (*model.GetBusinessServiceOrdersResponse, error) {
-	orders, err := bso.GetBusinessServiceOrders(ctx)
+func (r *queryResolver) GetBusinessServiceOrders(ctx context.Context, input model.GetBusinessServiceOrdersRequest) (*model.GetBusinessServiceOrdersResponse, error) {
+	orders, err := bso.GetBusinessServiceOrders(ctx, input.BusinessServiceID)
 	if err != nil {
 		return nil, err
 	}

@@ -330,7 +330,8 @@ type BusinessServiceOrder {
   businessServiceOrderID: ID!
   clientID: ID!
   businessServiceID: ID!
-  orderDate: String!
+  startAt: String!
+  endAt: String!
   createdAt: String!
   prePaid: Boolean!
   clientFirstName: String!
@@ -347,6 +348,10 @@ type GetBusinessServiceOrderResponse {
   businessServiceOrder: BusinessServiceOrder!
 }
 
+input GetBusinessServiceOrdersRequest {
+  businessServiceID: ID!
+}
+
 type GetBusinessServiceOrdersResponse {
   businessServicesOrders: [BusinessServiceOrder!]!
 }
@@ -354,7 +359,7 @@ type GetBusinessServiceOrdersResponse {
 input CreateBusinessServiceOrderRequest {
   clientID: ID!
   businessServiceID: ID!
-  orderDate: String!
+  startAt: String!
   prePaid: Boolean!
   clientFirstName: String!
   clientPhoneNumber: String!
@@ -368,7 +373,7 @@ type CreateBusinessServiceOrderResponse {
 
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
-  getBusinessServiceOrders: GetBusinessServiceOrdersResponse!
+  getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!

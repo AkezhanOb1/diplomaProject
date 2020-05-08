@@ -13,6 +13,10 @@ github.com/AkezhanOb1/orders v0.0.0-20200507232241-3366b2974abc h1:L+gb6Vf2A0WvY
 github.com/AkezhanOb1/orders v0.0.0-20200507232241-3366b2974abc/go.mod h1:Szr80zW4KIlswObinLhgAAJJs63HNa47GkkjxcTzpt4=
 github.com/AkezhanOb1/orders v0.0.0-20200507232407-3632c77466be h1:ge4XXv+UNo+Dvak8J6nQHKhrzdX0YitC7MvVAvyaos4=
 github.com/AkezhanOb1/orders v0.0.0-20200507232407-3632c77466be/go.mod h1:Szr80zW4KIlswObinLhgAAJJs63HNa47GkkjxcTzpt4=
+github.com/AkezhanOb1/orders v0.0.0-20200508065223-a34fa1c9a428 h1:HR5JOzlboaso7CfRp/FaBDH3AU7qKWnYmGr5+mOyliw=
+github.com/AkezhanOb1/orders v0.0.0-20200508065223-a34fa1c9a428/go.mod h1:Szr80zW4KIlswObinLhgAAJJs63HNa47GkkjxcTzpt4=
+github.com/AkezhanOb1/orders v0.0.0-20200508082045-8b7178ba9c57 h1:XwxJYMbKZqxi8b4r/heknQrdwKl9Fa5GhclfSAC9k+M=
+github.com/AkezhanOb1/orders v0.0.0-20200508082045-8b7178ba9c57/go.mod h1:Szr80zW4KIlswObinLhgAAJJs63HNa47GkkjxcTzpt4=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/agnivade/levenshtein v1.0.1/go.mod h1:CURSv5d9Uaml+FovSIICkLbAUZ9S4RqaHDIsdSBg7lM=
 github.com/agnivade/levenshtein v1.0.3 h1:M5ZnqLOoZR8ygVq0FfkXsNOKzMCk0xRiow0R5+5VkQ0=
