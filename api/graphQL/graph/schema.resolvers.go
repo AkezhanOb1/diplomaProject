@@ -333,7 +333,7 @@ func (r *queryResolver) GetBusinessServiceOrder(ctx context.Context, input model
 			ClientID:                order.ClientID,
 			BusinessServiceID:       order.BusinessServiceID,
 			StartAt:                 order.StartAt,
-			EndAt:					 order.EndAt,
+			EndAt:                   order.EndAt,
 			CreatedAt:               order.CreatedAt,
 			PrePaid:                 order.PrePaid,
 			ClientFirstName:         order.ClientFirstName,
@@ -358,6 +358,26 @@ func (r *queryResolver) GetBusinessServiceOrders(ctx context.Context, input mode
 	}
 
 	var resp model.GetBusinessServiceOrdersResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
+func (r *queryResolver) GetCompanyAvailableHoursByDate(ctx context.Context, input model.GetCompanyAvailableHoursByDateRequest) (*model.GetCompanyAvailableHoursByDateResponse, error) {
+	availableHours, err := bso.GetBusinessServiceAvailableHours(ctx, input.BusinessServiceID, input.Date)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(availableHours)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.GetCompanyAvailableHoursByDateResponse
 	err = json.Unmarshal(b, &resp)
 	if err != nil {
 		return nil, err

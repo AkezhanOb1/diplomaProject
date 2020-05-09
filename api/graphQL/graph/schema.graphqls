@@ -371,9 +371,19 @@ type CreateBusinessServiceOrderResponse {
   businessServiceOrder: BusinessServiceOrder!
 }
 
+input GetCompanyAvailableHoursByDateRequest {
+  businessServiceID: ID!
+  date: String!
+}
+
+type GetCompanyAvailableHoursByDateResponse {
+  availableHour: [String!]!
+}
+
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
+  getCompanyAvailableHoursByDate(input:GetCompanyAvailableHoursByDateRequest!): GetCompanyAvailableHoursByDateResponse!
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!

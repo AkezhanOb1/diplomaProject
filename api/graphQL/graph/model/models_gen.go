@@ -161,6 +161,15 @@ type GetBusinessServiceOrdersResponse struct {
 	BusinessServicesOrders []BusinessServiceOrder `json:"businessServicesOrders"`
 }
 
+type GetCompanyAvailableHoursByDateRequest struct {
+	BusinessServiceID int64  `json:"businessServiceID"`
+	Date              string `json:"date"`
+}
+
+type GetCompanyAvailableHoursByDateResponse struct {
+	AvailableHour []string `json:"availableHour"`
+}
+
 type Token struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
