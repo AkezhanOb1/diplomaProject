@@ -145,6 +145,15 @@ type CreateBusinessServiceOrderResponse struct {
 	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
 }
 
+type GetBusinessServiceOrderByDateRequest struct {
+	BusinessServiceID int64  `json:"businessServiceID"`
+	Date              string `json:"date"`
+}
+
+type GetBusinessServiceOrderByDateResponse struct {
+	BusinessServicesOrders []BusinessServiceOrder `json:"businessServicesOrders"`
+}
+
 type GetBusinessServiceOrderRequest struct {
 	BusinessServiceOrderID int64 `json:"businessServiceOrderID"`
 }

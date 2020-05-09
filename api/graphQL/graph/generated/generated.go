@@ -149,6 +149,10 @@ type ComplexityRoot struct {
 		BusinessServiceOrder func(childComplexity int) int
 	}
 
+	GetBusinessServiceOrderByDateResponse struct {
+		BusinessServicesOrders func(childComplexity int) int
+	}
+
 	GetBusinessServiceOrderResponse struct {
 		BusinessServiceOrder func(childComplexity int) int
 	}
@@ -191,6 +195,7 @@ type ComplexityRoot struct {
 		GetBusinessOwnerCompanies                   func(childComplexity int, input *model.GetBusinessOwnerCompaniesRequest) int
 		GetBusinessService                          func(childComplexity int, input model.GetBusinessServiceRequest) int
 		GetBusinessServiceOrder                     func(childComplexity int, input model.GetBusinessServiceOrderRequest) int
+		GetBusinessServiceOrderByDate               func(childComplexity int, input model.GetBusinessServiceOrderByDateRequest) int
 		GetBusinessServiceOrders                    func(childComplexity int, input model.GetBusinessServiceOrdersRequest) int
 		GetBusinessServices                         func(childComplexity int) int
 		GetBusinessServicesUnderSubCategory         func(childComplexity int, input *model.GetBusinessServicesUnderSubCategoryRequest) int
@@ -308,6 +313,7 @@ type QueryResolver interface {
 	GetBusinessServiceOrder(ctx context.Context, input model.GetBusinessServiceOrderRequest) (*model.GetBusinessServiceOrderResponse, error)
 	GetBusinessServiceOrders(ctx context.Context, input model.GetBusinessServiceOrdersRequest) (*model.GetBusinessServiceOrdersResponse, error)
 	GetCompanyAvailableHoursByDate(ctx context.Context, input model.GetCompanyAvailableHoursByDateRequest) (*model.GetCompanyAvailableHoursByDateResponse, error)
+	GetBusinessServiceOrderByDate(ctx context.Context, input model.GetBusinessServiceOrderByDateRequest) (*model.GetBusinessServiceOrderByDateResponse, error)
 	GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error)
 	GetBusinessCompanies(ctx context.Context) (*model.BusinessCompanies, error)
 	GetBusinessCompanyServices(ctx context.Context, input *model.GetBusinessCompanyServicesRequest) (*model.GetBusinessCompanyServicesResponse, error)
@@ -730,6 +736,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CreateBusinessServiceOrderResponse.BusinessServiceOrder(childComplexity), true
 
+	case "GetBusinessServiceOrderByDateResponse.businessServicesOrders":
+		if e.complexity.GetBusinessServiceOrderByDateResponse.BusinessServicesOrders == nil {
+			break
+		}
+
+		return e.complexity.GetBusinessServiceOrderByDateResponse.BusinessServicesOrders(childComplexity), true
+
 	case "GetBusinessServiceOrderResponse.businessServiceOrder":
 		if e.complexity.GetBusinessServiceOrderResponse.BusinessServiceOrder == nil {
 			break
@@ -1052,6 +1065,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.GetBusinessServiceOrder(childComplexity, args["input"].(model.GetBusinessServiceOrderRequest)), true
+
+	case "Query.getBusinessServiceOrderByDate":
+		if e.complexity.Query.GetBusinessServiceOrderByDate == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getBusinessServiceOrderByDate_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetBusinessServiceOrderByDate(childComplexity, args["input"].(model.GetBusinessServiceOrderByDateRequest)), true
 
 	case "Query.getBusinessServiceOrders":
 		if e.complexity.Query.GetBusinessServiceOrders == nil {
@@ -1819,10 +1844,21 @@ type GetCompanyAvailableHoursByDateResponse {
   availableHour: [String!]!
 }
 
+input GetBusinessServiceOrderByDateRequest {
+  businessServiceID: ID!
+  date: String!
+}
+
+type GetBusinessServiceOrderByDateResponse {
+  businessServicesOrders: [BusinessServiceOrder!]!
+}
+
+
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
-  getCompanyAvailableHoursByDate(input:GetCompanyAvailableHoursByDateRequest!): GetCompanyAvailableHoursByDateResponse!
+  getCompanyAvailableHoursByDate(input: GetCompanyAvailableHoursByDateRequest!): GetCompanyAvailableHoursByDateResponse!
+  getBusinessServiceOrderByDate(input: GetBusinessServiceOrderByDateRequest!): GetBusinessServiceOrderByDateResponse!
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
@@ -2201,6 +2237,20 @@ func (ec *executionContext) field_Query_getBusinessOwnerCompanies_args(ctx conte
 	var arg0 *model.GetBusinessOwnerCompaniesRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalOgetBusinessOwnerCompaniesRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessOwnerCompaniesRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getBusinessServiceOrderByDate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GetBusinessServiceOrderByDateRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNGetBusinessServiceOrderByDateRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderByDateRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4243,6 +4293,40 @@ func (ec *executionContext) _CreateBusinessServiceOrderResponse_businessServiceO
 	return ec.marshalNBusinessServiceOrder2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessServiceOrder(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _GetBusinessServiceOrderByDateResponse_businessServicesOrders(ctx context.Context, field graphql.CollectedField, obj *model.GetBusinessServiceOrderByDateResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "GetBusinessServiceOrderByDateResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessServicesOrders, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]model.BusinessServiceOrder)
+	fc.Result = res
+	return ec.marshalNBusinessServiceOrder2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessServiceOrderᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _GetBusinessServiceOrderResponse_businessServiceOrder(ctx context.Context, field graphql.CollectedField, obj *model.GetBusinessServiceOrderResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5040,6 +5124,47 @@ func (ec *executionContext) _Query_getCompanyAvailableHoursByDate(ctx context.Co
 	res := resTmp.(*model.GetCompanyAvailableHoursByDateResponse)
 	fc.Result = res
 	return ec.marshalNGetCompanyAvailableHoursByDateResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyAvailableHoursByDateResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getBusinessServiceOrderByDate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getBusinessServiceOrderByDate_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetBusinessServiceOrderByDate(rctx, args["input"].(model.GetBusinessServiceOrderByDateRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GetBusinessServiceOrderByDateResponse)
+	fc.Result = res
+	return ec.marshalNGetBusinessServiceOrderByDateResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderByDateResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getBusinessCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -8120,6 +8245,30 @@ func (ec *executionContext) unmarshalInputCreateBusinessServiceOrderRequest(ctx 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputGetBusinessServiceOrderByDateRequest(ctx context.Context, obj interface{}) (model.GetBusinessServiceOrderByDateRequest, error) {
+	var it model.GetBusinessServiceOrderByDateRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessServiceID":
+			var err error
+			it.BusinessServiceID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "date":
+			var err error
+			it.Date, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputGetBusinessServiceOrderRequest(ctx context.Context, obj interface{}) (model.GetBusinessServiceOrderRequest, error) {
 	var it model.GetBusinessServiceOrderRequest
 	var asMap = obj.(map[string]interface{})
@@ -9413,6 +9562,33 @@ func (ec *executionContext) _CreateBusinessServiceOrderResponse(ctx context.Cont
 	return out
 }
 
+var getBusinessServiceOrderByDateResponseImplementors = []string{"GetBusinessServiceOrderByDateResponse"}
+
+func (ec *executionContext) _GetBusinessServiceOrderByDateResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetBusinessServiceOrderByDateResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, getBusinessServiceOrderByDateResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("GetBusinessServiceOrderByDateResponse")
+		case "businessServicesOrders":
+			out.Values[i] = ec._GetBusinessServiceOrderByDateResponse_businessServicesOrders(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var getBusinessServiceOrderResponseImplementors = []string{"GetBusinessServiceOrderResponse"}
 
 func (ec *executionContext) _GetBusinessServiceOrderResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetBusinessServiceOrderResponse) graphql.Marshaler {
@@ -9642,6 +9818,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getCompanyAvailableHoursByDate(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getBusinessServiceOrderByDate":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getBusinessServiceOrderByDate(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11305,6 +11495,24 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNGetBusinessServiceOrderByDateRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderByDateRequest(ctx context.Context, v interface{}) (model.GetBusinessServiceOrderByDateRequest, error) {
+	return ec.unmarshalInputGetBusinessServiceOrderByDateRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNGetBusinessServiceOrderByDateResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderByDateResponse(ctx context.Context, sel ast.SelectionSet, v model.GetBusinessServiceOrderByDateResponse) graphql.Marshaler {
+	return ec._GetBusinessServiceOrderByDateResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNGetBusinessServiceOrderByDateResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderByDateResponse(ctx context.Context, sel ast.SelectionSet, v *model.GetBusinessServiceOrderByDateResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._GetBusinessServiceOrderByDateResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNGetBusinessServiceOrderRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServiceOrderRequest(ctx context.Context, v interface{}) (model.GetBusinessServiceOrderRequest, error) {

@@ -386,6 +386,26 @@ func (r *queryResolver) GetCompanyAvailableHoursByDate(ctx context.Context, inpu
 	return &resp, nil
 }
 
+func (r *queryResolver) GetBusinessServiceOrderByDate(ctx context.Context, input model.GetBusinessServiceOrderByDateRequest) (*model.GetBusinessServiceOrderByDateResponse, error) {
+	orders, err := bso.GetBusinessServiceOrderByDate(ctx, input.BusinessServiceID, input.Date)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(orders)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.GetBusinessServiceOrderByDateResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
 func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error) {
 	company, err := bc.GetBusinessCompany(ctx, input.BusinessCompanyID)
 	if err != nil {
