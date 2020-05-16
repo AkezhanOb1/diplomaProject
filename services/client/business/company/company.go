@@ -19,20 +19,12 @@ func GetBusinessCompany(ctx context.Context, companyID int64) (*pb.GetBusinessCo
 	if err != nil {
 		return nil, err
 	}
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
 	e := pb.GetBusinessCompanyRequest{
 		BusinessCompanyID:   companyID,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	company, err := c.GetBusinessCompany(ctx, &e)
@@ -71,19 +63,12 @@ func GetBusinessCompanyServices(ctx context.Context, companyID int64) (*pb.GetBu
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 	e := pb.GetBusinessCompanyServicesRequest{
 		BusinessCompanyID:   companyID,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 
@@ -102,20 +87,13 @@ func GetBusinessCompanyOperationHourByDay(ctx context.Context, companyID int64, 
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 	e := pb.GetBusinessCompanyOperationHourByDayRequest{
 		CompanyID:            companyID,
 		DayOfWeek:            dayOfWeek,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	operationHour, err := c.GetBusinessCompanyOperationHourByDay(ctx, &e)
@@ -134,19 +112,12 @@ func GetBusinessCompanyOperationHours(ctx context.Context, companyID int64) (*pb
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 	e := pb.GetBusinessCompanyOperationHoursRequest{
 		CompanyID:   companyID,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 
@@ -194,12 +165,8 @@ func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequ
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
@@ -224,12 +191,8 @@ func CreateBusinessCompanyOperationHour(ctx context.Context, req gq.CreateBusine
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
@@ -238,9 +201,6 @@ func CreateBusinessCompanyOperationHour(ctx context.Context, req gq.CreateBusine
 		DayOfWeek:            req.DayOfWeek,
 		OpenTime:             req.OpenTime,
 		CloseTime:            req.CloseTime,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	newOperationHour, err := c.CreateBusinessCompanyOperationHour(ctx, &r)
@@ -259,12 +219,8 @@ func UpdateBusinessCompanyOperationHour(ctx context.Context, req gq.UpdateBusine
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
@@ -275,13 +231,7 @@ func UpdateBusinessCompanyOperationHour(ctx context.Context, req gq.UpdateBusine
 			DayOfWeek:              req.DayOfWeek,
 			OpenTime:               req.OpenTime,
 			CloseTime:              req.CloseTime,
-			XXX_NoUnkeyedLiteral:   struct{}{},
-			XXX_unrecognized:       nil,
-			XXX_sizecache:          0,
 		},
-		XXX_NoUnkeyedLiteral:         struct{}{},
-		XXX_unrecognized:             nil,
-		XXX_sizecache:                0,
 	}
 
 	updatedOperationHour, err := c.UpdateBusinessCompanyOperationHour(ctx, &r)
@@ -300,20 +250,13 @@ func DeleteBusinessCompanyOperationHour(ctx context.Context, req gq.DeleteBusine
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
+
 
 	c := pb.NewBusinessCompaniesServiceClient(cc)
 
 	r := pb.DeleteBusinessCompanyOperationHourRequest{
 		OperationHourID:      req.CompanyOperationHourID,
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
 	}
 
 	deletedOperationHour, err := c.DeleteBusinessCompanyOperationHour(ctx, &r)
