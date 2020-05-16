@@ -18,13 +18,7 @@ func CreateCompanyServiceRepository(ctx context.Context, request *pb.CreateCompa
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(context.Background())
-		if err != nil {
-			log.Println(err)
-		}
-	}()
-
+	defer conn.Close(context.Background())
 
 	sqlQuery := `INSERT INTO business_company_service(company_id, service_id, name, duration, price)
 				 VALUES ($1, $2, $3, $4, $5) RETURNING id;`

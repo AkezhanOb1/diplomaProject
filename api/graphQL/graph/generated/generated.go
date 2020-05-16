@@ -205,6 +205,7 @@ type ComplexityRoot struct {
 		GetCompanyAvailableHoursByDate              func(childComplexity int, input model.GetCompanyAvailableHoursByDateRequest) int
 		GetCompanyService                           func(childComplexity int, input model.GetCompanyServiceRequest) int
 		GetCompanyServices                          func(childComplexity int) int
+		GetCompanyServicesUnderCategory             func(childComplexity int, input *model.GetCompanyServicesUnderCategoryRequest) int
 		GetCompanyServicesUnderSubCategory          func(childComplexity int, input model.GetCompanyServicesUnderSubCategoryRequest) int
 		RetrieveTokenInfo                           func(childComplexity int, input model.RetrieveTokenInfoRequst) int
 	}
@@ -333,6 +334,7 @@ type QueryResolver interface {
 	GetCompanyService(ctx context.Context, input model.GetCompanyServiceRequest) (*model.CompanyService, error)
 	GetCompanyServices(ctx context.Context) (*model.CompanyServices, error)
 	GetCompanyServicesUnderSubCategory(ctx context.Context, input model.GetCompanyServicesUnderSubCategoryRequest) (*model.CompanyServices, error)
+	GetCompanyServicesUnderCategory(ctx context.Context, input *model.GetCompanyServicesUnderCategoryRequest) (*model.CompanyServices, error)
 	RetrieveTokenInfo(ctx context.Context, input model.RetrieveTokenInfoRequst) (*model.RetrieveTokenInfoResponse, error)
 }
 
@@ -1171,6 +1173,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetCompanyServices(childComplexity), true
 
+	case "Query.getCompanyServicesUnderCategory":
+		if e.complexity.Query.GetCompanyServicesUnderCategory == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getCompanyServicesUnderCategory_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetCompanyServicesUnderCategory(childComplexity, args["input"].(*model.GetCompanyServicesUnderCategoryRequest)), true
+
 	case "Query.getCompanyServicesUnderSubCategory":
 		if e.complexity.Query.GetCompanyServicesUnderSubCategory == nil {
 			break
@@ -1576,6 +1590,10 @@ input getBusinessServicesUnderSubCategoryRequest {
   subCategoryID: Int!
 }
 
+input getCompanyServicesUnderCategoryRequest {
+  categoryID: Int!
+}
+
 input createBusinessServiceRequest {
   businessServiceName: String!
   businessServiceSubCategories: [Int!]!
@@ -1886,6 +1904,8 @@ type Query {
   getCompanyService(input: getCompanyServiceRequest!): CompanyService!
   getCompanyServices: CompanyServices!
   getCompanyServicesUnderSubCategory(input: getCompanyServicesUnderSubCategoryRequest!): CompanyServices!
+  getCompanyServicesUnderCategory(input: getCompanyServicesUnderCategoryRequest):CompanyServices!
+
 
   retrieveTokenInfo(input: retrieveTokenInfoRequst!) : retrieveTokenInfoResponse!
 }
@@ -2363,6 +2383,20 @@ func (ec *executionContext) field_Query_getCompanyService_args(ctx context.Conte
 	var arg0 model.GetCompanyServiceRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNgetCompanyServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServiceRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getCompanyServicesUnderCategory_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.GetCompanyServicesUnderCategoryRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalOgetCompanyServicesUnderCategoryRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderCategoryRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5911,6 +5945,47 @@ func (ec *executionContext) _Query_getCompanyServicesUnderSubCategory(ctx contex
 	return ec.marshalNCompanyServices2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCompanyServices(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Query_getCompanyServicesUnderCategory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getCompanyServicesUnderCategory_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetCompanyServicesUnderCategory(rctx, args["input"].(*model.GetCompanyServicesUnderCategoryRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CompanyServices)
+	fc.Result = res
+	return ec.marshalNCompanyServices2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCompanyServices(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_retrieveTokenInfo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8695,6 +8770,24 @@ func (ec *executionContext) unmarshalInputgetCompanyServiceRequest(ctx context.C
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputgetCompanyServicesUnderCategoryRequest(ctx context.Context, obj interface{}) (model.GetCompanyServicesUnderCategoryRequest, error) {
+	var it model.GetCompanyServicesUnderCategoryRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "categoryID":
+			var err error
+			it.CategoryID, err = ec.unmarshalNInt2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputgetCompanyServicesUnderSubCategoryRequest(ctx context.Context, obj interface{}) (model.GetCompanyServicesUnderSubCategoryRequest, error) {
 	var it model.GetCompanyServicesUnderSubCategoryRequest
 	var asMap = obj.(map[string]interface{})
@@ -10098,6 +10191,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getCompanyServicesUnderSubCategory(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getCompanyServicesUnderCategory":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getCompanyServicesUnderCategory(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -12547,6 +12654,18 @@ func (ec *executionContext) unmarshalOgetBusinessServicesUnderSubCategoryRequest
 		return nil, nil
 	}
 	res, err := ec.unmarshalOgetBusinessServicesUnderSubCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessServicesUnderSubCategoryRequest(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) unmarshalOgetCompanyServicesUnderCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderCategoryRequest(ctx context.Context, v interface{}) (model.GetCompanyServicesUnderCategoryRequest, error) {
+	return ec.unmarshalInputgetCompanyServicesUnderCategoryRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalOgetCompanyServicesUnderCategoryRequest2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderCategoryRequest(ctx context.Context, v interface{}) (*model.GetCompanyServicesUnderCategoryRequest, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOgetCompanyServicesUnderCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderCategoryRequest(ctx, v)
 	return &res, err
 }
 

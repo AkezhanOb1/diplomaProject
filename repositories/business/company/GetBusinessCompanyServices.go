@@ -1,12 +1,10 @@
 package company
 
 import (
+	"context"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
-	"log"
 	"github.com/jackc/pgx/v4"
-	"context"
-
 )
 
 
@@ -18,12 +16,8 @@ func GetBusinessCompanyServicesRepository(ctx context.Context, companyID int64) 
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(ctx)
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer conn.Close(ctx)
+
 	sqlQuery := `SELECT id, name, duration, price FROM business_company_service 
 				    WHERE company_id=$1;`
 

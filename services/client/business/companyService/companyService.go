@@ -93,6 +93,29 @@ func GetCompanyServicesUnderSubCategory(ctx context.Context, subCategoryID int64
 	return services, nil
 }
 
+//GetCompanyServicesUnderCategory is a client for graphQL on gRPC services
+func GetCompanyServicesUnderCategory(ctx context.Context, categoryID int64) (*pb.GetCompanyServicesUnderCategoryResponse, error) {
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer  cc.Close()
+
+
+	c := pb.NewCompanyServicesClient(cc)
+	e := pb.GetCompanyServicesUnderCategoryRequest{
+		CategoryID:   categoryID,
+	}
+
+	services, err := c.GetCompanyServicesUnderCategory(ctx, &e)
+	if err != nil {
+		return nil, err
+	}
+
+	return services, nil
+}
+
 
 
 //GetBusinessCompanyOperationHourByDay is a client for graphQL on gRPC services

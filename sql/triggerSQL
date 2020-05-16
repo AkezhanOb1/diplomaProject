@@ -1,0 +1,16 @@
+create function calculate_company_service_order_end_time() returns trigger
+    language plpgsql
+as
+$$
+BEGIN
+    UPDATE business_company_service_order
+    SET end_at = to_char((NEW.start_at::timestamp +
+                          ((SELECT duration FROM business_company_service WHERE id=NEW.business_service_id) ||' minutes')::interval)
+                    at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS""') WHERE id = NEW.id;
+	RETURN NEW;
+END;
+$$;
+
+alter function calculate_company_service_order_end_time() owner to postgres;
+
+

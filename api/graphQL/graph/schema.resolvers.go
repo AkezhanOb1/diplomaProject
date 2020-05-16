@@ -767,6 +767,27 @@ func (r *queryResolver) GetCompanyServicesUnderSubCategory(ctx context.Context, 
 	return &resp, nil
 }
 
+func (r *queryResolver) GetCompanyServicesUnderCategory(ctx context.Context, input *model.GetCompanyServicesUnderCategoryRequest) (*model.CompanyServices, error) {
+	services, err := cs.GetCompanyServicesUnderCategory(ctx, input.CategoryID)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(services)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.CompanyServices
+	err = json.Unmarshal(b, &resp)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
 func (r *queryResolver) RetrieveTokenInfo(ctx context.Context, input model.RetrieveTokenInfoRequst) (*model.RetrieveTokenInfoResponse, error) {
 	token, err := t.RetrieveTokenInformation(input.AccessToken)
 	if err != nil {

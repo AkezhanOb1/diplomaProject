@@ -321,6 +321,10 @@ type GetCompanyServiceRequest struct {
 	CompanyServiceID int64 `json:"companyServiceID"`
 }
 
+type GetCompanyServicesUnderCategoryRequest struct {
+	CategoryID int64 `json:"categoryID"`
+}
+
 type GetCompanyServicesUnderSubCategoryRequest struct {
 	SubCategoryID int64 `json:"subCategoryID"`
 }

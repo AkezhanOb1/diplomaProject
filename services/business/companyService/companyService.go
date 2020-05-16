@@ -71,6 +71,20 @@ func (*Server) GetCompanyServicesUnderSubCategory(ctx context.Context, request *
 }
 
 
+//GetCompanyServicesUnderCategory is
+func (*Server) GetCompanyServicesUnderCategory(ctx context.Context, request *pb.GetCompanyServicesUnderCategoryRequest) (*pb.GetCompanyServicesUnderCategoryResponse, error) {
+	categoryID := request.GetCategoryID()
+
+	services, err := db.GetCompanyServicesUnderCategoryRepository(ctx, categoryID)
+	if err != nil {
+		return nil, err
+	}
+
+	return services, nil
+}
+
+
+
 //CreateCompanyService is
 func (*Server) CreateCompanyService(ctx context.Context, request *pb.CreateCompanyServiceRequest) (*pb.CreateCompanyServiceResponse, error) {
 	newService, err := db.CreateCompanyServiceRepository(ctx, request)

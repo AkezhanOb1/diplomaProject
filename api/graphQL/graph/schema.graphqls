@@ -112,6 +112,10 @@ input getBusinessServicesUnderSubCategoryRequest {
   subCategoryID: Int!
 }
 
+input getCompanyServicesUnderCategoryRequest {
+  categoryID: Int!
+}
+
 input createBusinessServiceRequest {
   businessServiceName: String!
   businessServiceSubCategories: [Int!]!
@@ -422,6 +426,8 @@ type Query {
   getCompanyService(input: getCompanyServiceRequest!): CompanyService!
   getCompanyServices: CompanyServices!
   getCompanyServicesUnderSubCategory(input: getCompanyServicesUnderSubCategoryRequest!): CompanyServices!
+  getCompanyServicesUnderCategory(input: getCompanyServicesUnderCategoryRequest):CompanyServices!
+
 
   retrieveTokenInfo(input: retrieveTokenInfoRequst!) : retrieveTokenInfoResponse!
 }

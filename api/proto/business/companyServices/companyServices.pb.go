@@ -722,6 +722,100 @@ func (x *GetCompanyServicesUnderSubCategoryResponse) GetCompanyServices() []*Com
 	return nil
 }
 
+type GetCompanyServicesUnderCategoryRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CategoryID int64 `protobuf:"varint,1,opt,name=categoryID,proto3" json:"categoryID,omitempty"`
+}
+
+func (x *GetCompanyServicesUnderCategoryRequest) Reset() {
+	*x = GetCompanyServicesUnderCategoryRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_companyServices_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCompanyServicesUnderCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCompanyServicesUnderCategoryRequest) ProtoMessage() {}
+
+func (x *GetCompanyServicesUnderCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_companyServices_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCompanyServicesUnderCategoryRequest.ProtoReflect.Descriptor instead.
+func (*GetCompanyServicesUnderCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_companyServices_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetCompanyServicesUnderCategoryRequest) GetCategoryID() int64 {
+	if x != nil {
+		return x.CategoryID
+	}
+	return 0
+}
+
+type GetCompanyServicesUnderCategoryResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CompanyServices []*CompanyService `protobuf:"bytes,1,rep,name=companyServices,proto3" json:"companyServices,omitempty"`
+}
+
+func (x *GetCompanyServicesUnderCategoryResponse) Reset() {
+	*x = GetCompanyServicesUnderCategoryResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_companyServices_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCompanyServicesUnderCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCompanyServicesUnderCategoryResponse) ProtoMessage() {}
+
+func (x *GetCompanyServicesUnderCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_companyServices_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCompanyServicesUnderCategoryResponse.ProtoReflect.Descriptor instead.
+func (*GetCompanyServicesUnderCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_companyServices_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetCompanyServicesUnderCategoryResponse) GetCompanyServices() []*CompanyService {
+	if x != nil {
+		return x.CompanyServices
+	}
+	return nil
+}
+
 type BusinessCompanyServiceOperationHour struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -738,7 +832,7 @@ type BusinessCompanyServiceOperationHour struct {
 func (x *BusinessCompanyServiceOperationHour) Reset() {
 	*x = BusinessCompanyServiceOperationHour{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[12]
+		mi := &file_companyServices_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -751,7 +845,7 @@ func (x *BusinessCompanyServiceOperationHour) String() string {
 func (*BusinessCompanyServiceOperationHour) ProtoMessage() {}
 
 func (x *BusinessCompanyServiceOperationHour) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[12]
+	mi := &file_companyServices_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -764,7 +858,7 @@ func (x *BusinessCompanyServiceOperationHour) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use BusinessCompanyServiceOperationHour.ProtoReflect.Descriptor instead.
 func (*BusinessCompanyServiceOperationHour) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{12}
+	return file_companyServices_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *BusinessCompanyServiceOperationHour) GetServiceOperationHourID() int64 {
@@ -821,7 +915,7 @@ type GetBusinessCompanyServiceOperationHourByDayRequest struct {
 func (x *GetBusinessCompanyServiceOperationHourByDayRequest) Reset() {
 	*x = GetBusinessCompanyServiceOperationHourByDayRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[13]
+		mi := &file_companyServices_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -834,7 +928,7 @@ func (x *GetBusinessCompanyServiceOperationHourByDayRequest) String() string {
 func (*GetBusinessCompanyServiceOperationHourByDayRequest) ProtoMessage() {}
 
 func (x *GetBusinessCompanyServiceOperationHourByDayRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[13]
+	mi := &file_companyServices_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -847,7 +941,7 @@ func (x *GetBusinessCompanyServiceOperationHourByDayRequest) ProtoReflect() prot
 
 // Deprecated: Use GetBusinessCompanyServiceOperationHourByDayRequest.ProtoReflect.Descriptor instead.
 func (*GetBusinessCompanyServiceOperationHourByDayRequest) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{13}
+	return file_companyServices_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetBusinessCompanyServiceOperationHourByDayRequest) GetServiceID() int64 {
@@ -875,7 +969,7 @@ type GetBusinessCompanyServiceOperationHourByDayResponse struct {
 func (x *GetBusinessCompanyServiceOperationHourByDayResponse) Reset() {
 	*x = GetBusinessCompanyServiceOperationHourByDayResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[14]
+		mi := &file_companyServices_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -888,7 +982,7 @@ func (x *GetBusinessCompanyServiceOperationHourByDayResponse) String() string {
 func (*GetBusinessCompanyServiceOperationHourByDayResponse) ProtoMessage() {}
 
 func (x *GetBusinessCompanyServiceOperationHourByDayResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[14]
+	mi := &file_companyServices_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -901,7 +995,7 @@ func (x *GetBusinessCompanyServiceOperationHourByDayResponse) ProtoReflect() pro
 
 // Deprecated: Use GetBusinessCompanyServiceOperationHourByDayResponse.ProtoReflect.Descriptor instead.
 func (*GetBusinessCompanyServiceOperationHourByDayResponse) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{14}
+	return file_companyServices_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetBusinessCompanyServiceOperationHourByDayResponse) GetBusinessCompanyServiceOperationHour() *BusinessCompanyServiceOperationHour {
@@ -922,7 +1016,7 @@ type GetBusinessCompanyServiceOperationHoursRequest struct {
 func (x *GetBusinessCompanyServiceOperationHoursRequest) Reset() {
 	*x = GetBusinessCompanyServiceOperationHoursRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[15]
+		mi := &file_companyServices_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -935,7 +1029,7 @@ func (x *GetBusinessCompanyServiceOperationHoursRequest) String() string {
 func (*GetBusinessCompanyServiceOperationHoursRequest) ProtoMessage() {}
 
 func (x *GetBusinessCompanyServiceOperationHoursRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[15]
+	mi := &file_companyServices_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -948,7 +1042,7 @@ func (x *GetBusinessCompanyServiceOperationHoursRequest) ProtoReflect() protoref
 
 // Deprecated: Use GetBusinessCompanyServiceOperationHoursRequest.ProtoReflect.Descriptor instead.
 func (*GetBusinessCompanyServiceOperationHoursRequest) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{15}
+	return file_companyServices_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetBusinessCompanyServiceOperationHoursRequest) GetServiceID() int64 {
@@ -969,7 +1063,7 @@ type GetBusinessCompanyServiceOperationHoursResponse struct {
 func (x *GetBusinessCompanyServiceOperationHoursResponse) Reset() {
 	*x = GetBusinessCompanyServiceOperationHoursResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[16]
+		mi := &file_companyServices_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -982,7 +1076,7 @@ func (x *GetBusinessCompanyServiceOperationHoursResponse) String() string {
 func (*GetBusinessCompanyServiceOperationHoursResponse) ProtoMessage() {}
 
 func (x *GetBusinessCompanyServiceOperationHoursResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[16]
+	mi := &file_companyServices_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -995,7 +1089,7 @@ func (x *GetBusinessCompanyServiceOperationHoursResponse) ProtoReflect() protore
 
 // Deprecated: Use GetBusinessCompanyServiceOperationHoursResponse.ProtoReflect.Descriptor instead.
 func (*GetBusinessCompanyServiceOperationHoursResponse) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{16}
+	return file_companyServices_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetBusinessCompanyServiceOperationHoursResponse) GetBusinessCompanyServiceOperationHour() []*BusinessCompanyServiceOperationHour {
@@ -1020,7 +1114,7 @@ type CreateBusinessCompanyServiceOperationHourRequest struct {
 func (x *CreateBusinessCompanyServiceOperationHourRequest) Reset() {
 	*x = CreateBusinessCompanyServiceOperationHourRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[17]
+		mi := &file_companyServices_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1033,7 +1127,7 @@ func (x *CreateBusinessCompanyServiceOperationHourRequest) String() string {
 func (*CreateBusinessCompanyServiceOperationHourRequest) ProtoMessage() {}
 
 func (x *CreateBusinessCompanyServiceOperationHourRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[17]
+	mi := &file_companyServices_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1046,7 +1140,7 @@ func (x *CreateBusinessCompanyServiceOperationHourRequest) ProtoReflect() protor
 
 // Deprecated: Use CreateBusinessCompanyServiceOperationHourRequest.ProtoReflect.Descriptor instead.
 func (*CreateBusinessCompanyServiceOperationHourRequest) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{17}
+	return file_companyServices_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *CreateBusinessCompanyServiceOperationHourRequest) GetBusinessCompanyID() int64 {
@@ -1095,7 +1189,7 @@ type CreateBusinessCompanyServiceOperationHourResponse struct {
 func (x *CreateBusinessCompanyServiceOperationHourResponse) Reset() {
 	*x = CreateBusinessCompanyServiceOperationHourResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[18]
+		mi := &file_companyServices_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1108,7 +1202,7 @@ func (x *CreateBusinessCompanyServiceOperationHourResponse) String() string {
 func (*CreateBusinessCompanyServiceOperationHourResponse) ProtoMessage() {}
 
 func (x *CreateBusinessCompanyServiceOperationHourResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[18]
+	mi := &file_companyServices_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1121,7 +1215,7 @@ func (x *CreateBusinessCompanyServiceOperationHourResponse) ProtoReflect() proto
 
 // Deprecated: Use CreateBusinessCompanyServiceOperationHourResponse.ProtoReflect.Descriptor instead.
 func (*CreateBusinessCompanyServiceOperationHourResponse) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{18}
+	return file_companyServices_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *CreateBusinessCompanyServiceOperationHourResponse) GetBusinessCompanyServiceOperationHour() *BusinessCompanyServiceOperationHour {
@@ -1142,7 +1236,7 @@ type UpdateBusinessCompanyServiceOperationHourRequest struct {
 func (x *UpdateBusinessCompanyServiceOperationHourRequest) Reset() {
 	*x = UpdateBusinessCompanyServiceOperationHourRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[19]
+		mi := &file_companyServices_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1155,7 +1249,7 @@ func (x *UpdateBusinessCompanyServiceOperationHourRequest) String() string {
 func (*UpdateBusinessCompanyServiceOperationHourRequest) ProtoMessage() {}
 
 func (x *UpdateBusinessCompanyServiceOperationHourRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[19]
+	mi := &file_companyServices_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1168,7 +1262,7 @@ func (x *UpdateBusinessCompanyServiceOperationHourRequest) ProtoReflect() protor
 
 // Deprecated: Use UpdateBusinessCompanyServiceOperationHourRequest.ProtoReflect.Descriptor instead.
 func (*UpdateBusinessCompanyServiceOperationHourRequest) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{19}
+	return file_companyServices_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *UpdateBusinessCompanyServiceOperationHourRequest) GetBusinessCompanyServiceOperationHour() *BusinessCompanyServiceOperationHour {
@@ -1189,7 +1283,7 @@ type UpdateBusinessCompanyServiceOperationHourResponse struct {
 func (x *UpdateBusinessCompanyServiceOperationHourResponse) Reset() {
 	*x = UpdateBusinessCompanyServiceOperationHourResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[20]
+		mi := &file_companyServices_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1202,7 +1296,7 @@ func (x *UpdateBusinessCompanyServiceOperationHourResponse) String() string {
 func (*UpdateBusinessCompanyServiceOperationHourResponse) ProtoMessage() {}
 
 func (x *UpdateBusinessCompanyServiceOperationHourResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[20]
+	mi := &file_companyServices_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1215,7 +1309,7 @@ func (x *UpdateBusinessCompanyServiceOperationHourResponse) ProtoReflect() proto
 
 // Deprecated: Use UpdateBusinessCompanyServiceOperationHourResponse.ProtoReflect.Descriptor instead.
 func (*UpdateBusinessCompanyServiceOperationHourResponse) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{20}
+	return file_companyServices_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *UpdateBusinessCompanyServiceOperationHourResponse) GetBusinessCompanyServiceOperationHour() *BusinessCompanyServiceOperationHour {
@@ -1236,7 +1330,7 @@ type DeleteBusinessCompanyServiceOperationHourRequest struct {
 func (x *DeleteBusinessCompanyServiceOperationHourRequest) Reset() {
 	*x = DeleteBusinessCompanyServiceOperationHourRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[21]
+		mi := &file_companyServices_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1249,7 +1343,7 @@ func (x *DeleteBusinessCompanyServiceOperationHourRequest) String() string {
 func (*DeleteBusinessCompanyServiceOperationHourRequest) ProtoMessage() {}
 
 func (x *DeleteBusinessCompanyServiceOperationHourRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[21]
+	mi := &file_companyServices_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1262,7 +1356,7 @@ func (x *DeleteBusinessCompanyServiceOperationHourRequest) ProtoReflect() protor
 
 // Deprecated: Use DeleteBusinessCompanyServiceOperationHourRequest.ProtoReflect.Descriptor instead.
 func (*DeleteBusinessCompanyServiceOperationHourRequest) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{21}
+	return file_companyServices_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *DeleteBusinessCompanyServiceOperationHourRequest) GetOperationHourID() int64 {
@@ -1283,7 +1377,7 @@ type DeleteBusinessCompanyServiceOperationHourResponse struct {
 func (x *DeleteBusinessCompanyServiceOperationHourResponse) Reset() {
 	*x = DeleteBusinessCompanyServiceOperationHourResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_companyServices_proto_msgTypes[22]
+		mi := &file_companyServices_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1296,7 +1390,7 @@ func (x *DeleteBusinessCompanyServiceOperationHourResponse) String() string {
 func (*DeleteBusinessCompanyServiceOperationHourResponse) ProtoMessage() {}
 
 func (x *DeleteBusinessCompanyServiceOperationHourResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_companyServices_proto_msgTypes[22]
+	mi := &file_companyServices_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1309,7 +1403,7 @@ func (x *DeleteBusinessCompanyServiceOperationHourResponse) ProtoReflect() proto
 
 // Deprecated: Use DeleteBusinessCompanyServiceOperationHourResponse.ProtoReflect.Descriptor instead.
 func (*DeleteBusinessCompanyServiceOperationHourResponse) Descriptor() ([]byte, []int) {
-	return file_companyServices_proto_rawDescGZIP(), []int{22}
+	return file_companyServices_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *DeleteBusinessCompanyServiceOperationHourResponse) GetBusinessCompanyServiceOperationHour() *BusinessCompanyServiceOperationHour {
@@ -1444,6 +1538,18 @@ var file_companyServices_proto_rawDesc = []byte{
 	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e,
 	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x52, 0x0f,
 	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x22,
+	0x48, 0x0a, 0x26, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x73, 0x55, 0x6e, 0x64, 0x65, 0x72, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f,
+	0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x61, 0x74,
+	0x65, 0x67, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x63,
+	0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x22, 0x74, 0x0a, 0x27, 0x47, 0x65, 0x74,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x55,
+	0x6e, 0x64, 0x65, 0x72, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x49, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e,
+	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x52, 0x0f,
+	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x22,
 	0x91, 0x02, 0x0a, 0x23, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70,
 	0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x12, 0x36, 0x0a, 0x16, 0x73, 0x65, 0x72, 0x76, 0x69,
@@ -1565,7 +1671,7 @@ var file_companyServices_proto_rawDesc = []byte{
 	0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72,
 	0x52, 0x23, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
 	0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x48, 0x6f, 0x75, 0x72, 0x32, 0xf6, 0x0c, 0x0a, 0x0f, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
+	0x6e, 0x48, 0x6f, 0x75, 0x72, 0x32, 0x8f, 0x0e, 0x0a, 0x0f, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
 	0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x12, 0x6c, 0x0a, 0x11, 0x47, 0x65, 0x74,
 	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x29,
 	0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,
@@ -1634,43 +1740,53 @@ var file_companyServices_proto_rawDesc = []byte{
 	0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x47, 0x65, 0x74,
 	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x55,
 	0x6e, 0x64, 0x65, 0x72, 0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0xb4, 0x01, 0x0a, 0x29, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x96, 0x01, 0x0a, 0x1f, 0x47, 0x65,
+	0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,
+	0x55, 0x6e, 0x64, 0x65, 0x72, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x37, 0x2e,
+	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e,
+	0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x73, 0x55, 0x6e, 0x64, 0x65, 0x72, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
+	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70,
+	0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x55, 0x6e, 0x64, 0x65, 0x72,
+	0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x12, 0xb4, 0x01, 0x0a, 0x29, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73,
+	0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72,
+	0x12, 0x41, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x73, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73,
+	0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x42, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69,
+	0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0xb4, 0x01, 0x0a, 0x29, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70,
 	0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x12, 0x41, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
-	0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
 	0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48,
 	0x6f, 0x75, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x42, 0x2e, 0x63, 0x6f, 0x6d,
-	0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x43, 0x72, 0x65,
+	0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x55, 0x70, 0x64,
 	0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61,
 	0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
-	0x12, 0xb4, 0x01, 0x0a, 0x29, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e,
+	0x12, 0xb4, 0x01, 0x0a, 0x29, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e,
 	0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
 	0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x12, 0x41,
 	0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,
-	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43,
+	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43,
 	0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65,
 	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x42, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x73, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65,
+	0x63, 0x65, 0x73, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65,
 	0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
 	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0xb4, 0x01, 0x0a, 0x29, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
-	0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x48, 0x6f, 0x75, 0x72, 0x12, 0x41, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x75,
-	0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75,
-	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x42, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61,
-	0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
-	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x48, 0x6f, 0x75, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x13,
-	0x5a, 0x11, 0x2e, 0x3b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x13, 0x5a, 0x11, 0x2e, 0x3b, 0x63, 0x6f, 0x6d,
+	0x70, 0x61, 0x6e, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1685,7 +1801,7 @@ func file_companyServices_proto_rawDescGZIP() []byte {
 	return file_companyServices_proto_rawDescData
 }
 
-var file_companyServices_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_companyServices_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_companyServices_proto_goTypes = []interface{}{
 	(*CompanyService)(nil),                                      // 0: companyServices.CompanyService
 	(*GetCompanyServiceRequest)(nil),                            // 1: companyServices.GetCompanyServiceRequest
@@ -1699,18 +1815,20 @@ var file_companyServices_proto_goTypes = []interface{}{
 	(*DeleteCompanyServiceResponse)(nil),                        // 9: companyServices.DeleteCompanyServiceResponse
 	(*GetCompanyServicesUnderSubCategoryRequest)(nil),           // 10: companyServices.GetCompanyServicesUnderSubCategoryRequest
 	(*GetCompanyServicesUnderSubCategoryResponse)(nil),          // 11: companyServices.GetCompanyServicesUnderSubCategoryResponse
-	(*BusinessCompanyServiceOperationHour)(nil),                 // 12: companyServices.BusinessCompanyServiceOperationHour
-	(*GetBusinessCompanyServiceOperationHourByDayRequest)(nil),  // 13: companyServices.GetBusinessCompanyServiceOperationHourByDayRequest
-	(*GetBusinessCompanyServiceOperationHourByDayResponse)(nil), // 14: companyServices.GetBusinessCompanyServiceOperationHourByDayResponse
-	(*GetBusinessCompanyServiceOperationHoursRequest)(nil),      // 15: companyServices.GetBusinessCompanyServiceOperationHoursRequest
-	(*GetBusinessCompanyServiceOperationHoursResponse)(nil),     // 16: companyServices.GetBusinessCompanyServiceOperationHoursResponse
-	(*CreateBusinessCompanyServiceOperationHourRequest)(nil),    // 17: companyServices.CreateBusinessCompanyServiceOperationHourRequest
-	(*CreateBusinessCompanyServiceOperationHourResponse)(nil),   // 18: companyServices.CreateBusinessCompanyServiceOperationHourResponse
-	(*UpdateBusinessCompanyServiceOperationHourRequest)(nil),    // 19: companyServices.UpdateBusinessCompanyServiceOperationHourRequest
-	(*UpdateBusinessCompanyServiceOperationHourResponse)(nil),   // 20: companyServices.UpdateBusinessCompanyServiceOperationHourResponse
-	(*DeleteBusinessCompanyServiceOperationHourRequest)(nil),    // 21: companyServices.DeleteBusinessCompanyServiceOperationHourRequest
-	(*DeleteBusinessCompanyServiceOperationHourResponse)(nil),   // 22: companyServices.DeleteBusinessCompanyServiceOperationHourResponse
-	(*empty.Empty)(nil),                                         // 23: google.protobuf.Empty
+	(*GetCompanyServicesUnderCategoryRequest)(nil),              // 12: companyServices.GetCompanyServicesUnderCategoryRequest
+	(*GetCompanyServicesUnderCategoryResponse)(nil),             // 13: companyServices.GetCompanyServicesUnderCategoryResponse
+	(*BusinessCompanyServiceOperationHour)(nil),                 // 14: companyServices.BusinessCompanyServiceOperationHour
+	(*GetBusinessCompanyServiceOperationHourByDayRequest)(nil),  // 15: companyServices.GetBusinessCompanyServiceOperationHourByDayRequest
+	(*GetBusinessCompanyServiceOperationHourByDayResponse)(nil), // 16: companyServices.GetBusinessCompanyServiceOperationHourByDayResponse
+	(*GetBusinessCompanyServiceOperationHoursRequest)(nil),      // 17: companyServices.GetBusinessCompanyServiceOperationHoursRequest
+	(*GetBusinessCompanyServiceOperationHoursResponse)(nil),     // 18: companyServices.GetBusinessCompanyServiceOperationHoursResponse
+	(*CreateBusinessCompanyServiceOperationHourRequest)(nil),    // 19: companyServices.CreateBusinessCompanyServiceOperationHourRequest
+	(*CreateBusinessCompanyServiceOperationHourResponse)(nil),   // 20: companyServices.CreateBusinessCompanyServiceOperationHourResponse
+	(*UpdateBusinessCompanyServiceOperationHourRequest)(nil),    // 21: companyServices.UpdateBusinessCompanyServiceOperationHourRequest
+	(*UpdateBusinessCompanyServiceOperationHourResponse)(nil),   // 22: companyServices.UpdateBusinessCompanyServiceOperationHourResponse
+	(*DeleteBusinessCompanyServiceOperationHourRequest)(nil),    // 23: companyServices.DeleteBusinessCompanyServiceOperationHourRequest
+	(*DeleteBusinessCompanyServiceOperationHourResponse)(nil),   // 24: companyServices.DeleteBusinessCompanyServiceOperationHourResponse
+	(*empty.Empty)(nil),                                         // 25: google.protobuf.Empty
 }
 var file_companyServices_proto_depIdxs = []int32{
 	0,  // 0: companyServices.GetCompanyServiceResponse.companyService:type_name -> companyServices.CompanyService
@@ -1719,39 +1837,42 @@ var file_companyServices_proto_depIdxs = []int32{
 	0,  // 3: companyServices.UpdateCompanyServiceResponse.companyService:type_name -> companyServices.CompanyService
 	0,  // 4: companyServices.DeleteCompanyServiceResponse.companyService:type_name -> companyServices.CompanyService
 	0,  // 5: companyServices.GetCompanyServicesUnderSubCategoryResponse.companyServices:type_name -> companyServices.CompanyService
-	12, // 6: companyServices.GetBusinessCompanyServiceOperationHourByDayResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
-	12, // 7: companyServices.GetBusinessCompanyServiceOperationHoursResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
-	12, // 8: companyServices.CreateBusinessCompanyServiceOperationHourResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
-	12, // 9: companyServices.UpdateBusinessCompanyServiceOperationHourRequest.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
-	12, // 10: companyServices.UpdateBusinessCompanyServiceOperationHourResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
-	12, // 11: companyServices.DeleteBusinessCompanyServiceOperationHourResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
-	1,  // 12: companyServices.CompanyServices.GetCompanyService:input_type -> companyServices.GetCompanyServiceRequest
-	23, // 13: companyServices.CompanyServices.GetCompanyServices:input_type -> google.protobuf.Empty
-	13, // 14: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHourByDay:input_type -> companyServices.GetBusinessCompanyServiceOperationHourByDayRequest
-	15, // 15: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHours:input_type -> companyServices.GetBusinessCompanyServiceOperationHoursRequest
-	4,  // 16: companyServices.CompanyServices.CreateCompanyService:input_type -> companyServices.CreateCompanyServiceRequest
-	6,  // 17: companyServices.CompanyServices.UpdateCompanyService:input_type -> companyServices.UpdateCompanyServiceRequest
-	8,  // 18: companyServices.CompanyServices.DeleteCompanyService:input_type -> companyServices.DeleteCompanyServiceRequest
-	10, // 19: companyServices.CompanyServices.GetCompanyServicesUnderSubCategory:input_type -> companyServices.GetCompanyServicesUnderSubCategoryRequest
-	17, // 20: companyServices.CompanyServices.CreateBusinessCompanyServiceOperationHour:input_type -> companyServices.CreateBusinessCompanyServiceOperationHourRequest
-	19, // 21: companyServices.CompanyServices.UpdateBusinessCompanyServiceOperationHour:input_type -> companyServices.UpdateBusinessCompanyServiceOperationHourRequest
-	21, // 22: companyServices.CompanyServices.DeleteBusinessCompanyServiceOperationHour:input_type -> companyServices.DeleteBusinessCompanyServiceOperationHourRequest
-	2,  // 23: companyServices.CompanyServices.GetCompanyService:output_type -> companyServices.GetCompanyServiceResponse
-	3,  // 24: companyServices.CompanyServices.GetCompanyServices:output_type -> companyServices.GetCompanyServicesResponse
-	14, // 25: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHourByDay:output_type -> companyServices.GetBusinessCompanyServiceOperationHourByDayResponse
-	16, // 26: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHours:output_type -> companyServices.GetBusinessCompanyServiceOperationHoursResponse
-	5,  // 27: companyServices.CompanyServices.CreateCompanyService:output_type -> companyServices.CreateCompanyServiceResponse
-	7,  // 28: companyServices.CompanyServices.UpdateCompanyService:output_type -> companyServices.UpdateCompanyServiceResponse
-	9,  // 29: companyServices.CompanyServices.DeleteCompanyService:output_type -> companyServices.DeleteCompanyServiceResponse
-	11, // 30: companyServices.CompanyServices.GetCompanyServicesUnderSubCategory:output_type -> companyServices.GetCompanyServicesUnderSubCategoryResponse
-	18, // 31: companyServices.CompanyServices.CreateBusinessCompanyServiceOperationHour:output_type -> companyServices.CreateBusinessCompanyServiceOperationHourResponse
-	20, // 32: companyServices.CompanyServices.UpdateBusinessCompanyServiceOperationHour:output_type -> companyServices.UpdateBusinessCompanyServiceOperationHourResponse
-	22, // 33: companyServices.CompanyServices.DeleteBusinessCompanyServiceOperationHour:output_type -> companyServices.DeleteBusinessCompanyServiceOperationHourResponse
-	23, // [23:34] is the sub-list for method output_type
-	12, // [12:23] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	0,  // 6: companyServices.GetCompanyServicesUnderCategoryResponse.companyServices:type_name -> companyServices.CompanyService
+	14, // 7: companyServices.GetBusinessCompanyServiceOperationHourByDayResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
+	14, // 8: companyServices.GetBusinessCompanyServiceOperationHoursResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
+	14, // 9: companyServices.CreateBusinessCompanyServiceOperationHourResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
+	14, // 10: companyServices.UpdateBusinessCompanyServiceOperationHourRequest.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
+	14, // 11: companyServices.UpdateBusinessCompanyServiceOperationHourResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
+	14, // 12: companyServices.DeleteBusinessCompanyServiceOperationHourResponse.businessCompanyServiceOperationHour:type_name -> companyServices.BusinessCompanyServiceOperationHour
+	1,  // 13: companyServices.CompanyServices.GetCompanyService:input_type -> companyServices.GetCompanyServiceRequest
+	25, // 14: companyServices.CompanyServices.GetCompanyServices:input_type -> google.protobuf.Empty
+	15, // 15: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHourByDay:input_type -> companyServices.GetBusinessCompanyServiceOperationHourByDayRequest
+	17, // 16: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHours:input_type -> companyServices.GetBusinessCompanyServiceOperationHoursRequest
+	4,  // 17: companyServices.CompanyServices.CreateCompanyService:input_type -> companyServices.CreateCompanyServiceRequest
+	6,  // 18: companyServices.CompanyServices.UpdateCompanyService:input_type -> companyServices.UpdateCompanyServiceRequest
+	8,  // 19: companyServices.CompanyServices.DeleteCompanyService:input_type -> companyServices.DeleteCompanyServiceRequest
+	10, // 20: companyServices.CompanyServices.GetCompanyServicesUnderSubCategory:input_type -> companyServices.GetCompanyServicesUnderSubCategoryRequest
+	12, // 21: companyServices.CompanyServices.GetCompanyServicesUnderCategory:input_type -> companyServices.GetCompanyServicesUnderCategoryRequest
+	19, // 22: companyServices.CompanyServices.CreateBusinessCompanyServiceOperationHour:input_type -> companyServices.CreateBusinessCompanyServiceOperationHourRequest
+	21, // 23: companyServices.CompanyServices.UpdateBusinessCompanyServiceOperationHour:input_type -> companyServices.UpdateBusinessCompanyServiceOperationHourRequest
+	23, // 24: companyServices.CompanyServices.DeleteBusinessCompanyServiceOperationHour:input_type -> companyServices.DeleteBusinessCompanyServiceOperationHourRequest
+	2,  // 25: companyServices.CompanyServices.GetCompanyService:output_type -> companyServices.GetCompanyServiceResponse
+	3,  // 26: companyServices.CompanyServices.GetCompanyServices:output_type -> companyServices.GetCompanyServicesResponse
+	16, // 27: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHourByDay:output_type -> companyServices.GetBusinessCompanyServiceOperationHourByDayResponse
+	18, // 28: companyServices.CompanyServices.GetBusinessCompanyServiceOperationHours:output_type -> companyServices.GetBusinessCompanyServiceOperationHoursResponse
+	5,  // 29: companyServices.CompanyServices.CreateCompanyService:output_type -> companyServices.CreateCompanyServiceResponse
+	7,  // 30: companyServices.CompanyServices.UpdateCompanyService:output_type -> companyServices.UpdateCompanyServiceResponse
+	9,  // 31: companyServices.CompanyServices.DeleteCompanyService:output_type -> companyServices.DeleteCompanyServiceResponse
+	11, // 32: companyServices.CompanyServices.GetCompanyServicesUnderSubCategory:output_type -> companyServices.GetCompanyServicesUnderSubCategoryResponse
+	13, // 33: companyServices.CompanyServices.GetCompanyServicesUnderCategory:output_type -> companyServices.GetCompanyServicesUnderCategoryResponse
+	20, // 34: companyServices.CompanyServices.CreateBusinessCompanyServiceOperationHour:output_type -> companyServices.CreateBusinessCompanyServiceOperationHourResponse
+	22, // 35: companyServices.CompanyServices.UpdateBusinessCompanyServiceOperationHour:output_type -> companyServices.UpdateBusinessCompanyServiceOperationHourResponse
+	24, // 36: companyServices.CompanyServices.DeleteBusinessCompanyServiceOperationHour:output_type -> companyServices.DeleteBusinessCompanyServiceOperationHourResponse
+	25, // [25:37] is the sub-list for method output_type
+	13, // [13:25] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_companyServices_proto_init() }
@@ -1905,7 +2026,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BusinessCompanyServiceOperationHour); i {
+			switch v := v.(*GetCompanyServicesUnderCategoryRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1917,7 +2038,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetBusinessCompanyServiceOperationHourByDayRequest); i {
+			switch v := v.(*GetCompanyServicesUnderCategoryResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1929,7 +2050,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetBusinessCompanyServiceOperationHourByDayResponse); i {
+			switch v := v.(*BusinessCompanyServiceOperationHour); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1941,7 +2062,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetBusinessCompanyServiceOperationHoursRequest); i {
+			switch v := v.(*GetBusinessCompanyServiceOperationHourByDayRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1953,7 +2074,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetBusinessCompanyServiceOperationHoursResponse); i {
+			switch v := v.(*GetBusinessCompanyServiceOperationHourByDayResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1965,7 +2086,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateBusinessCompanyServiceOperationHourRequest); i {
+			switch v := v.(*GetBusinessCompanyServiceOperationHoursRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1977,7 +2098,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateBusinessCompanyServiceOperationHourResponse); i {
+			switch v := v.(*GetBusinessCompanyServiceOperationHoursResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1989,7 +2110,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateBusinessCompanyServiceOperationHourRequest); i {
+			switch v := v.(*CreateBusinessCompanyServiceOperationHourRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2001,7 +2122,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateBusinessCompanyServiceOperationHourResponse); i {
+			switch v := v.(*CreateBusinessCompanyServiceOperationHourResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2013,7 +2134,7 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteBusinessCompanyServiceOperationHourRequest); i {
+			switch v := v.(*UpdateBusinessCompanyServiceOperationHourRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2025,6 +2146,30 @@ func file_companyServices_proto_init() {
 			}
 		}
 		file_companyServices_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateBusinessCompanyServiceOperationHourResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_companyServices_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteBusinessCompanyServiceOperationHourRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_companyServices_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteBusinessCompanyServiceOperationHourResponse); i {
 			case 0:
 				return &v.state
@@ -2043,7 +2188,7 @@ func file_companyServices_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_companyServices_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -2077,6 +2222,7 @@ type CompanyServicesClient interface {
 	UpdateCompanyService(ctx context.Context, in *UpdateCompanyServiceRequest, opts ...grpc.CallOption) (*UpdateCompanyServiceResponse, error)
 	DeleteCompanyService(ctx context.Context, in *DeleteCompanyServiceRequest, opts ...grpc.CallOption) (*DeleteCompanyServiceResponse, error)
 	GetCompanyServicesUnderSubCategory(ctx context.Context, in *GetCompanyServicesUnderSubCategoryRequest, opts ...grpc.CallOption) (*GetCompanyServicesUnderSubCategoryResponse, error)
+	GetCompanyServicesUnderCategory(ctx context.Context, in *GetCompanyServicesUnderCategoryRequest, opts ...grpc.CallOption) (*GetCompanyServicesUnderCategoryResponse, error)
 	CreateBusinessCompanyServiceOperationHour(ctx context.Context, in *CreateBusinessCompanyServiceOperationHourRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyServiceOperationHourResponse, error)
 	UpdateBusinessCompanyServiceOperationHour(ctx context.Context, in *UpdateBusinessCompanyServiceOperationHourRequest, opts ...grpc.CallOption) (*UpdateBusinessCompanyServiceOperationHourResponse, error)
 	DeleteBusinessCompanyServiceOperationHour(ctx context.Context, in *DeleteBusinessCompanyServiceOperationHourRequest, opts ...grpc.CallOption) (*DeleteBusinessCompanyServiceOperationHourResponse, error)
@@ -2162,6 +2308,15 @@ func (c *companyServicesClient) GetCompanyServicesUnderSubCategory(ctx context.C
 	return out, nil
 }
 
+func (c *companyServicesClient) GetCompanyServicesUnderCategory(ctx context.Context, in *GetCompanyServicesUnderCategoryRequest, opts ...grpc.CallOption) (*GetCompanyServicesUnderCategoryResponse, error) {
+	out := new(GetCompanyServicesUnderCategoryResponse)
+	err := c.cc.Invoke(ctx, "/companyServices.CompanyServices/GetCompanyServicesUnderCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *companyServicesClient) CreateBusinessCompanyServiceOperationHour(ctx context.Context, in *CreateBusinessCompanyServiceOperationHourRequest, opts ...grpc.CallOption) (*CreateBusinessCompanyServiceOperationHourResponse, error) {
 	out := new(CreateBusinessCompanyServiceOperationHourResponse)
 	err := c.cc.Invoke(ctx, "/companyServices.CompanyServices/CreateBusinessCompanyServiceOperationHour", in, out, opts...)
@@ -2199,6 +2354,7 @@ type CompanyServicesServer interface {
 	UpdateCompanyService(context.Context, *UpdateCompanyServiceRequest) (*UpdateCompanyServiceResponse, error)
 	DeleteCompanyService(context.Context, *DeleteCompanyServiceRequest) (*DeleteCompanyServiceResponse, error)
 	GetCompanyServicesUnderSubCategory(context.Context, *GetCompanyServicesUnderSubCategoryRequest) (*GetCompanyServicesUnderSubCategoryResponse, error)
+	GetCompanyServicesUnderCategory(context.Context, *GetCompanyServicesUnderCategoryRequest) (*GetCompanyServicesUnderCategoryResponse, error)
 	CreateBusinessCompanyServiceOperationHour(context.Context, *CreateBusinessCompanyServiceOperationHourRequest) (*CreateBusinessCompanyServiceOperationHourResponse, error)
 	UpdateBusinessCompanyServiceOperationHour(context.Context, *UpdateBusinessCompanyServiceOperationHourRequest) (*UpdateBusinessCompanyServiceOperationHourResponse, error)
 	DeleteBusinessCompanyServiceOperationHour(context.Context, *DeleteBusinessCompanyServiceOperationHourRequest) (*DeleteBusinessCompanyServiceOperationHourResponse, error)
@@ -2231,6 +2387,9 @@ func (*UnimplementedCompanyServicesServer) DeleteCompanyService(context.Context,
 }
 func (*UnimplementedCompanyServicesServer) GetCompanyServicesUnderSubCategory(context.Context, *GetCompanyServicesUnderSubCategoryRequest) (*GetCompanyServicesUnderSubCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCompanyServicesUnderSubCategory not implemented")
+}
+func (*UnimplementedCompanyServicesServer) GetCompanyServicesUnderCategory(context.Context, *GetCompanyServicesUnderCategoryRequest) (*GetCompanyServicesUnderCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCompanyServicesUnderCategory not implemented")
 }
 func (*UnimplementedCompanyServicesServer) CreateBusinessCompanyServiceOperationHour(context.Context, *CreateBusinessCompanyServiceOperationHourRequest) (*CreateBusinessCompanyServiceOperationHourResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBusinessCompanyServiceOperationHour not implemented")
@@ -2390,6 +2549,24 @@ func _CompanyServices_GetCompanyServicesUnderSubCategory_Handler(srv interface{}
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyServices_GetCompanyServicesUnderCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCompanyServicesUnderCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServicesServer).GetCompanyServicesUnderCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/companyServices.CompanyServices/GetCompanyServicesUnderCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServicesServer).GetCompanyServicesUnderCategory(ctx, req.(*GetCompanyServicesUnderCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CompanyServices_CreateBusinessCompanyServiceOperationHour_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateBusinessCompanyServiceOperationHourRequest)
 	if err := dec(in); err != nil {
@@ -2479,6 +2656,10 @@ var _CompanyServices_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCompanyServicesUnderSubCategory",
 			Handler:    _CompanyServices_GetCompanyServicesUnderSubCategory_Handler,
+		},
+		{
+			MethodName: "GetCompanyServicesUnderCategory",
+			Handler:    _CompanyServices_GetCompanyServicesUnderCategory_Handler,
 		},
 		{
 			MethodName: "CreateBusinessCompanyServiceOperationHour",

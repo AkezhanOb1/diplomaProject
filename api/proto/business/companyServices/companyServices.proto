@@ -69,6 +69,15 @@ message GetCompanyServicesUnderSubCategoryResponse {
     repeated CompanyService companyServices = 1;
 }
 
+message GetCompanyServicesUnderCategoryRequest {
+    int64 categoryID = 1;
+}
+
+message GetCompanyServicesUnderCategoryResponse {
+    repeated CompanyService companyServices = 1;
+}
+
+
 
 message BusinessCompanyServiceOperationHour {
     int64 serviceOperationHourID = 1;
@@ -138,6 +147,7 @@ service CompanyServices {
     rpc UpdateCompanyService(UpdateCompanyServiceRequest) returns (UpdateCompanyServiceResponse) {}
     rpc DeleteCompanyService(DeleteCompanyServiceRequest) returns (DeleteCompanyServiceResponse) {}
     rpc GetCompanyServicesUnderSubCategory(GetCompanyServicesUnderSubCategoryRequest) returns (GetCompanyServicesUnderSubCategoryResponse) {}
+    rpc GetCompanyServicesUnderCategory(GetCompanyServicesUnderCategoryRequest) returns (GetCompanyServicesUnderCategoryResponse) {}
     rpc CreateBusinessCompanyServiceOperationHour(CreateBusinessCompanyServiceOperationHourRequest) returns (CreateBusinessCompanyServiceOperationHourResponse){}
     rpc UpdateBusinessCompanyServiceOperationHour(UpdateBusinessCompanyServiceOperationHourRequest) returns (UpdateBusinessCompanyServiceOperationHourResponse) {}
     rpc DeleteBusinessCompanyServiceOperationHour(DeleteBusinessCompanyServiceOperationHourRequest) returns (DeleteBusinessCompanyServiceOperationHourResponse) {}
