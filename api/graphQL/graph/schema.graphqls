@@ -48,6 +48,10 @@ type BusinessCompanies {
   businessCompanies: [BusinessCompany!]!
 }
 
+input getBusinessCompaniesUnderCategoryRequest {
+  categoryID: ID!
+}
+
 input getBusinessCompanyServicesRequest {
   businessCompanyID: ID!
 }
@@ -393,7 +397,6 @@ type GetBusinessServiceOrderByDateResponse {
   businessServicesOrders: [BusinessServiceOrder!]!
 }
 
-
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
@@ -402,6 +405,8 @@ type Query {
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
+  getBusinessCompaniesUnderCategory(input: getBusinessCompaniesUnderCategoryRequest!): BusinessCompanies!
+
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
 
   getBusinessOwnerCompanies(input: getBusinessOwnerCompaniesRequest): getBusinessOwnerCompaniesResponse!

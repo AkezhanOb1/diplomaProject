@@ -2,7 +2,7 @@ syntax="proto3";
 import "google/protobuf/empty.proto";
 
 package businessCompanies;
-option go_package="companies";
+option go_package = ".;companies";
 
 message BusinessCompany {
     int64 businessCompanyID = 1;
@@ -99,12 +99,21 @@ message DeleteBusinessCompanyOperationHourResponse {
     BusinessCompanyOperationHour businessCompanyOperationHour = 1;
 }
 
+message GetBusinessCompaniesUnderCategoryRequest {
+    int64 categoryID = 1;
+}
+
+message GetBusinessCompaniesUnderCategoryResponse {
+    repeated BusinessCompany businessCompanies = 1;
+}
+
  service BusinessCompaniesService {
     rpc GetBusinessCompany(GetBusinessCompanyRequest) returns (GetBusinessCompanyResponse) {}
     rpc GetBusinessCompanies(google.protobuf.Empty) returns (GetBusinessCompaniesResponse) {}
     rpc GetBusinessCompanyServices(GetBusinessCompanyServicesRequest) returns (GetBusinessCompanyServicesResponse) {}
     rpc GetBusinessCompanyOperationHourByDay(GetBusinessCompanyOperationHourByDayRequest) returns (GetBusinessCompanyOperationHourByDayResponse) {}
     rpc GetBusinessCompanyOperationHours(GetBusinessCompanyOperationHoursRequest) returns (GetBusinessCompanyOperationHoursResponse) {}
+    rpc GetBusinessCompaniesUnderCategory(GetBusinessCompaniesUnderCategoryRequest) returns (GetBusinessCompaniesUnderCategoryResponse) {}
 
     rpc CreateBusinessCompany(CreateBusinessCompanyRequest) returns (CreateBusinessCompanyResponse) {}
     rpc CreateBusinessCompanyOperationHour(CreateBusinessCompanyOperationHourRequest) returns (CreateBusinessCompanyOperationHourResponse){}

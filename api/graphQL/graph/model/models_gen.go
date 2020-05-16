@@ -281,6 +281,10 @@ type GenerateTokenResponse struct {
 	TokenType    string `json:"tokenType"`
 }
 
+type GetBusinessCompaniesUnderCategoryRequest struct {
+	CategoryID int64 `json:"categoryID"`
+}
+
 type GetBusinessCompanyOperationHoursRequest struct {
 	BusinessCompanyID int64 `json:"businessCompanyID"`
 }

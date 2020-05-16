@@ -158,7 +158,33 @@ func GetBusinessCompanyOperationHours(ctx context.Context, companyID int64) (*pb
 	return operationHours, nil
 }
 
+//GetBusinessCompaniesUnderCategory is a client for graphQL on gRPC services
+func GetBusinessCompaniesUnderCategory(ctx context.Context, categoryID int64) (*pb.GetBusinessCompaniesUnderCategoryResponse, error) {
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
 
+	defer func(){
+		err = cc.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+
+	c := pb.NewBusinessCompaniesServiceClient(cc)
+	e := pb.GetBusinessCompaniesUnderCategoryRequest{
+		CategoryID:categoryID,
+	}
+
+
+	companies, err := c.GetBusinessCompaniesUnderCategory(ctx, &e)
+	if err != nil {
+		return nil, err
+	}
+
+	return companies, nil
+}
 
 
 //CreateBusinessCompany is a client function for registration a new business company

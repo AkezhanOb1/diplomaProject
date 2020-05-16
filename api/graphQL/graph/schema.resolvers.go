@@ -440,6 +440,26 @@ func (r *queryResolver) GetBusinessCompanies(ctx context.Context) (*model.Busine
 	return &resp, nil
 }
 
+func (r *queryResolver) GetBusinessCompaniesUnderCategory(ctx context.Context, input model.GetBusinessCompaniesUnderCategoryRequest) (*model.BusinessCompanies, error) {
+	companies, err := bc.GetBusinessCompaniesUnderCategory(ctx, input.CategoryID)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(companies)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.BusinessCompanies
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
 func (r *queryResolver) GetBusinessCompanyServices(ctx context.Context, input *model.GetBusinessCompanyServicesRequest) (*model.GetBusinessCompanyServicesResponse, error) {
 	services, err := bc.GetBusinessCompanyServices(ctx, input.BusinessCompanyID)
 	if err != nil {

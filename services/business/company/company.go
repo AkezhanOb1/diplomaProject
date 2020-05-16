@@ -64,6 +64,16 @@ func (*Server) GetBusinessCompanyOperationHours(ctx context.Context, request *pb
 	return operationHours, nil
 }
 
+//GetBusinessCompaniesUnderCategory is
+func (*Server) GetBusinessCompaniesUnderCategory(ctx context.Context, request *pb.GetBusinessCompaniesUnderCategoryRequest) (*pb.GetBusinessCompaniesUnderCategoryResponse, error) {
+	companies, err := db.GetBusinessCompaniesUnderCategoryRepository(ctx, request.GetCategoryID())
+	if err != nil {
+		return nil, err
+	}
+
+	return companies, nil
+}
+
 //CreateBusinessCompany is
 func (*Server) CreateBusinessCompany(ctx context.Context, request *pb.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
 	businessCompany, err := db.CreateCompanyRepository(ctx, request)

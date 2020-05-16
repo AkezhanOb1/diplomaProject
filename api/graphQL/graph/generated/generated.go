@@ -186,6 +186,7 @@ type ComplexityRoot struct {
 		GetBusinessCategories                       func(childComplexity int) int
 		GetBusinessCategory                         func(childComplexity int, input model.BusinessCategoryRequest) int
 		GetBusinessCompanies                        func(childComplexity int) int
+		GetBusinessCompaniesUnderCategory           func(childComplexity int, input model.GetBusinessCompaniesUnderCategoryRequest) int
 		GetBusinessCompany                          func(childComplexity int, input model.GetBusinessCompanyRequest) int
 		GetBusinessCompanyOperationHourByDay        func(childComplexity int, input *model.GetGetBusinessCompanyOperationHourByDayRequest) int
 		GetBusinessCompanyOperationHours            func(childComplexity int, input *model.GetBusinessCompanyOperationHoursRequest) int
@@ -317,6 +318,7 @@ type QueryResolver interface {
 	GetBusinessServiceOrderByDate(ctx context.Context, input model.GetBusinessServiceOrderByDateRequest) (*model.GetBusinessServiceOrderByDateResponse, error)
 	GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error)
 	GetBusinessCompanies(ctx context.Context) (*model.BusinessCompanies, error)
+	GetBusinessCompaniesUnderCategory(ctx context.Context, input model.GetBusinessCompaniesUnderCategoryRequest) (*model.BusinessCompanies, error)
 	GetBusinessCompanyServices(ctx context.Context, input *model.GetBusinessCompanyServicesRequest) (*model.GetBusinessCompanyServicesResponse, error)
 	GetBusinessOwnerCompanies(ctx context.Context, input *model.GetBusinessOwnerCompaniesRequest) (*model.GetBusinessOwnerCompaniesResponse, error)
 	GetBusinessCompanyOperationHourByDay(ctx context.Context, input *model.GetGetBusinessCompanyOperationHourByDayRequest) (*model.BusinessCompanyOperationHourResponse, error)
@@ -960,6 +962,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetBusinessCompanies(childComplexity), true
 
+	case "Query.getBusinessCompaniesUnderCategory":
+		if e.complexity.Query.GetBusinessCompaniesUnderCategory == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getBusinessCompaniesUnderCategory_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetBusinessCompaniesUnderCategory(childComplexity, args["input"].(model.GetBusinessCompaniesUnderCategoryRequest)), true
+
 	case "Query.getBusinessCompany":
 		if e.complexity.Query.GetBusinessCompany == nil {
 			break
@@ -1526,6 +1540,10 @@ type BusinessCompanies {
   businessCompanies: [BusinessCompany!]!
 }
 
+input getBusinessCompaniesUnderCategoryRequest {
+  categoryID: ID!
+}
+
 input getBusinessCompanyServicesRequest {
   businessCompanyID: ID!
 }
@@ -1871,7 +1889,6 @@ type GetBusinessServiceOrderByDateResponse {
   businessServicesOrders: [BusinessServiceOrder!]!
 }
 
-
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
@@ -1880,6 +1897,8 @@ type Query {
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
+  getBusinessCompaniesUnderCategory(input: getBusinessCompaniesUnderCategoryRequest!): BusinessCompanies!
+
   getBusinessCompanyServices(input: getBusinessCompanyServicesRequest): getBusinessCompanyServicesResponse!
 
   getBusinessOwnerCompanies(input: getBusinessOwnerCompaniesRequest): getBusinessOwnerCompaniesResponse!
@@ -2159,6 +2178,20 @@ func (ec *executionContext) field_Query_getBusinessCategory_args(ctx context.Con
 	var arg0 model.BusinessCategoryRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNBusinessCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCategoryRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getBusinessCompaniesUnderCategory_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GetBusinessCompaniesUnderCategoryRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNgetBusinessCompaniesUnderCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompaniesUnderCategoryRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5260,6 +5293,47 @@ func (ec *executionContext) _Query_getBusinessCompanies(ctx context.Context, fie
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Query().GetBusinessCompanies(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanies)
+	fc.Result = res
+	return ec.marshalNBusinessCompanies2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanies(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getBusinessCompaniesUnderCategory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getBusinessCompaniesUnderCategory_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetBusinessCompaniesUnderCategory(rctx, args["input"].(model.GetBusinessCompaniesUnderCategoryRequest))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8626,6 +8700,24 @@ func (ec *executionContext) unmarshalInputgenerateTokenRequest(ctx context.Conte
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputgetBusinessCompaniesUnderCategoryRequest(ctx context.Context, obj interface{}) (model.GetBusinessCompaniesUnderCategoryRequest, error) {
+	var it model.GetBusinessCompaniesUnderCategoryRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "categoryID":
+			var err error
+			it.CategoryID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputgetBusinessCompanyOperationHoursRequest(ctx context.Context, obj interface{}) (model.GetBusinessCompanyOperationHoursRequest, error) {
 	var it model.GetBusinessCompanyOperationHoursRequest
 	var asMap = obj.(map[string]interface{})
@@ -9953,6 +10045,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getBusinessCompanies(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getBusinessCompaniesUnderCategory":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getBusinessCompaniesUnderCategory(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -12176,6 +12282,10 @@ func (ec *executionContext) marshalNdeleteCompanyServiceResponse2ᚖgithubᚗcom
 
 func (ec *executionContext) unmarshalNgenerateTokenRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGenerateTokenRequest(ctx context.Context, v interface{}) (model.GenerateTokenRequest, error) {
 	return ec.unmarshalInputgenerateTokenRequest(ctx, v)
+}
+
+func (ec *executionContext) unmarshalNgetBusinessCompaniesUnderCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompaniesUnderCategoryRequest(ctx context.Context, v interface{}) (model.GetBusinessCompaniesUnderCategoryRequest, error) {
+	return ec.unmarshalInputgetBusinessCompaniesUnderCategoryRequest(ctx, v)
 }
 
 func (ec *executionContext) unmarshalNgetBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetBusinessCompanyRequest(ctx context.Context, v interface{}) (model.GetBusinessCompanyRequest, error) {
