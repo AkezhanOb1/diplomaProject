@@ -14,7 +14,7 @@ import (
 
 
 func main() {
-	const port = ":8082"
+	const port = ":8080"
 
 	router := chi.NewRouter()
 

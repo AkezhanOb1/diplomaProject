@@ -13,4 +13,4 @@ services:
     links:
       - server
     ports:
-        - "8082:8082"
+        - "8080:8080"
