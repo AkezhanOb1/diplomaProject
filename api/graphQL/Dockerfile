@@ -9,7 +9,7 @@ COPY . .
 RUN go build './api/graphQL/client.go'
 #In this last stage, we start from a fresh Alpine image, to reduce the image size and not ship the Go compiler in our production artifacts.
 # Expose port 8080 to the outside world
-EXPOSE 8080
+EXPOSE 8082
 # Finally we copy the statically compiled Go binary.
 # Run the executable
 ENTRYPOINT ["./client"]

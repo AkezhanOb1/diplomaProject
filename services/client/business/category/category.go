@@ -2,13 +2,13 @@ package category
 
 import (
 	"context"
-	config "github.com/AkezhanOb1/diplomaProject/configs"
+	"log"
+
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/categories"
+	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	"log"
 )
-
 
 //GetBusinessCategories is a client for graphQL on gRPC services
 func GetBusinessCategories(ctx context.Context) ([]*pb.BusinessCategory, error) {
@@ -29,14 +29,13 @@ func GetBusinessCategories(ctx context.Context) ([]*pb.BusinessCategory, error) 
 	return categories.BusinessCategories, nil
 }
 
-
 //GetBusinessCategory is a client for graphQL on gRPC services
 func GetBusinessCategory(ctx context.Context, id int64) (*pb.BusinessCategoryResponse, error) {
 	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
-	defer func(){
+	defer func() {
 		err = cc.Close()
 		if err != nil {
 			log.Println(err)
@@ -58,4 +57,3 @@ func GetBusinessCategory(ctx context.Context, id int64) (*pb.BusinessCategoryRes
 
 	return category, nil
 }
-
