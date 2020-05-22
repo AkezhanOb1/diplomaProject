@@ -3,8 +3,8 @@ package owner
 import (
 	"context"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
-	config "github.com/AkezhanOb1/diplomaProject/configs"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/owners"
+	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"google.golang.org/grpc"
 	"log"
 )

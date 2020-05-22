@@ -145,6 +145,39 @@ type CreateBusinessServiceOrderResponse struct {
 	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
 }
 
+type CreateCustomerRequest struct {
+	CustomerFirstName         string `json:"customerFirstName"`
+	CustomerSecondName        string `json:"customerSecondName"`
+	CustomerEmail             string `json:"customerEmail"`
+	CustomerPhoneNumberPrefix string `json:"customerPhoneNumberPrefix"`
+	CustomerPhoneNumber       string `json:"customerPhoneNumber"`
+	CustomerPassword          string `json:"customerPassword"`
+}
+
+type CreateCustomerResponse struct {
+	Customer *Customer `json:"customer"`
+	Token    *Token    `json:"token"`
+}
+
+type CreateCustomerTokenRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type CreateCustomerTokenResponse struct {
+	Token *Token `json:"token"`
+}
+
+type Customer struct {
+	CustomerID                int64  `json:"customerID"`
+	CustomerFirstName         string `json:"customerFirstName"`
+	CustomerSecondName        string `json:"customerSecondName"`
+	CustomerEmail             string `json:"customerEmail"`
+	CustomerPhoneNumberPrefix string `json:"customerPhoneNumberPrefix"`
+	CustomerPhoneNumber       string `json:"customerPhoneNumber"`
+	CreatedAt                 string `json:"createdAt"`
+}
+
 type GetBusinessServiceOrderByDateRequest struct {
 	BusinessServiceID int64  `json:"businessServiceID"`
 	Date              string `json:"date"`
@@ -177,6 +210,24 @@ type GetCompanyAvailableHoursByDateRequest struct {
 
 type GetCompanyAvailableHoursByDateResponse struct {
 	AvailableHour []string `json:"availableHour"`
+}
+
+type GetCustomerByEmailRequest struct {
+	Email string `json:"email"`
+}
+
+type GetCustomerByEmailResponse struct {
+	Customer *Customer `json:"customer"`
+}
+
+type GetCustomerTokenInfoRequest struct {
+	AccessToken string `json:"accessToken"`
+}
+
+type GetCustomerTokenInfoResponse struct {
+	Email     string `json:"email"`
+	IssuedAt  int64  `json:"issuedAt"`
+	ExpiresAt int64  `json:"expiresAt"`
 }
 
 type Token struct {

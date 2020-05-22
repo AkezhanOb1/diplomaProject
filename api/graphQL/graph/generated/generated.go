@@ -149,6 +149,25 @@ type ComplexityRoot struct {
 		BusinessServiceOrder func(childComplexity int) int
 	}
 
+	CreateCustomerResponse struct {
+		Customer func(childComplexity int) int
+		Token    func(childComplexity int) int
+	}
+
+	CreateCustomerTokenResponse struct {
+		Token func(childComplexity int) int
+	}
+
+	Customer struct {
+		CreatedAt                 func(childComplexity int) int
+		CustomerEmail             func(childComplexity int) int
+		CustomerFirstName         func(childComplexity int) int
+		CustomerID                func(childComplexity int) int
+		CustomerPhoneNumber       func(childComplexity int) int
+		CustomerPhoneNumberPrefix func(childComplexity int) int
+		CustomerSecondName        func(childComplexity int) int
+	}
+
 	GetBusinessServiceOrderByDateResponse struct {
 		BusinessServicesOrders func(childComplexity int) int
 	}
@@ -165,6 +184,16 @@ type ComplexityRoot struct {
 		AvailableHour func(childComplexity int) int
 	}
 
+	GetCustomerByEmailResponse struct {
+		Customer func(childComplexity int) int
+	}
+
+	GetCustomerTokenInfoResponse struct {
+		Email     func(childComplexity int) int
+		ExpiresAt func(childComplexity int) int
+		IssuedAt  func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateBusinessCompany                      func(childComplexity int, input model.CreateBusinessCompanyRequest) int
 		CreateBusinessCompanyOperationHours        func(childComplexity int, input model.CreateBusinessCompanyOperationHoursRequest) int
@@ -173,6 +202,8 @@ type ComplexityRoot struct {
 		CreateBusinessService                      func(childComplexity int, input model.CreateBusinessServiceRequest) int
 		CreateBusinessServiceOrder                 func(childComplexity int, input model.CreateBusinessServiceOrderRequest) int
 		CreateCompanyService                       func(childComplexity int, input model.CreateCompanyServiceRequest) int
+		CreateCustomer                             func(childComplexity int, input model.CreateCustomerRequest) int
+		CreateCustomerToken                        func(childComplexity int, input model.CreateCustomerTokenRequest) int
 		DeleteBusinessCompanyOperationHours        func(childComplexity int, input model.DeleteBusinessCompanyOperationHoursRequest) int
 		DeleteBusinessCompanyServiceOperationHours func(childComplexity int, input model.DeleteBusinessCompanyServiceOperationHoursRequest) int
 		DeleteCompanyService                       func(childComplexity int, input model.DeleteCompanyServiceRequest) int
@@ -208,6 +239,8 @@ type ComplexityRoot struct {
 		GetCompanyServices                          func(childComplexity int) int
 		GetCompanyServicesUnderCategory             func(childComplexity int, input *model.GetCompanyServicesUnderCategoryRequest) int
 		GetCompanyServicesUnderSubCategory          func(childComplexity int, input model.GetCompanyServicesUnderSubCategoryRequest) int
+		GetCustomerByEmail                          func(childComplexity int, input model.GetCustomerByEmailRequest) int
+		GetCustomerTokenInfo                        func(childComplexity int, input model.GetCustomerTokenInfoRequest) int
 		RetrieveTokenInfo                           func(childComplexity int, input model.RetrieveTokenInfoRequst) int
 	}
 
@@ -296,6 +329,8 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
+	CreateCustomer(ctx context.Context, input model.CreateCustomerRequest) (*model.CreateCustomerResponse, error)
+	CreateCustomerToken(ctx context.Context, input model.CreateCustomerTokenRequest) (*model.CreateCustomerTokenResponse, error)
 	CreateBusinessServiceOrder(ctx context.Context, input model.CreateBusinessServiceOrderRequest) (*model.CreateBusinessServiceOrderResponse, error)
 	CreateBusinessCompany(ctx context.Context, input model.CreateBusinessCompanyRequest) (*model.BusinessCompany, error)
 	CreateBusinessOwner(ctx context.Context, input model.CreateBusinessOwnerRequest) (*model.CreateBusinessOwnerResponse, error)
@@ -338,6 +373,8 @@ type QueryResolver interface {
 	GetCompanyServicesUnderSubCategory(ctx context.Context, input model.GetCompanyServicesUnderSubCategoryRequest) (*model.CompanyServices, error)
 	GetCompanyServicesUnderCategory(ctx context.Context, input *model.GetCompanyServicesUnderCategoryRequest) (*model.CompanyServices, error)
 	RetrieveTokenInfo(ctx context.Context, input model.RetrieveTokenInfoRequst) (*model.RetrieveTokenInfoResponse, error)
+	GetCustomerByEmail(ctx context.Context, input model.GetCustomerByEmailRequest) (*model.GetCustomerByEmailResponse, error)
+	GetCustomerTokenInfo(ctx context.Context, input model.GetCustomerTokenInfoRequest) (*model.GetCustomerTokenInfoResponse, error)
 }
 
 type executableSchema struct {
@@ -740,6 +777,76 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CreateBusinessServiceOrderResponse.BusinessServiceOrder(childComplexity), true
 
+	case "CreateCustomerResponse.customer":
+		if e.complexity.CreateCustomerResponse.Customer == nil {
+			break
+		}
+
+		return e.complexity.CreateCustomerResponse.Customer(childComplexity), true
+
+	case "CreateCustomerResponse.token":
+		if e.complexity.CreateCustomerResponse.Token == nil {
+			break
+		}
+
+		return e.complexity.CreateCustomerResponse.Token(childComplexity), true
+
+	case "CreateCustomerTokenResponse.token":
+		if e.complexity.CreateCustomerTokenResponse.Token == nil {
+			break
+		}
+
+		return e.complexity.CreateCustomerTokenResponse.Token(childComplexity), true
+
+	case "Customer.createdAt":
+		if e.complexity.Customer.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Customer.CreatedAt(childComplexity), true
+
+	case "Customer.customerEmail":
+		if e.complexity.Customer.CustomerEmail == nil {
+			break
+		}
+
+		return e.complexity.Customer.CustomerEmail(childComplexity), true
+
+	case "Customer.customerFirstName":
+		if e.complexity.Customer.CustomerFirstName == nil {
+			break
+		}
+
+		return e.complexity.Customer.CustomerFirstName(childComplexity), true
+
+	case "Customer.customerID":
+		if e.complexity.Customer.CustomerID == nil {
+			break
+		}
+
+		return e.complexity.Customer.CustomerID(childComplexity), true
+
+	case "Customer.customerPhoneNumber":
+		if e.complexity.Customer.CustomerPhoneNumber == nil {
+			break
+		}
+
+		return e.complexity.Customer.CustomerPhoneNumber(childComplexity), true
+
+	case "Customer.customerPhoneNumberPrefix":
+		if e.complexity.Customer.CustomerPhoneNumberPrefix == nil {
+			break
+		}
+
+		return e.complexity.Customer.CustomerPhoneNumberPrefix(childComplexity), true
+
+	case "Customer.customerSecondName":
+		if e.complexity.Customer.CustomerSecondName == nil {
+			break
+		}
+
+		return e.complexity.Customer.CustomerSecondName(childComplexity), true
+
 	case "GetBusinessServiceOrderByDateResponse.businessServicesOrders":
 		if e.complexity.GetBusinessServiceOrderByDateResponse.BusinessServicesOrders == nil {
 			break
@@ -767,6 +874,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.GetCompanyAvailableHoursByDateResponse.AvailableHour(childComplexity), true
+
+	case "GetCustomerByEmailResponse.customer":
+		if e.complexity.GetCustomerByEmailResponse.Customer == nil {
+			break
+		}
+
+		return e.complexity.GetCustomerByEmailResponse.Customer(childComplexity), true
+
+	case "GetCustomerTokenInfoResponse.email":
+		if e.complexity.GetCustomerTokenInfoResponse.Email == nil {
+			break
+		}
+
+		return e.complexity.GetCustomerTokenInfoResponse.Email(childComplexity), true
+
+	case "GetCustomerTokenInfoResponse.expiresAt":
+		if e.complexity.GetCustomerTokenInfoResponse.ExpiresAt == nil {
+			break
+		}
+
+		return e.complexity.GetCustomerTokenInfoResponse.ExpiresAt(childComplexity), true
+
+	case "GetCustomerTokenInfoResponse.issuedAt":
+		if e.complexity.GetCustomerTokenInfoResponse.IssuedAt == nil {
+			break
+		}
+
+		return e.complexity.GetCustomerTokenInfoResponse.IssuedAt(childComplexity), true
 
 	case "Mutation.createBusinessCompany":
 		if e.complexity.Mutation.CreateBusinessCompany == nil {
@@ -851,6 +986,30 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateCompanyService(childComplexity, args["input"].(model.CreateCompanyServiceRequest)), true
+
+	case "Mutation.createCustomer":
+		if e.complexity.Mutation.CreateCustomer == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createCustomer_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateCustomer(childComplexity, args["input"].(model.CreateCustomerRequest)), true
+
+	case "Mutation.createCustomerToken":
+		if e.complexity.Mutation.CreateCustomerToken == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createCustomerToken_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateCustomerToken(childComplexity, args["input"].(model.CreateCustomerTokenRequest)), true
 
 	case "Mutation.deleteBusinessCompanyOperationHours":
 		if e.complexity.Mutation.DeleteBusinessCompanyOperationHours == nil {
@@ -1210,6 +1369,30 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.GetCompanyServicesUnderSubCategory(childComplexity, args["input"].(model.GetCompanyServicesUnderSubCategoryRequest)), true
+
+	case "Query.getCustomerByEmail":
+		if e.complexity.Query.GetCustomerByEmail == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getCustomerByEmail_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetCustomerByEmail(childComplexity, args["input"].(model.GetCustomerByEmailRequest)), true
+
+	case "Query.getCustomerTokenInfo":
+		if e.complexity.Query.GetCustomerTokenInfo == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getCustomerTokenInfo_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetCustomerTokenInfo(childComplexity, args["input"].(model.GetCustomerTokenInfoRequest)), true
 
 	case "Query.retrieveTokenInfo":
 		if e.complexity.Query.RetrieveTokenInfo == nil {
@@ -1889,6 +2072,62 @@ type GetBusinessServiceOrderByDateResponse {
   businessServicesOrders: [BusinessServiceOrder!]!
 }
 
+
+
+type Customer {
+  customerID: ID!
+  customerFirstName: String!
+  customerSecondName: String!
+  customerEmail: String!
+  customerPhoneNumberPrefix: String!
+  customerPhoneNumber: String!
+  createdAt: String!
+}
+
+input CreateCustomerRequest {
+  customerFirstName: String!
+  customerSecondName: String!
+  customerEmail: String!
+  customerPhoneNumberPrefix: String!
+  customerPhoneNumber: String!
+  customerPassword: String!
+}
+
+type CreateCustomerResponse{
+  customer: Customer!
+  token: Token!
+}
+
+input GetCustomerByEmailRequest {
+  email: String!
+}
+
+type GetCustomerByEmailResponse {
+  customer: Customer!
+}
+
+input GetCustomerTokenInfoRequest {
+  accessToken: String!
+}
+
+type GetCustomerTokenInfoResponse {
+  email: String!
+  issuedAt: Int!
+  expiresAt: Int!
+}
+
+input CreateCustomerTokenRequest {
+  email: String!
+  password: String!
+}
+
+type CreateCustomerTokenResponse {
+  token: Token!
+}
+
+
+
+
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
@@ -1927,9 +2166,15 @@ type Query {
 
 
   retrieveTokenInfo(input: retrieveTokenInfoRequst!) : retrieveTokenInfoResponse!
+
+  getCustomerByEmail(input: GetCustomerByEmailRequest!): GetCustomerByEmailResponse!
+  getCustomerTokenInfo(input: GetCustomerTokenInfoRequest!): GetCustomerTokenInfoResponse!
 }
 
 type Mutation {
+  createCustomer(input: CreateCustomerRequest!): CreateCustomerResponse!
+  createCustomerToken(input: CreateCustomerTokenRequest!): CreateCustomerTokenResponse!
+
   createBusinessServiceOrder(input: CreateBusinessServiceOrderRequest!): CreateBusinessServiceOrderResponse!
 
   createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
@@ -2052,6 +2297,34 @@ func (ec *executionContext) field_Mutation_createCompanyService_args(ctx context
 	var arg0 model.CreateCompanyServiceRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNcreateCompanyServiceRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCompanyServiceRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createCustomerToken_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateCustomerTokenRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNCreateCustomerTokenRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerTokenRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createCustomer_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateCustomerRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNCreateCustomerRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2444,6 +2717,34 @@ func (ec *executionContext) field_Query_getCompanyServicesUnderSubCategory_args(
 	var arg0 model.GetCompanyServicesUnderSubCategoryRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNgetCompanyServicesUnderSubCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCompanyServicesUnderSubCategoryRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getCustomerByEmail_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GetCustomerByEmailRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNGetCustomerByEmailRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerByEmailRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getCustomerTokenInfo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GetCustomerTokenInfoRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNGetCustomerTokenInfoRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerTokenInfoRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4360,6 +4661,346 @@ func (ec *executionContext) _CreateBusinessServiceOrderResponse_businessServiceO
 	return ec.marshalNBusinessServiceOrder2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessServiceOrder(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _CreateCustomerResponse_customer(ctx context.Context, field graphql.CollectedField, obj *model.CreateCustomerResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CreateCustomerResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Customer, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Customer)
+	fc.Result = res
+	return ec.marshalNCustomer2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCustomer(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CreateCustomerResponse_token(ctx context.Context, field graphql.CollectedField, obj *model.CreateCustomerResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CreateCustomerResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Token, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Token)
+	fc.Result = res
+	return ec.marshalNToken2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐToken(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CreateCustomerTokenResponse_token(ctx context.Context, field graphql.CollectedField, obj *model.CreateCustomerTokenResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "CreateCustomerTokenResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Token, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Token)
+	fc.Result = res
+	return ec.marshalNToken2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐToken(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_customerID(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomerID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_customerFirstName(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomerFirstName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_customerSecondName(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomerSecondName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_customerEmail(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomerEmail, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_customerPhoneNumberPrefix(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomerPhoneNumberPrefix, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_customerPhoneNumber(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomerPhoneNumber, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Customer_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Customer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Customer",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _GetBusinessServiceOrderByDateResponse_businessServicesOrders(ctx context.Context, field graphql.CollectedField, obj *model.GetBusinessServiceOrderByDateResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4494,6 +5135,224 @@ func (ec *executionContext) _GetCompanyAvailableHoursByDateResponse_availableHou
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetCustomerByEmailResponse_customer(ctx context.Context, field graphql.CollectedField, obj *model.GetCustomerByEmailResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "GetCustomerByEmailResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Customer, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Customer)
+	fc.Result = res
+	return ec.marshalNCustomer2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCustomer(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetCustomerTokenInfoResponse_email(ctx context.Context, field graphql.CollectedField, obj *model.GetCustomerTokenInfoResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "GetCustomerTokenInfoResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetCustomerTokenInfoResponse_issuedAt(ctx context.Context, field graphql.CollectedField, obj *model.GetCustomerTokenInfoResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "GetCustomerTokenInfoResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IssuedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetCustomerTokenInfoResponse_expiresAt(ctx context.Context, field graphql.CollectedField, obj *model.GetCustomerTokenInfoResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "GetCustomerTokenInfoResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExpiresAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createCustomer(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createCustomer_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateCustomer(rctx, args["input"].(model.CreateCustomerRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CreateCustomerResponse)
+	fc.Result = res
+	return ec.marshalNCreateCustomerResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createCustomerToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createCustomerToken_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateCustomerToken(rctx, args["input"].(model.CreateCustomerTokenRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CreateCustomerTokenResponse)
+	fc.Result = res
+	return ec.marshalNCreateCustomerTokenResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerTokenResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createBusinessServiceOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -6099,6 +6958,88 @@ func (ec *executionContext) _Query_retrieveTokenInfo(ctx context.Context, field 
 	res := resTmp.(*model.RetrieveTokenInfoResponse)
 	fc.Result = res
 	return ec.marshalNretrieveTokenInfoResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getCustomerByEmail(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getCustomerByEmail_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetCustomerByEmail(rctx, args["input"].(model.GetCustomerByEmailRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GetCustomerByEmailResponse)
+	fc.Result = res
+	return ec.marshalNGetCustomerByEmailResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerByEmailResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getCustomerTokenInfo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_getCustomerTokenInfo_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetCustomerTokenInfo(rctx, args["input"].(model.GetCustomerTokenInfoRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GetCustomerTokenInfoResponse)
+	fc.Result = res
+	return ec.marshalNGetCustomerTokenInfoResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerTokenInfoResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -8394,6 +9335,78 @@ func (ec *executionContext) unmarshalInputCreateBusinessServiceOrderRequest(ctx 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateCustomerRequest(ctx context.Context, obj interface{}) (model.CreateCustomerRequest, error) {
+	var it model.CreateCustomerRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "customerFirstName":
+			var err error
+			it.CustomerFirstName, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "customerSecondName":
+			var err error
+			it.CustomerSecondName, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "customerEmail":
+			var err error
+			it.CustomerEmail, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "customerPhoneNumberPrefix":
+			var err error
+			it.CustomerPhoneNumberPrefix, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "customerPhoneNumber":
+			var err error
+			it.CustomerPhoneNumber, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "customerPassword":
+			var err error
+			it.CustomerPassword, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCreateCustomerTokenRequest(ctx context.Context, obj interface{}) (model.CreateCustomerTokenRequest, error) {
+	var it model.CreateCustomerTokenRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "email":
+			var err error
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+			it.Password, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputGetBusinessServiceOrderByDateRequest(ctx context.Context, obj interface{}) (model.GetBusinessServiceOrderByDateRequest, error) {
 	var it model.GetBusinessServiceOrderByDateRequest
 	var asMap = obj.(map[string]interface{})
@@ -8469,6 +9482,42 @@ func (ec *executionContext) unmarshalInputGetCompanyAvailableHoursByDateRequest(
 		case "date":
 			var err error
 			it.Date, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputGetCustomerByEmailRequest(ctx context.Context, obj interface{}) (model.GetCustomerByEmailRequest, error) {
+	var it model.GetCustomerByEmailRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "email":
+			var err error
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputGetCustomerTokenInfoRequest(ctx context.Context, obj interface{}) (model.GetCustomerTokenInfoRequest, error) {
+	var it model.GetCustomerTokenInfoRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "accessToken":
+			var err error
+			it.AccessToken, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -9747,6 +10796,122 @@ func (ec *executionContext) _CreateBusinessServiceOrderResponse(ctx context.Cont
 	return out
 }
 
+var createCustomerResponseImplementors = []string{"CreateCustomerResponse"}
+
+func (ec *executionContext) _CreateCustomerResponse(ctx context.Context, sel ast.SelectionSet, obj *model.CreateCustomerResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, createCustomerResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CreateCustomerResponse")
+		case "customer":
+			out.Values[i] = ec._CreateCustomerResponse_customer(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "token":
+			out.Values[i] = ec._CreateCustomerResponse_token(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var createCustomerTokenResponseImplementors = []string{"CreateCustomerTokenResponse"}
+
+func (ec *executionContext) _CreateCustomerTokenResponse(ctx context.Context, sel ast.SelectionSet, obj *model.CreateCustomerTokenResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, createCustomerTokenResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CreateCustomerTokenResponse")
+		case "token":
+			out.Values[i] = ec._CreateCustomerTokenResponse_token(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var customerImplementors = []string{"Customer"}
+
+func (ec *executionContext) _Customer(ctx context.Context, sel ast.SelectionSet, obj *model.Customer) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, customerImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Customer")
+		case "customerID":
+			out.Values[i] = ec._Customer_customerID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "customerFirstName":
+			out.Values[i] = ec._Customer_customerFirstName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "customerSecondName":
+			out.Values[i] = ec._Customer_customerSecondName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "customerEmail":
+			out.Values[i] = ec._Customer_customerEmail(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "customerPhoneNumberPrefix":
+			out.Values[i] = ec._Customer_customerPhoneNumberPrefix(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "customerPhoneNumber":
+			out.Values[i] = ec._Customer_customerPhoneNumber(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._Customer_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var getBusinessServiceOrderByDateResponseImplementors = []string{"GetBusinessServiceOrderByDateResponse"}
 
 func (ec *executionContext) _GetBusinessServiceOrderByDateResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetBusinessServiceOrderByDateResponse) graphql.Marshaler {
@@ -9855,6 +11020,70 @@ func (ec *executionContext) _GetCompanyAvailableHoursByDateResponse(ctx context.
 	return out
 }
 
+var getCustomerByEmailResponseImplementors = []string{"GetCustomerByEmailResponse"}
+
+func (ec *executionContext) _GetCustomerByEmailResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetCustomerByEmailResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, getCustomerByEmailResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("GetCustomerByEmailResponse")
+		case "customer":
+			out.Values[i] = ec._GetCustomerByEmailResponse_customer(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var getCustomerTokenInfoResponseImplementors = []string{"GetCustomerTokenInfoResponse"}
+
+func (ec *executionContext) _GetCustomerTokenInfoResponse(ctx context.Context, sel ast.SelectionSet, obj *model.GetCustomerTokenInfoResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, getCustomerTokenInfoResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("GetCustomerTokenInfoResponse")
+		case "email":
+			out.Values[i] = ec._GetCustomerTokenInfoResponse_email(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "issuedAt":
+			out.Values[i] = ec._GetCustomerTokenInfoResponse_issuedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "expiresAt":
+			out.Values[i] = ec._GetCustomerTokenInfoResponse_expiresAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -9870,6 +11099,16 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
+		case "createCustomer":
+			out.Values[i] = ec._Mutation_createCustomer(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createCustomerToken":
+			out.Values[i] = ec._Mutation_createCustomerToken(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "createBusinessServiceOrder":
 			out.Values[i] = ec._Mutation_createBusinessServiceOrder(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -10325,6 +11564,34 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_retrieveTokenInfo(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getCustomerByEmail":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getCustomerByEmail(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getCustomerTokenInfo":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getCustomerTokenInfo(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11696,6 +12963,56 @@ func (ec *executionContext) marshalNCreateBusinessServiceOrderResponse2ᚖgithub
 	return ec._CreateBusinessServiceOrderResponse(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNCreateCustomerRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerRequest(ctx context.Context, v interface{}) (model.CreateCustomerRequest, error) {
+	return ec.unmarshalInputCreateCustomerRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNCreateCustomerResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerResponse(ctx context.Context, sel ast.SelectionSet, v model.CreateCustomerResponse) graphql.Marshaler {
+	return ec._CreateCustomerResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCreateCustomerResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerResponse(ctx context.Context, sel ast.SelectionSet, v *model.CreateCustomerResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CreateCustomerResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNCreateCustomerTokenRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerTokenRequest(ctx context.Context, v interface{}) (model.CreateCustomerTokenRequest, error) {
+	return ec.unmarshalInputCreateCustomerTokenRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNCreateCustomerTokenResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerTokenResponse(ctx context.Context, sel ast.SelectionSet, v model.CreateCustomerTokenResponse) graphql.Marshaler {
+	return ec._CreateCustomerTokenResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCreateCustomerTokenResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCreateCustomerTokenResponse(ctx context.Context, sel ast.SelectionSet, v *model.CreateCustomerTokenResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._CreateCustomerTokenResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNCustomer2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCustomer(ctx context.Context, sel ast.SelectionSet, v model.Customer) graphql.Marshaler {
+	return ec._Customer(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCustomer2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐCustomer(ctx context.Context, sel ast.SelectionSet, v *model.Customer) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Customer(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	return graphql.UnmarshalFloat(v)
 }
@@ -11780,6 +13097,42 @@ func (ec *executionContext) marshalNGetCompanyAvailableHoursByDateResponse2ᚖgi
 		return graphql.Null
 	}
 	return ec._GetCompanyAvailableHoursByDateResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNGetCustomerByEmailRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerByEmailRequest(ctx context.Context, v interface{}) (model.GetCustomerByEmailRequest, error) {
+	return ec.unmarshalInputGetCustomerByEmailRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNGetCustomerByEmailResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerByEmailResponse(ctx context.Context, sel ast.SelectionSet, v model.GetCustomerByEmailResponse) graphql.Marshaler {
+	return ec._GetCustomerByEmailResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNGetCustomerByEmailResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerByEmailResponse(ctx context.Context, sel ast.SelectionSet, v *model.GetCustomerByEmailResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._GetCustomerByEmailResponse(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNGetCustomerTokenInfoRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerTokenInfoRequest(ctx context.Context, v interface{}) (model.GetCustomerTokenInfoRequest, error) {
+	return ec.unmarshalInputGetCustomerTokenInfoRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNGetCustomerTokenInfoResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerTokenInfoResponse(ctx context.Context, sel ast.SelectionSet, v model.GetCustomerTokenInfoResponse) graphql.Marshaler {
+	return ec._GetCustomerTokenInfoResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNGetCustomerTokenInfoResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐGetCustomerTokenInfoResponse(ctx context.Context, sel ast.SelectionSet, v *model.GetCustomerTokenInfoResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._GetCustomerTokenInfoResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNID2int64(ctx context.Context, v interface{}) (int64, error) {

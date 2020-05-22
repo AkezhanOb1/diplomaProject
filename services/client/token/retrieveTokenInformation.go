@@ -3,7 +3,7 @@ package token
 
 import (
 	"context"
-	pb "github.com/AkezhanOb1/auth/api"
+	pb "github.com/AkezhanOb1/diplomaProject/api/proto/auth"
 	c "github.com/AkezhanOb1/diplomaProject/configs"
 	"google.golang.org/grpc"
 )

@@ -397,6 +397,62 @@ type GetBusinessServiceOrderByDateResponse {
   businessServicesOrders: [BusinessServiceOrder!]!
 }
 
+
+
+type Customer {
+  customerID: ID!
+  customerFirstName: String!
+  customerSecondName: String!
+  customerEmail: String!
+  customerPhoneNumberPrefix: String!
+  customerPhoneNumber: String!
+  createdAt: String!
+}
+
+input CreateCustomerRequest {
+  customerFirstName: String!
+  customerSecondName: String!
+  customerEmail: String!
+  customerPhoneNumberPrefix: String!
+  customerPhoneNumber: String!
+  customerPassword: String!
+}
+
+type CreateCustomerResponse{
+  customer: Customer!
+  token: Token!
+}
+
+input GetCustomerByEmailRequest {
+  email: String!
+}
+
+type GetCustomerByEmailResponse {
+  customer: Customer!
+}
+
+input GetCustomerTokenInfoRequest {
+  accessToken: String!
+}
+
+type GetCustomerTokenInfoResponse {
+  email: String!
+  issuedAt: Int!
+  expiresAt: Int!
+}
+
+input CreateCustomerTokenRequest {
+  email: String!
+  password: String!
+}
+
+type CreateCustomerTokenResponse {
+  token: Token!
+}
+
+
+
+
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
@@ -435,9 +491,15 @@ type Query {
 
 
   retrieveTokenInfo(input: retrieveTokenInfoRequst!) : retrieveTokenInfoResponse!
+
+  getCustomerByEmail(input: GetCustomerByEmailRequest!): GetCustomerByEmailResponse!
+  getCustomerTokenInfo(input: GetCustomerTokenInfoRequest!): GetCustomerTokenInfoResponse!
 }
 
 type Mutation {
+  createCustomer(input: CreateCustomerRequest!): CreateCustomerResponse!
+  createCustomerToken(input: CreateCustomerTokenRequest!): CreateCustomerTokenResponse!
+
   createBusinessServiceOrder(input: CreateBusinessServiceOrderRequest!): CreateBusinessServiceOrderResponse!
 
   createBusinessCompany(input: CreateBusinessCompanyRequest!): BusinessCompany!
