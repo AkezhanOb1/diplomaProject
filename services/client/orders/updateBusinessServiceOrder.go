@@ -10,7 +10,7 @@ import (
 )
 
 //UpdateBusinessServiceOrder is
-func pcCcUpdateBusinessServiceOrder(ctx context.Context, request *graph.UpdateBusinessServiceOrderRequest) (*pb.UpdateBusinessServiceOrderResponse, error) {
+func UpdateBusinessServiceOrder(ctx context.Context, request *graph.UpdateBusinessServiceOrderRequest) (*pb.UpdateBusinessServiceOrderResponse, error) {
 	opts := grpc.WithInsecure()
 	cc, err := grpc.Dial(config.BusinessServiceOrderServer, opts)
 	if err != nil {

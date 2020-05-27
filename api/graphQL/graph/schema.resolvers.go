@@ -541,7 +541,6 @@ func (r *queryResolver) GetBusinessServiceOrdersByEmail(ctx context.Context, inp
 		return nil, err
 	}
 
-	log.Println(orders)
 	b, err := pkg.Serializer(orders)
 	if err != nil {
 		return nil, err
