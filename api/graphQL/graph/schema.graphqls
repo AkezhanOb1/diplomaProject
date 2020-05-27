@@ -450,7 +450,50 @@ type CreateCustomerTokenResponse {
   token: Token!
 }
 
+input UpdateBusinessServiceOrderRequest {
+  orderID: ID!
+  businessServiceID: ID!
+  startAt: String!
+  prePaid: Boolean!
+  clientFirstName: String!
+  clientPhoneNumber: String!
+  clientPhoneNumberPrefix: String!
+  clientCommentary: String!
+}
 
+type UpdateBusinessServiceOrderResponse {
+  businessServiceOrder: BusinessServiceOrder!
+}
+
+input DeleteBusinessServiceOrderRequest {
+  orderID: ID!
+}
+
+type DeleteBusinessServiceOrderResponse {
+  businessServiceOrder: BusinessServiceOrder!
+}
+
+input PaginationInput {
+  limit: Int!
+  offset: Int!
+  count: Int
+}
+
+type Pagination {
+  limit: Int!
+  offset: Int!
+  count: Int
+}
+
+input GetBusinessServiceOrdersByEmailRequest {
+  email: String!
+  pagination: PaginationInput!
+}
+
+type GetBusinessServiceOrdersByEmailResponse {
+  businessServicesOrders: [BusinessServiceOrder!]!
+  pagination: Pagination!
+}
 
 
 type Query {
@@ -458,6 +501,7 @@ type Query {
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
   getCompanyAvailableHoursByDate(input: GetCompanyAvailableHoursByDateRequest!): GetCompanyAvailableHoursByDateResponse!
   getBusinessServiceOrderByDate(input: GetBusinessServiceOrderByDateRequest!): GetBusinessServiceOrderByDateResponse!
+  getBusinessServiceOrdersByEmail(input: GetBusinessServiceOrdersByEmailRequest!): GetBusinessServiceOrdersByEmailResponse!
 
   getBusinessCompany(input: getBusinessCompanyRequest!): BusinessCompany!
   getBusinessCompanies: BusinessCompanies!
@@ -497,6 +541,9 @@ type Query {
 }
 
 type Mutation {
+  UpdateBusinessServiceOrder(input: UpdateBusinessServiceOrderRequest!): UpdateBusinessServiceOrderResponse!
+  DeleteBusinessServiceOrder(input: DeleteBusinessServiceOrderRequest!): DeleteBusinessServiceOrderResponse!
+
   createCustomer(input: CreateCustomerRequest!): CreateCustomerResponse!
   createCustomerToken(input: CreateCustomerTokenRequest!): CreateCustomerTokenResponse!
 

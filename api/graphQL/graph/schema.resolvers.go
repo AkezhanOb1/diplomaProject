@@ -7,11 +7,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	client "github.com/AkezhanOb1/diplomaProject/services/client/customer"
 	"log"
 
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/generated"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
+	pba "github.com/AkezhanOb1/diplomaProject/api/proto/auth"
+	pbc "github.com/AkezhanOb1/diplomaProject/api/proto/customer"
 	"github.com/AkezhanOb1/diplomaProject/pkg"
 	c "github.com/AkezhanOb1/diplomaProject/services/client/business/category"
 	bc "github.com/AkezhanOb1/diplomaProject/services/client/business/company"
@@ -19,14 +20,52 @@ import (
 	bo "github.com/AkezhanOb1/diplomaProject/services/client/business/owner"
 	bs "github.com/AkezhanOb1/diplomaProject/services/client/business/service"
 	sc "github.com/AkezhanOb1/diplomaProject/services/client/business/subCategories"
+	client "github.com/AkezhanOb1/diplomaProject/services/client/customer"
 	bso "github.com/AkezhanOb1/diplomaProject/services/client/orders"
 	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
-
-	pba "github.com/AkezhanOb1/diplomaProject/api/proto/auth"
-	pbc "github.com/AkezhanOb1/diplomaProject/api/proto/customer"
-
-
 )
+
+func (r *mutationResolver) UpdateBusinessServiceOrder(ctx context.Context, input model.UpdateBusinessServiceOrderRequest) (*model.UpdateBusinessServiceOrderResponse, error) {
+	order, err := bso.UpdateBusinessServiceOrder(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(order)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.UpdateBusinessServiceOrderResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+
+	return &resp, nil
+}
+
+func (r *mutationResolver) DeleteBusinessServiceOrder(ctx context.Context, input model.DeleteBusinessServiceOrderRequest) (*model.DeleteBusinessServiceOrderResponse, error) {
+	order, err := bso.DeleteBusinessServiceOrder(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(order)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.DeleteBusinessServiceOrderResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+
+	return &resp, nil
+}
 
 func (r *mutationResolver) CreateCustomer(ctx context.Context, input model.CreateCustomerRequest) (*model.CreateCustomerResponse, error) {
 	var req = &pbc.CreateCustomerRequest{
@@ -496,6 +535,27 @@ func (r *queryResolver) GetBusinessServiceOrderByDate(ctx context.Context, input
 	return &resp, nil
 }
 
+func (r *queryResolver) GetBusinessServiceOrdersByEmail(ctx context.Context, input model.GetBusinessServiceOrdersByEmailRequest) (*model.GetBusinessServiceOrdersByEmailResponse, error) {
+	orders, err := bso.GetBusinessServiceOrdersByEmail(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println(orders)
+	b, err := pkg.Serializer(orders)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.GetBusinessServiceOrdersByEmailResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+
+	return &resp, nil}
+
 func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error) {
 	company, err := bc.GetBusinessCompany(ctx, input.BusinessCompanyID)
 	if err != nil {
@@ -933,7 +993,8 @@ func (r *queryResolver) GetCustomerByEmail(ctx context.Context, input model.GetC
 		return nil, err
 	}
 
-	return response, nil}
+	return response, nil
+}
 
 func (r *queryResolver) GetCustomerTokenInfo(ctx context.Context, input model.GetCustomerTokenInfoRequest) (*model.GetCustomerTokenInfoResponse, error) {
 	var tokenInfoRequest = pba.RetrieveCustomerTokenInformationRequest{

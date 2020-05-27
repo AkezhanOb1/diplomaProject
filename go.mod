@@ -4,7 +4,6 @@ go 1.13
 
 require (
 	github.com/99designs/gqlgen v0.11.2
-	github.com/AkezhanOb1/orders v0.0.0-20200509094336-3b7c25c58678
 	github.com/go-chi/chi v4.1.0+incompatible
 	github.com/golang/protobuf v1.4.1
 	github.com/jackc/pgx/v4 v4.6.0

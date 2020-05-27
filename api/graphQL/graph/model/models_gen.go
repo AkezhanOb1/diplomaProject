@@ -178,6 +178,14 @@ type Customer struct {
 	CreatedAt                 string `json:"createdAt"`
 }
 
+type DeleteBusinessServiceOrderRequest struct {
+	OrderID int64 `json:"orderID"`
+}
+
+type DeleteBusinessServiceOrderResponse struct {
+	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
+}
+
 type GetBusinessServiceOrderByDateRequest struct {
 	BusinessServiceID int64  `json:"businessServiceID"`
 	Date              string `json:"date"`
@@ -193,6 +201,16 @@ type GetBusinessServiceOrderRequest struct {
 
 type GetBusinessServiceOrderResponse struct {
 	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
+}
+
+type GetBusinessServiceOrdersByEmailRequest struct {
+	Email      string           `json:"email"`
+	Pagination *PaginationInput `json:"pagination"`
+}
+
+type GetBusinessServiceOrdersByEmailResponse struct {
+	BusinessServicesOrders []BusinessServiceOrder `json:"businessServicesOrders"`
+	Pagination             *Pagination            `json:"pagination"`
 }
 
 type GetBusinessServiceOrdersRequest struct {
@@ -230,11 +248,38 @@ type GetCustomerTokenInfoResponse struct {
 	ExpiresAt int64  `json:"expiresAt"`
 }
 
+type Pagination struct {
+	Limit  int64  `json:"limit"`
+	Offset int64  `json:"offset"`
+	Count  *int64 `json:"count"`
+}
+
+type PaginationInput struct {
+	Limit  int64  `json:"limit"`
+	Offset int64  `json:"offset"`
+	Count  *int64 `json:"count"`
+}
+
 type Token struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 	ExpiresIn    int64  `json:"expiresIn"`
 	TokenType    string `json:"tokenType"`
+}
+
+type UpdateBusinessServiceOrderRequest struct {
+	OrderID                 int64  `json:"orderID"`
+	BusinessServiceID       int64  `json:"businessServiceID"`
+	StartAt                 string `json:"startAt"`
+	PrePaid                 bool   `json:"prePaid"`
+	ClientFirstName         string `json:"clientFirstName"`
+	ClientPhoneNumber       string `json:"clientPhoneNumber"`
+	ClientPhoneNumberPrefix string `json:"clientPhoneNumberPrefix"`
+	ClientCommentary        string `json:"clientCommentary"`
+}
+
+type UpdateBusinessServiceOrderResponse struct {
+	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
 }
 
 type BusinessCompanyOperationHourResponse struct {

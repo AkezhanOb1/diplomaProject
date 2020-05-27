@@ -2,7 +2,7 @@ package orders
 
 import (
 	"context"
-	pb "github.com/AkezhanOb1/orders/api"
+	pb "github.com/AkezhanOb1/diplomaProject/api/proto/order"
 	c "github.com/AkezhanOb1/diplomaProject/configs"
 	"google.golang.org/grpc"
 )

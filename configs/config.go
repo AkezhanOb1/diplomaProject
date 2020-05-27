@@ -34,6 +34,8 @@ var TokenServer = "46.101.138.224:50052"
 
 //BusinessServiceOrderServer is an address to the orders
 var BusinessServiceOrderServer = "46.101.138.224:50053"
+//var BusinessServiceOrderServer = "localhost:50053"
+
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"
 //rabbitPassword is the password of the user
