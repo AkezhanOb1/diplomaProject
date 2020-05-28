@@ -164,6 +164,7 @@ func (r *mutationResolver) CreateBusinessServiceOrder(ctx context.Context, input
 			ClientID:                order.ClientID,
 			BusinessServiceID:       order.BusinessServiceID,
 			StartAt:                 order.StartAt,
+			EndAt:                   order.EndAt,
 			CreatedAt:               order.CreatedAt,
 			PrePaid:                 order.PrePaid,
 			ClientFirstName:         order.ClientFirstName,

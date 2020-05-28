@@ -4,8 +4,6 @@ import (
 	"context"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companyServices"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
-	"log"
-
 	"github.com/jackc/pgx/v4"
 )
 
@@ -18,12 +16,7 @@ func DeleteCompanyServiceRepository(ctx context.Context, companyServiceID int64)
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(context.Background())
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer conn.Close(ctx)
 
 	sqlQuery := `DELETE FROM business_company_service WHERE id=$1 RETURNING *;`
 
@@ -39,6 +32,10 @@ func DeleteCompanyServiceRepository(ctx context.Context, companyServiceID int64)
 		&service.CompanyServiceDuration,
 		&service.CompanyServicePrice,
 	)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &pb.DeleteCompanyServiceResponse{
 		CompanyService: &service,
