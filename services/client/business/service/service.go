@@ -5,8 +5,6 @@ import (
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/services"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"github.com/golang/protobuf/ptypes/empty"
-	"google.golang.org/grpc/credentials"
-	"os"
 
 	//"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
@@ -16,22 +14,17 @@ import (
 
 //GetBusinessService is a client for graphQL on gRPC services
 func GetBusinessService(ctx context.Context, id int64) (*pb.GetBusinessServiceResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
 
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
-	if err != nil {
-		return nil, err
-	}
-	defer cc.Close()
-
+	defer func(){
+		err = cc.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
 
 	c := pb.NewBusinessServicesClient(cc)
 
@@ -50,17 +43,7 @@ func GetBusinessService(ctx context.Context, id int64) (*pb.GetBusinessServiceRe
 
 //GetBusinessServices is a client for graphQL on gRPC services
 func GetBusinessServices(ctx context.Context) (*pb.GetBusinessServicesResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -82,17 +65,7 @@ func GetBusinessServices(ctx context.Context) (*pb.GetBusinessServicesResponse, 
 
 //GetServicesUnderSubCategory is a client for graphQL on gRPC services
 func GetServicesUnderSubCategory(ctx context.Context, subCategoryID int64) (*pb.GetServicesUnderSubCategoryResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -120,17 +93,7 @@ func GetServicesUnderSubCategory(ctx context.Context, subCategoryID int64) (*pb.
 
 //CreateBusinessService is a client for graphQL on gRPC services
 func CreateBusinessService(ctx context.Context, serviceName string, subCategories []int64) (*pb.CreateBusinessServiceResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}

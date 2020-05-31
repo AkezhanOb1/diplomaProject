@@ -7,9 +7,7 @@ import (
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 	"log"
-	"os"
 )
 
 
@@ -17,17 +15,7 @@ import (
 
 //GetBusinessCompany is a client for graphQL on gRPC services
 func GetBusinessCompany(ctx context.Context, companyID int64) (*pb.GetBusinessCompanyResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -50,17 +38,7 @@ func GetBusinessCompany(ctx context.Context, companyID int64) (*pb.GetBusinessCo
 
 //GetBusinessCompanies is a client for graphQL on gRPC services
 func GetBusinessCompanies(ctx context.Context) (*pb.GetBusinessCompaniesResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -80,17 +58,7 @@ func GetBusinessCompanies(ctx context.Context) (*pb.GetBusinessCompaniesResponse
 
 //GetBusinessCompanyServices is a client for graphQL on gRPC services
 func GetBusinessCompanyServices(ctx context.Context, companyID int64) (*pb.GetBusinessCompanyServicesResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -114,17 +82,7 @@ func GetBusinessCompanyServices(ctx context.Context, companyID int64) (*pb.GetBu
 
 //GetBusinessCompanyOperationHourByDay is a client for graphQL on gRPC services
 func GetBusinessCompanyOperationHourByDay(ctx context.Context, companyID int64, dayOfWeek int64) (*pb.GetBusinessCompanyOperationHourByDayResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -149,17 +107,7 @@ func GetBusinessCompanyOperationHourByDay(ctx context.Context, companyID int64, 
 
 //GetBusinessCompanyOperationHours is a client for graphQL on gRPC services
 func GetBusinessCompanyOperationHours(ctx context.Context, companyID int64) (*pb.GetBusinessCompanyOperationHoursResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -183,17 +131,7 @@ func GetBusinessCompanyOperationHours(ctx context.Context, companyID int64) (*pb
 
 //GetBusinessCompaniesUnderCategory is a client for graphQL on gRPC services
 func GetBusinessCompaniesUnderCategory(ctx context.Context, categoryID int64) (*pb.GetBusinessCompaniesUnderCategoryResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -222,17 +160,7 @@ func GetBusinessCompaniesUnderCategory(ctx context.Context, categoryID int64) (*
 
 //CreateBusinessCompany is a client function for registration a new business company
 func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -258,17 +186,7 @@ func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequ
 
 //CreateBusinessCompanyOperationHour is a client function for registration a new business company
 func CreateBusinessCompanyOperationHour(ctx context.Context, req gq.CreateBusinessCompanyOperationHoursRequest) (*pb.CreateBusinessCompanyOperationHourResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -296,17 +214,7 @@ func CreateBusinessCompanyOperationHour(ctx context.Context, req gq.CreateBusine
 
 //CreateBusinessCompany is a client function for registration a new business company
 func UpdateBusinessCompanyOperationHour(ctx context.Context, req gq.UpdateBusinessCompanyOperationHoursRequest) (*pb.UpdateBusinessCompanyOperationHourResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -337,17 +245,7 @@ func UpdateBusinessCompanyOperationHour(ctx context.Context, req gq.UpdateBusine
 
 //DeleteBusinessCompanyOperationHour is a client function for registration a new business company
 func DeleteBusinessCompanyOperationHour(ctx context.Context, req gq.DeleteBusinessCompanyOperationHoursRequest) (*pb.DeleteBusinessCompanyOperationHourResponse, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	credential, err := credentials.NewClientTLSFromFile(cert, "")
-	if err != nil {
-		return nil, err
-	}
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}

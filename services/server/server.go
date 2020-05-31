@@ -1,10 +1,8 @@
 package main
 
 import (
-	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
-	"os"
 
 	"google.golang.org/grpc"
 
@@ -29,21 +27,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error %v", err)
 	}
-	// Create the TLS credentials
-	wd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	cert := wd + "/static/qaqtus_me.crt"
-	key := wd + "/static/qaqtus.me.key"
-	creds, err := credentials.NewServerTLSFromFile(cert, key)
-	if err != nil {
-		panic(err)
-	}
-
 	log.Printf("Server is listening on %v ...", address)
 
-	s := grpc.NewServer(grpc.Creds(creds))
+	s := grpc.NewServer()
 
 	pbSubCategory.RegisterBusinessSubCategoryServiceServer(s, &subCategory.Server{})
 	pbCategory.RegisterBusinessCategoryServiceServer(s, &category.Server{})
