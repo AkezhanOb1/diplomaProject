@@ -42,7 +42,6 @@ func (r *mutationResolver) UpdateBusinessServiceOrder(ctx context.Context, input
 		return nil, err
 	}
 
-
 	return &resp, nil
 }
 
@@ -62,7 +61,6 @@ func (r *mutationResolver) DeleteBusinessServiceOrder(ctx context.Context, input
 	if err != nil {
 		return nil, err
 	}
-
 
 	return &resp, nil
 }
@@ -553,8 +551,8 @@ func (r *queryResolver) GetBusinessServiceOrdersByEmail(ctx context.Context, inp
 		return nil, err
 	}
 
-
-	return &resp, nil}
+	return &resp, nil
+}
 
 func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetBusinessCompanyRequest) (*model.BusinessCompany, error) {
 	company, err := bc.GetBusinessCompany(ctx, input.BusinessCompanyID)

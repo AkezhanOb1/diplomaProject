@@ -338,6 +338,7 @@ type BusinessServiceOrder {
   businessServiceOrderID: ID!
   clientID: ID!
   businessServiceID: ID!
+  businessServiceName: String!
   startAt: String!
   endAt: String!
   createdAt: String!

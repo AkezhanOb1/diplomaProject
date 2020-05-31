@@ -99,6 +99,7 @@ type ComplexityRoot struct {
 
 	BusinessServiceOrder struct {
 		BusinessServiceID       func(childComplexity int) int
+		BusinessServiceName     func(childComplexity int) int
 		BusinessServiceOrderID  func(childComplexity int) int
 		ClientCommentary        func(childComplexity int) int
 		ClientFirstName         func(childComplexity int) int
@@ -612,6 +613,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BusinessServiceOrder.BusinessServiceID(childComplexity), true
+
+	case "BusinessServiceOrder.businessServiceName":
+		if e.complexity.BusinessServiceOrder.BusinessServiceName == nil {
+			break
+		}
+
+		return e.complexity.BusinessServiceOrder.BusinessServiceName(childComplexity), true
 
 	case "BusinessServiceOrder.businessServiceOrderID":
 		if e.complexity.BusinessServiceOrder.BusinessServiceOrderID == nil {
@@ -2123,6 +2131,7 @@ type BusinessServiceOrder {
   businessServiceOrderID: ID!
   clientID: ID!
   businessServiceID: ID!
+  businessServiceName: String!
   startAt: String!
   endAt: String!
   createdAt: String!
@@ -4020,6 +4029,40 @@ func (ec *executionContext) _BusinessServiceOrder_businessServiceID(ctx context.
 	res := resTmp.(int64)
 	fc.Result = res
 	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessServiceOrder_businessServiceName(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessServiceOrder",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessServiceName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BusinessServiceOrder_startAt(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
@@ -11204,6 +11247,11 @@ func (ec *executionContext) _BusinessServiceOrder(ctx context.Context, sel ast.S
 			}
 		case "businessServiceID":
 			out.Values[i] = ec._BusinessServiceOrder_businessServiceID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "businessServiceName":
+			out.Values[i] = ec._BusinessServiceOrder_businessServiceName(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}

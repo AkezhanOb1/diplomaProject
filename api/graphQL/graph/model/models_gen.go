@@ -64,6 +64,7 @@ type BusinessServiceOrder struct {
 	BusinessServiceOrderID  int64  `json:"businessServiceOrderID"`
 	ClientID                int64  `json:"clientID"`
 	BusinessServiceID       int64  `json:"businessServiceID"`
+	BusinessServiceName     string `json:"businessServiceName"`
 	StartAt                 string `json:"startAt"`
 	EndAt                   string `json:"endAt"`
 	CreatedAt               string `json:"createdAt"`
