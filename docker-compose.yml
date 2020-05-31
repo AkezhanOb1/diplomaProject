@@ -1,6 +1,6 @@
 version: '3'
 services:
-  server:
+  qaqtus.me:
     build:
       context: .
       dockerfile: ./services/server/Dockerfile
@@ -11,6 +11,6 @@ services:
       context: .
       dockerfile: ./api/graphQL/Dockerfile
     links:
-      - server
+      - qaqtus.me
     ports:
         - "8080:8080"
