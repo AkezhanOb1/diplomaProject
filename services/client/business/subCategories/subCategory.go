@@ -2,28 +2,34 @@ package subCategories
 
 import (
 	"context"
-	config "github.com/AkezhanOb1/diplomaProject/configs"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/subCategories"
+	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	"log"
-
+	"google.golang.org/grpc/credentials"
+	"os"
 )
 
 
 //GetBusinessSubCategory is a client for graphQL on gRPC services
 func GetBusinessSubCategory(ctx context.Context, id int64) (*pb.BusinessSubCategoryResponse, error) {
 
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
 	if err != nil {
 		return nil, err
 	}
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	if err != nil {
+		return nil, err
+	}
+	defer cc.Close()
+
 
 	c := pb.NewBusinessSubCategoryServiceClient(cc)
 
@@ -45,17 +51,23 @@ func GetBusinessSubCategory(ctx context.Context, id int64) (*pb.BusinessSubCateg
 
 //GetBusinessSubCategories is a client for graphQL on gRPC services
 func GetBusinessSubCategories(ctx context.Context) (*pb.BusinessSubCategoriesResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
 	if err != nil {
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
 
 	c := pb.NewBusinessSubCategoryServiceClient(cc)
 	e := empty.Empty{}
@@ -72,17 +84,23 @@ func GetBusinessSubCategories(ctx context.Context) (*pb.BusinessSubCategoriesRes
 //GetBusinessSubCategoriesUnderCategory is a client for graphQL on gRPC services
 func GetBusinessSubCategoriesUnderCategory(ctx context.Context, categoryID int64) (*pb.BusinessSubCategoriesUnderCategoryResponse, error) {
 
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
 	if err != nil {
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
 
 	c := pb.NewBusinessSubCategoryServiceClient(cc)
 

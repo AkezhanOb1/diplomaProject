@@ -6,14 +6,26 @@ import (
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/owners"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"log"
+	"os"
 )
 
 
 
 //GetBusinessOwnerCompanies is a
 func GetBusinessOwnerCompanies(ctx context.Context, email string) (*pb.GetBusinessOwnerCompaniesResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +48,17 @@ func GetBusinessOwnerCompanies(ctx context.Context, email string) (*pb.GetBusine
 
 //CreateBusinessOwner is a client function for creating a business owner
 func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerRequest) (*pb.CreateBusinessOwnerResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +92,17 @@ func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerReque
 
 //CheckOwnerPassword is
 func CheckOwnerPassword(ctx context.Context, email string, password string) (*pb.CheckOwnerPasswordResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
 	if err != nil {
 		return nil, err
 	}

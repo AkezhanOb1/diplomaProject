@@ -2,7 +2,9 @@ package category
 
 import (
 	"context"
+	"google.golang.org/grpc/credentials"
 	"log"
+	"os"
 
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/categories"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
@@ -12,7 +14,18 @@ import (
 
 //GetBusinessCategories is a client for graphQL on gRPC services
 func GetBusinessCategories(ctx context.Context) ([]*pb.BusinessCategory, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
+
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +44,17 @@ func GetBusinessCategories(ctx context.Context) ([]*pb.BusinessCategory, error) 
 
 //GetBusinessCategory is a client for graphQL on gRPC services
 func GetBusinessCategory(ctx context.Context, id int64) (*pb.BusinessCategoryResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	cert := wd + "/static/qaqtus_me.crt"
+	credential, err := credentials.NewClientTLSFromFile(cert, "")
+	if err != nil {
+		return nil, err
+	}
+	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithTransportCredentials(credential))
 	if err != nil {
 		return nil, err
 	}
