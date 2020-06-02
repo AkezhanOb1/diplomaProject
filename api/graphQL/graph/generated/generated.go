@@ -98,6 +98,7 @@ type ComplexityRoot struct {
 	}
 
 	BusinessServiceOrder struct {
+		BusinessCompanyName     func(childComplexity int) int
 		BusinessServiceID       func(childComplexity int) int
 		BusinessServiceName     func(childComplexity int) int
 		BusinessServiceOrderID  func(childComplexity int) int
@@ -109,6 +110,7 @@ type ComplexityRoot struct {
 		CreatedAt               func(childComplexity int) int
 		EndAt                   func(childComplexity int) int
 		PrePaid                 func(childComplexity int) int
+		Price                   func(childComplexity int) int
 		StartAt                 func(childComplexity int) int
 	}
 
@@ -607,6 +609,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.BusinessService.SubCategories(childComplexity), true
 
+	case "BusinessServiceOrder.businessCompanyName":
+		if e.complexity.BusinessServiceOrder.BusinessCompanyName == nil {
+			break
+		}
+
+		return e.complexity.BusinessServiceOrder.BusinessCompanyName(childComplexity), true
+
 	case "BusinessServiceOrder.businessServiceID":
 		if e.complexity.BusinessServiceOrder.BusinessServiceID == nil {
 			break
@@ -683,6 +692,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BusinessServiceOrder.PrePaid(childComplexity), true
+
+	case "BusinessServiceOrder.price":
+		if e.complexity.BusinessServiceOrder.Price == nil {
+			break
+		}
+
+		return e.complexity.BusinessServiceOrder.Price(childComplexity), true
 
 	case "BusinessServiceOrder.startAt":
 		if e.complexity.BusinessServiceOrder.StartAt == nil {
@@ -2132,6 +2148,8 @@ type BusinessServiceOrder {
   clientID: ID!
   businessServiceID: ID!
   businessServiceName: String!
+  businessCompanyName: String
+  price: Float
   startAt: String!
   endAt: String!
   createdAt: String!
@@ -4063,6 +4081,68 @@ func (ec *executionContext) _BusinessServiceOrder_businessServiceName(ctx contex
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessServiceOrder_businessCompanyName(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessServiceOrder",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanyName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessServiceOrder_price(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessServiceOrder",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Price, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BusinessServiceOrder_startAt(ctx context.Context, field graphql.CollectedField, obj *model.BusinessServiceOrder) (ret graphql.Marshaler) {
@@ -11255,6 +11335,10 @@ func (ec *executionContext) _BusinessServiceOrder(ctx context.Context, sel ast.S
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "businessCompanyName":
+			out.Values[i] = ec._BusinessServiceOrder_businessCompanyName(ctx, field, obj)
+		case "price":
+			out.Values[i] = ec._BusinessServiceOrder_price(ctx, field, obj)
 		case "startAt":
 			out.Values[i] = ec._BusinessServiceOrder_startAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -14751,6 +14835,29 @@ func (ec *executionContext) unmarshalOBusinessSubCategoriesUnderCategoryRequest2
 	}
 	res, err := ec.unmarshalOBusinessSubCategoriesUnderCategoryRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessSubCategoriesUnderCategoryRequest(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalOFloat2float64(ctx context.Context, v interface{}) (float64, error) {
+	return graphql.UnmarshalFloat(v)
+}
+
+func (ec *executionContext) marshalOFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
+	return graphql.MarshalFloat(v)
+}
+
+func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v interface{}) (*float64, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOFloat2float64(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel ast.SelectionSet, v *float64) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec.marshalOFloat2float64(ctx, sel, *v)
 }
 
 func (ec *executionContext) unmarshalOInt2int64(ctx context.Context, v interface{}) (int64, error) {

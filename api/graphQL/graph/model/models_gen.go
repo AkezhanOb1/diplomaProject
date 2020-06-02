@@ -61,18 +61,20 @@ type BusinessService struct {
 }
 
 type BusinessServiceOrder struct {
-	BusinessServiceOrderID  int64  `json:"businessServiceOrderID"`
-	ClientID                int64  `json:"clientID"`
-	BusinessServiceID       int64  `json:"businessServiceID"`
-	BusinessServiceName     string `json:"businessServiceName"`
-	StartAt                 string `json:"startAt"`
-	EndAt                   string `json:"endAt"`
-	CreatedAt               string `json:"createdAt"`
-	PrePaid                 bool   `json:"prePaid"`
-	ClientFirstName         string `json:"clientFirstName"`
-	ClientPhoneNumber       string `json:"clientPhoneNumber"`
-	ClientPhoneNumberPrefix string `json:"clientPhoneNumberPrefix"`
-	ClientCommentary        string `json:"clientCommentary"`
+	BusinessServiceOrderID  int64    `json:"businessServiceOrderID"`
+	ClientID                int64    `json:"clientID"`
+	BusinessServiceID       int64    `json:"businessServiceID"`
+	BusinessServiceName     string   `json:"businessServiceName"`
+	BusinessCompanyName     *string  `json:"businessCompanyName"`
+	Price                   *float64 `json:"price"`
+	StartAt                 string   `json:"startAt"`
+	EndAt                   string   `json:"endAt"`
+	CreatedAt               string   `json:"createdAt"`
+	PrePaid                 bool     `json:"prePaid"`
+	ClientFirstName         string   `json:"clientFirstName"`
+	ClientPhoneNumber       string   `json:"clientPhoneNumber"`
+	ClientPhoneNumberPrefix string   `json:"clientPhoneNumberPrefix"`
+	ClientCommentary        string   `json:"clientCommentary"`
 }
 
 type BusinessServices struct {
