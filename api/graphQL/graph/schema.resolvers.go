@@ -7,13 +7,19 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
+	"strconv"
 
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/generated"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pba "github.com/AkezhanOb1/diplomaProject/api/proto/auth"
 	pbc "github.com/AkezhanOb1/diplomaProject/api/proto/customer"
 	"github.com/AkezhanOb1/diplomaProject/pkg"
+	db "github.com/AkezhanOb1/diplomaProject/repositories/business/company"
 	c "github.com/AkezhanOb1/diplomaProject/services/client/business/category"
 	bc "github.com/AkezhanOb1/diplomaProject/services/client/business/company"
 	cs "github.com/AkezhanOb1/diplomaProject/services/client/business/companyService"
@@ -24,6 +30,97 @@ import (
 	bso "github.com/AkezhanOb1/diplomaProject/services/client/orders"
 	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
 )
+
+func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error) {
+	home, _ := os.UserHomeDir()
+	dir := home + "/Desktop/" + strconv.FormatInt(input.BussinessCompanyID, 10)
+	os.Mkdir(dir, os.ModePerm)
+
+	file := input.File
+	path := filepath.Join(dir, filepath.Base(file.Filename))
+	fileInfo, _ := os.Stat(path)
+	if fileInfo != nil {
+		return nil, fmt.Errorf("file with such name already exists")
+	}
+
+	dst, err := os.Create(path)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err = io.Copy(dst, file.File); err != nil {
+		return nil, err
+	}
+
+	id, err := db.UploadBusinessCompanyImageRepository(ctx, path, input.BussinessCompanyID)
+	if err != nil {
+		return nil, err
+	}
+
+	dst.Close()
+
+	content, err := ioutil.ReadAll(file.File)
+	if err != nil {
+		return nil, err
+	}
+	var f = model.File{
+		ID:      *id,
+		Name:    file.Filename,
+		Content: string(content),
+	}
+
+	return &f, err
+}
+
+func (r *mutationResolver) BusinessCompanyImagesUpload(ctx context.Context, input model.BusinessCompanyImagesUploadRequest) ([]model.File, error) {
+	home, _ := os.UserHomeDir()
+	dir := home + "/Desktop/" + strconv.FormatInt(input.BussinessCompanyID, 10)
+	os.Mkdir(dir, os.ModePerm)
+
+	var resp []model.File
+
+	for _, f := range input.Files {
+		file := f.File
+		path := filepath.Join(dir, filepath.Base(file.Filename))
+		fileInfo, _ := os.Stat(path)
+		if fileInfo != nil {
+			log.Println("file with such name already exists")
+			continue
+		}
+
+		dst, err := os.Create(path)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		if _, err = io.Copy(dst, file.File); err != nil {
+			log.Println(err)
+		}
+
+		id, err := db.UploadBusinessCompanyImageRepository(ctx, path, input.BussinessCompanyID)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		dst.Close()
+
+		content, err := ioutil.ReadAll(file.File)
+		if err != nil {
+			return nil, err
+		}
+		var f = model.File{
+			ID:      *id,
+			Name:    file.Filename,
+			Content: string(content),
+		}
+
+		resp = append(resp, f)
+	}
+
+	return resp, nil
+}
 
 func (r *mutationResolver) UpdateBusinessServiceOrder(ctx context.Context, input model.UpdateBusinessServiceOrderRequest) (*model.UpdateBusinessServiceOrderResponse, error) {
 	order, err := bso.UpdateBusinessServiceOrder(ctx, &input)

@@ -498,6 +498,30 @@ type GetBusinessServiceOrdersByEmailResponse {
   pagination: Pagination!
 }
 
+scalar Upload
+type File {
+  id: Int!
+  name: String!
+  content: String!
+  contentType: String!
+}
+
+input UploadFile {
+  file: Upload!
+}
+
+
+input BusinessCompanyImagesUploadRequest {
+  bussinessCompanyID: ID!
+  files: [UploadFile!]!
+}
+
+input BusinessCompanyImageUploadRequest {
+  bussinessCompanyID: ID!
+  file: Upload!
+}
+
+
 
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
@@ -544,6 +568,8 @@ type Query {
 }
 
 type Mutation {
+  BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!
+  BusinessCompanyImagesUpload(input: BusinessCompanyImagesUploadRequest!): [File!]!
   UpdateBusinessServiceOrder(input: UpdateBusinessServiceOrderRequest!): UpdateBusinessServiceOrderResponse!
   DeleteBusinessServiceOrder(input: DeleteBusinessServiceOrderRequest!): DeleteBusinessServiceOrderResponse!
 

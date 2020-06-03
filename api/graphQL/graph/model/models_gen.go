@@ -2,6 +2,10 @@
 
 package model
 
+import (
+	"github.com/99designs/gqlgen/graphql"
+)
+
 type BusinessCategory struct {
 	BusinessCategoryID   int64  `json:"businessCategoryID"`
 	BusinessCategoryName string `json:"businessCategoryName"`
@@ -19,6 +23,16 @@ type BusinessCompany struct {
 	BusinessCompanyID         int64  `json:"businessCompanyID"`
 	BusinessCompanyName       string `json:"businessCompanyName"`
 	BusinessCompanyCategoryID int64  `json:"businessCompanyCategoryID"`
+}
+
+type BusinessCompanyImageUploadRequest struct {
+	BussinessCompanyID int64          `json:"bussinessCompanyID"`
+	File               graphql.Upload `json:"file"`
+}
+
+type BusinessCompanyImagesUploadRequest struct {
+	BussinessCompanyID int64        `json:"bussinessCompanyID"`
+	Files              []UploadFile `json:"files"`
 }
 
 type BusinessCompanyOperationHour struct {
@@ -189,6 +203,13 @@ type DeleteBusinessServiceOrderResponse struct {
 	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
 }
 
+type File struct {
+	ID          int64  `json:"id"`
+	Name        string `json:"name"`
+	Content     string `json:"content"`
+	ContentType string `json:"contentType"`
+}
+
 type GetBusinessServiceOrderByDateRequest struct {
 	BusinessServiceID int64  `json:"businessServiceID"`
 	Date              string `json:"date"`
@@ -283,6 +304,10 @@ type UpdateBusinessServiceOrderRequest struct {
 
 type UpdateBusinessServiceOrderResponse struct {
 	BusinessServiceOrder *BusinessServiceOrder `json:"businessServiceOrder"`
+}
+
+type UploadFile struct {
+	File graphql.Upload `json:"file"`
 }
 
 type BusinessCompanyOperationHourResponse struct {

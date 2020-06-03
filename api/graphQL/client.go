@@ -40,6 +40,7 @@ func main() {
 	cert := wd + "/static/qaqtus_me.crt"
 	key := wd + "/static/qaqtus.me.key"
 	err = http.ListenAndServeTLS(port, cert, key, router)
+	//err := http.ListenAndServe(port, router)
 	if err != nil {
 		panic(err)
 	}}

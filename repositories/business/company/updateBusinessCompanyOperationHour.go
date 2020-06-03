@@ -18,12 +18,8 @@ func UpdateBusinessCompanyOperationHourRepository(ctx context.Context, request *
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(context.Background())
-		if err != nil {
-			log.Fatal(err)
-		}
-	}()
+	defer conn.Close(ctx)
+
 
 	sqlQuery := `UPDATE business_company_operation_hours
 				 SET business_company_id=$1,

@@ -23,8 +23,8 @@ var PostgresConnection = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname
 	postgresAddress, postgresPort, postgresUsername, postgresPassword, postgresDataBase)
 
 //RpcServerAddress is an address to the gRPC server
-var RpcServerAddress = "server:50051"
-//var RpcServerAddress = "localhost:50051"
+//var RpcServerAddress = "server:50051"
+var RpcServerAddress = "localhost:50051"
 
 //CustomerServerAddress is
 var CustomerServerAddress = "46.101.138.224:50055"
