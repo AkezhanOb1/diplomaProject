@@ -173,6 +173,7 @@ func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequ
 	r := pb.CreateBusinessCompanyRequest{
 		BusinessCompanyName:       req.BusinessCompanyName,
 		BusinessCompanyCategoryID: req.BusinessCompanyCategoryID,
+		BusinessCompanyAddress: req.BusinessCompanyAddress,
 	}
 
 	company, err := c.CreateBusinessCompany(ctx, &r)

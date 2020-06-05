@@ -28,16 +28,25 @@ type BusinessSubCategories {
   businessSubCategories: [BusinessSubCategory!]!
 }
 
+type Image {
+  imageID: ID!
+  imageName: String!
+  imageContentType: String!
+  imageContent: String!
+}
 
 type BusinessCompany {
   businessCompanyID: ID!
   businessCompanyName: String!
   businessCompanyCategoryID: ID!
+  businessCompanyAddress: String!
+  businessCompnyImages: [Image!]!
 }
 
 input CreateBusinessCompanyRequest {
   businessCompanyName: String!
   businessCompanyCategoryID: ID!
+  businessCompanyAddress: String!
 }
 
 input getBusinessCompanyRequest {

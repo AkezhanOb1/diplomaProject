@@ -17,6 +17,22 @@ func (*Server) GetBusinessCompany(ctx context.Context, request *pb.GetBusinessCo
 		return nil, err
 	}
 
+	businessCompanyImages, err := db.GetBusinessCompanyImagesRepository(context.Background(), request.GetBusinessCompanyID())
+	if err != nil {
+		return nil, err
+	}
+
+
+
+
+	for _, file := range businessCompanyImages.Images {
+		var image pb.Image
+		image.ImageID = file.ImageID
+
+
+	}
+
+
 	return businessCompany, nil
 }
 

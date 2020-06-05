@@ -38,7 +38,7 @@ var BusinessServiceOrderServer = "46.101.138.224:50053"
 //var BusinessServiceOrderServer = "localhost:50053"
 
 //ImagePath is the path inside filesystem
-var ImagePath = "/home/akezhan/images"
+var ImagePath = "/home/doha/images"
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"
 //rabbitPassword is the password of the user

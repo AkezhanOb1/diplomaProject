@@ -7,7 +7,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"io"
 	"io/ioutil"
 	"log"
@@ -20,6 +19,7 @@ import (
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pba "github.com/AkezhanOb1/diplomaProject/api/proto/auth"
 	pbc "github.com/AkezhanOb1/diplomaProject/api/proto/customer"
+	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"github.com/AkezhanOb1/diplomaProject/pkg"
 	db "github.com/AkezhanOb1/diplomaProject/repositories/business/company"
 	c "github.com/AkezhanOb1/diplomaProject/services/client/business/category"
@@ -55,12 +55,11 @@ func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload
 		return false, err
 	}
 
-	actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/"+ file.Filename
+	actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/" + file.Filename
 	_, err = db.UploadBusinessCompanyImageRepository(ctx, actualPath, 5)
 	if err != nil {
 		return false, err
 	}
-
 
 	dst.Close()
 
@@ -69,6 +68,19 @@ func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload
 		return false, err
 	}
 
+	content, err := ioutil.ReadAll(file.File)
+	if err != nil {
+		return false, err
+	}
+
+	var f = model.File{
+		ID:          1,
+		Name:        file.Filename,
+		Content:     string(content),
+		ContentType: file.ContentType,
+	}
+
+	log.Println(f)
 
 	return true, nil
 }
@@ -94,7 +106,7 @@ func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input
 		return nil, err
 	}
 
-	actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/"+ file.Filename
+	actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/" + file.Filename
 	id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
 	if err != nil {
 		return nil, err
@@ -120,7 +132,6 @@ func (r *mutationResolver) BusinessCompanyImagesUpload(ctx context.Context, inpu
 	dir := home + "/images/" + strconv.FormatInt(input.BussinessCompanyID, 10)
 	os.Mkdir(dir, os.ModePerm)
 
-
 	var resp []model.File
 
 	for _, f := range input.Files {
@@ -142,7 +153,7 @@ func (r *mutationResolver) BusinessCompanyImagesUpload(ctx context.Context, inpu
 			log.Println(err)
 		}
 
-		actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/"+ file.Filename
+		actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/" + file.Filename
 		id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
 		if err != nil {
 			log.Println(err)

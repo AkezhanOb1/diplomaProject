@@ -15,4 +15,4 @@ services:
     ports:
         - "8080:8080"
     volumes:
-     - "$HOME/images:/app/images"
+     - "/home/doha/images:/app/images"

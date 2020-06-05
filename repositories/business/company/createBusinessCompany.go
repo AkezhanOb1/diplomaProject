@@ -2,16 +2,13 @@ package company
 
 import (
 	"context"
-	"log"
-
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
 
 	"github.com/jackc/pgx/v4"
 )
 
-//CreateCompanyRepository is a repository that
-//responsible for inserting data into the company
+//CreateCompanyRepository is a repository that responsible for inserting data into the company
 //table inside the database
 func CreateCompanyRepository(ctx context.Context, request *pb.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
 	conn, err := pgx.Connect(ctx, config.PostgresConnection)
@@ -19,23 +16,19 @@ func CreateCompanyRepository(ctx context.Context, request *pb.CreateBusinessComp
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(context.Background())
-		if err != nil {
-			log.Fatal(err)
-		}
-	}()
+	defer conn.Close(context.Background())
 
 	sqlQuery := `INSERT INTO public.business_company (
-				 	 name, category_id)
-				 VALUES ($1, $2) RETURNING id;`
+				 	 name, category_id, address)
+				 VALUES ($1, $2, $3) RETURNING id;`
 
 
 	var companyID int64
 	companyName := request.GetBusinessCompanyName()
 	companyCategoryID := request.GetBusinessCompanyCategoryID()
+	companyAddress := request.GetBusinessCompanyAddress()
 
-	row := conn.QueryRow(context.Background(), sqlQuery, companyName, companyCategoryID)
+	row := conn.QueryRow(context.Background(), sqlQuery, companyName, companyCategoryID, companyAddress)
 
 
 	err = row.Scan(&companyID)
@@ -49,6 +42,7 @@ func CreateCompanyRepository(ctx context.Context, request *pb.CreateBusinessComp
 			BusinessCompanyID:         companyID,
 			BusinessCompanyName:       companyName,
 			BusinessCompanyCategoryID: companyCategoryID,
+			BusinessCompanyAddress: companyAddress,
 		},
 	}, nil
 }

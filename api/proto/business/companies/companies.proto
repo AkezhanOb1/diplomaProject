@@ -4,15 +4,34 @@ import "google/protobuf/empty.proto";
 package businessCompanies;
 option go_package = ".;companies";
 
+message Image {
+    int64 imageID = 1;
+    string imageName = 2;
+    string imageContentType = 3;
+    string imageContent = 4;
+}
+
+message BusinessCompanyImage {
+    int64 imageID = 1;
+    string imagePath = 2;
+}
+
+message BusinessCompanyImages {
+    repeated BusinessCompanyImage images = 1;
+}
+
 message BusinessCompany {
     int64 businessCompanyID = 1;
     string businessCompanyName = 2;
     int64 businessCompanyCategoryID = 3;
+    string businessCompanyAddress = 4;
+    repeated Image images = 5;
 }
 
 message CreateBusinessCompanyRequest {
     string businessCompanyName = 1;
     int64 businessCompanyCategoryID = 2;
+    string businessCompanyAddress = 3;
 }
 
 message CreateBusinessCompanyResponse {
