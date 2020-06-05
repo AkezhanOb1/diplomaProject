@@ -10,7 +10,7 @@ import (
 
 //GetBusinessCompanyImagesRepository is a repository that responsible to all the requests to DB
 //about business categories
-func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID int64) ([]*pb.BusinessCompanyImage, error) {
+func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID int64) (*[]pb.BusinessCompanyImage, error) {
 	conn, err := pgx.Connect(ctx, config.PostgresConnection)
 	if err != nil {
 		return nil, err
