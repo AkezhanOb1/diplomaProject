@@ -18,7 +18,7 @@ func GetBusinessCompaniesUnderCategoryRepository(ctx context.Context, categoryID
 
 	defer conn.Close(ctx)
 
-	sqlQuery := `SELECT id, name, category_id FROM business_company WHERE category_id=$1;`
+	sqlQuery := `SELECT id, name, category_id, address FROM business_company WHERE category_id=$1;`
 
 	rows, err := conn.Query(ctx, sqlQuery, categoryID)
 	if err != nil {
@@ -34,6 +34,7 @@ func GetBusinessCompaniesUnderCategoryRepository(ctx context.Context, categoryID
 			&company.BusinessCompanyID,
 			&company.BusinessCompanyName,
 			&company.BusinessCompanyCategoryID,
+			&company.BusinessCompanyAddress,
 		)
 
 		if err != nil {

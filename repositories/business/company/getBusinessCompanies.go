@@ -25,7 +25,7 @@ func GetBusinessCompaniesRepository(ctx context.Context) (*pb.GetBusinessCompani
 		}
 	}()
 
-	sqlQuery := `SELECT id, name, category_id FROM business_company;`
+	sqlQuery := `SELECT id, name, category_id, address FROM business_company;`
 
 	rows, err := conn.Query(ctx, sqlQuery)
 	if err != nil {
@@ -41,6 +41,7 @@ func GetBusinessCompaniesRepository(ctx context.Context) (*pb.GetBusinessCompani
 			&company.BusinessCompanyID,
 			&company.BusinessCompanyName,
 			&company.BusinessCompanyCategoryID,
+			&company.BusinessCompanyAddress,
 		)
 
 		if err != nil {
