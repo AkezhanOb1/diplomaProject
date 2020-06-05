@@ -338,6 +338,7 @@ func (r *mutationResolver) CreateBusinessCompany(ctx context.Context, input mode
 		BusinessCompanyID:         newBusinessCompany.BusinessCompany.BusinessCompanyID,
 		BusinessCompanyName:       newBusinessCompany.BusinessCompany.BusinessCompanyName,
 		BusinessCompanyCategoryID: newBusinessCompany.BusinessCompany.BusinessCompanyCategoryID,
+		BusinessCompanyAddress:	   newBusinessCompany.BusinessCompany.BusinessCompanyAddress,
 	}
 
 	return resp, nil
@@ -712,13 +713,26 @@ func (r *queryResolver) GetBusinessCompany(ctx context.Context, input model.GetB
 	if err != nil {
 		return nil, err
 	}
-	var resp = &model.BusinessCompany{
-		BusinessCompanyID:         company.BusinessCompany.BusinessCompanyID,
-		BusinessCompanyName:       company.BusinessCompany.BusinessCompanyName,
-		BusinessCompanyCategoryID: company.BusinessCompany.BusinessCompanyCategoryID,
+	//var resp = &model.BusinessCompany{
+	//	BusinessCompanyID:         company.BusinessCompany.BusinessCompanyID,
+	//	BusinessCompanyName:       company.BusinessCompany.BusinessCompanyName,
+	//	BusinessCompanyCategoryID: company.BusinessCompany.BusinessCompanyCategoryID,
+	//	BusinessCompanyAddress:    company.BusinessCompany.BusinessCompanyAddress,
+	//	BusinessCompanyImages:	   company.BusinessCompany.BusinessCompanyImages,
+	//}
+
+	b, err := pkg.Serializer(company.BusinessCompany)
+	if err != nil {
+		return nil, err
 	}
 
-	return resp, nil
+	var resp model.BusinessCompany
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }
 
 func (r *queryResolver) GetBusinessCompanies(ctx context.Context) (*model.BusinessCompanies, error) {

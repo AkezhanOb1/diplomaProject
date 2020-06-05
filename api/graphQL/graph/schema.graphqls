@@ -28,11 +28,9 @@ type BusinessSubCategories {
   businessSubCategories: [BusinessSubCategory!]!
 }
 
-type Image {
+type BusinessCompanyImage {
   imageID: ID!
-  imageName: String!
-  imageContentType: String!
-  imageContent: String!
+  imagePath: String!
 }
 
 type BusinessCompany {
@@ -40,7 +38,7 @@ type BusinessCompany {
   businessCompanyName: String!
   businessCompanyCategoryID: ID!
   businessCompanyAddress: String!
-  businessCompnyImages: [Image!]!
+  businessCompanyImages: [BusinessCompanyImage!]!
 }
 
 input CreateBusinessCompanyRequest {

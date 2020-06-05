@@ -20,11 +20,16 @@ type BusinessCompanies struct {
 }
 
 type BusinessCompany struct {
-	BusinessCompanyID         int64   `json:"businessCompanyID"`
-	BusinessCompanyName       string  `json:"businessCompanyName"`
-	BusinessCompanyCategoryID int64   `json:"businessCompanyCategoryID"`
-	BusinessCompanyAddress    string  `json:"businessCompanyAddress"`
-	BusinessCompnyImages      []Image `json:"businessCompnyImages"`
+	BusinessCompanyID         int64                  `json:"businessCompanyID"`
+	BusinessCompanyName       string                 `json:"businessCompanyName"`
+	BusinessCompanyCategoryID int64                  `json:"businessCompanyCategoryID"`
+	BusinessCompanyAddress    string                 `json:"businessCompanyAddress"`
+	BusinessCompanyImages     []BusinessCompanyImage `json:"businessCompanyImages"`
+}
+
+type BusinessCompanyImage struct {
+	ImageID   int64  `json:"imageID"`
+	ImagePath string `json:"imagePath"`
 }
 
 type BusinessCompanyImageUploadRequest struct {
@@ -273,13 +278,6 @@ type GetCustomerTokenInfoResponse struct {
 	Email     string `json:"email"`
 	IssuedAt  int64  `json:"issuedAt"`
 	ExpiresAt int64  `json:"expiresAt"`
-}
-
-type Image struct {
-	ImageID          int64  `json:"imageID"`
-	ImageName        string `json:"imageName"`
-	ImageContentType string `json:"imageContentType"`
-	ImageContent     string `json:"imageContent"`
 }
 
 type Pagination struct {

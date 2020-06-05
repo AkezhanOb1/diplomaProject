@@ -10,7 +10,7 @@ import (
 
 //GetBusinessCompanyImagesRepository is a repository that responsible to all the requests to DB
 //about business categories
-func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID int64) (*pb.BusinessCompanyImages, error) {
+func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID int64) ([]*pb.BusinessCompanyImage, error) {
 	conn, err := pgx.Connect(ctx, config.PostgresConnection)
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID i
 		return nil, err
 	}
 
-	var images pb.BusinessCompanyImages
+	var images []pb.BusinessCompanyImage
 
 	for rows.Next() {
 		var image pb.BusinessCompanyImage
@@ -40,7 +40,7 @@ func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID i
 			return nil, err
 		}
 
-		images.Images = append(images.Images, &image)
+		images = append(images, image)
 	}
 
 	return &images, nil

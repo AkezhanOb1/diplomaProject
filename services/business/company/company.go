@@ -22,15 +22,7 @@ func (*Server) GetBusinessCompany(ctx context.Context, request *pb.GetBusinessCo
 		return nil, err
 	}
 
-
-
-
-	for _, file := range businessCompanyImages.Images {
-		var image pb.Image
-		image.ImageID = file.ImageID
-
-
-	}
+	businessCompany.BusinessCompany.BusinessCompanyImages = businessCompanyImages
 
 
 	return businessCompany, nil
@@ -41,6 +33,15 @@ func (*Server) GetBusinessCompanies(ctx context.Context, emp *empty.Empty) (*pb.
 	businessCompanies, err := db.GetBusinessCompaniesRepository(ctx)
 	if err != nil {
 		return nil, err
+	}
+
+	for i, company := range businessCompanies.BusinessCompanies {
+		businessCompanyImages, err := db.GetBusinessCompanyImagesRepository(context.Background(), company.GetBusinessCompanyID())
+		if err != nil {
+			return nil, err
+		}
+
+		businessCompanies.BusinessCompanies[i].BusinessCompanyImages = businessCompanyImages
 	}
 
 	return businessCompanies, nil
@@ -85,6 +86,15 @@ func (*Server) GetBusinessCompaniesUnderCategory(ctx context.Context, request *p
 	companies, err := db.GetBusinessCompaniesUnderCategoryRepository(ctx, request.GetCategoryID())
 	if err != nil {
 		return nil, err
+	}
+
+	for i, company := range companies.BusinessCompanies {
+		businessCompanyImages, err := db.GetBusinessCompanyImagesRepository(context.Background(), company.GetBusinessCompanyID())
+		if err != nil {
+			return nil, err
+		}
+
+		companies.BusinessCompanies[i].BusinessCompanyImages = businessCompanyImages
 	}
 
 	return companies, nil

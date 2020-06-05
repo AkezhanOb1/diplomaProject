@@ -56,8 +56,13 @@ type ComplexityRoot struct {
 		BusinessCompanyAddress    func(childComplexity int) int
 		BusinessCompanyCategoryID func(childComplexity int) int
 		BusinessCompanyID         func(childComplexity int) int
+		BusinessCompanyImages     func(childComplexity int) int
 		BusinessCompanyName       func(childComplexity int) int
-		BusinessCompnyImages      func(childComplexity int) int
+	}
+
+	BusinessCompanyImage struct {
+		ImageID   func(childComplexity int) int
+		ImagePath func(childComplexity int) int
 	}
 
 	BusinessCompanyOperationHour struct {
@@ -213,13 +218,6 @@ type ComplexityRoot struct {
 		Email     func(childComplexity int) int
 		ExpiresAt func(childComplexity int) int
 		IssuedAt  func(childComplexity int) int
-	}
-
-	Image struct {
-		ImageContent     func(childComplexity int) int
-		ImageContentType func(childComplexity int) int
-		ImageID          func(childComplexity int) int
-		ImageName        func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -484,6 +482,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.BusinessCompany.BusinessCompanyID(childComplexity), true
 
+	case "BusinessCompany.businessCompanyImages":
+		if e.complexity.BusinessCompany.BusinessCompanyImages == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompany.BusinessCompanyImages(childComplexity), true
+
 	case "BusinessCompany.businessCompanyName":
 		if e.complexity.BusinessCompany.BusinessCompanyName == nil {
 			break
@@ -491,12 +496,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.BusinessCompany.BusinessCompanyName(childComplexity), true
 
-	case "BusinessCompany.businessCompnyImages":
-		if e.complexity.BusinessCompany.BusinessCompnyImages == nil {
+	case "BusinessCompanyImage.imageID":
+		if e.complexity.BusinessCompanyImage.ImageID == nil {
 			break
 		}
 
-		return e.complexity.BusinessCompany.BusinessCompnyImages(childComplexity), true
+		return e.complexity.BusinessCompanyImage.ImageID(childComplexity), true
+
+	case "BusinessCompanyImage.imagePath":
+		if e.complexity.BusinessCompanyImage.ImagePath == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyImage.ImagePath(childComplexity), true
 
 	case "BusinessCompanyOperationHour.businessCompanyID":
 		if e.complexity.BusinessCompanyOperationHour.BusinessCompanyID == nil {
@@ -1036,34 +1048,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.GetCustomerTokenInfoResponse.IssuedAt(childComplexity), true
-
-	case "Image.imageContent":
-		if e.complexity.Image.ImageContent == nil {
-			break
-		}
-
-		return e.complexity.Image.ImageContent(childComplexity), true
-
-	case "Image.imageContentType":
-		if e.complexity.Image.ImageContentType == nil {
-			break
-		}
-
-		return e.complexity.Image.ImageContentType(childComplexity), true
-
-	case "Image.imageID":
-		if e.complexity.Image.ImageID == nil {
-			break
-		}
-
-		return e.complexity.Image.ImageID(childComplexity), true
-
-	case "Image.imageName":
-		if e.complexity.Image.ImageName == nil {
-			break
-		}
-
-		return e.complexity.Image.ImageName(childComplexity), true
 
 	case "Mutation.BusinessCompanyImageUpload":
 		if e.complexity.Mutation.BusinessCompanyImageUpload == nil {
@@ -1965,11 +1949,9 @@ type BusinessSubCategories {
   businessSubCategories: [BusinessSubCategory!]!
 }
 
-type Image {
+type BusinessCompanyImage {
   imageID: ID!
-  imageName: String!
-  imageContentType: String!
-  imageContent: String!
+  imagePath: String!
 }
 
 type BusinessCompany {
@@ -1977,7 +1959,7 @@ type BusinessCompany {
   businessCompanyName: String!
   businessCompanyCategoryID: ID!
   businessCompanyAddress: String!
-  businessCompnyImages: [Image!]!
+  businessCompanyImages: [BusinessCompanyImage!]!
 }
 
 input CreateBusinessCompanyRequest {
@@ -3473,7 +3455,7 @@ func (ec *executionContext) _BusinessCompany_businessCompanyAddress(ctx context.
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _BusinessCompany_businessCompnyImages(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompany) (ret graphql.Marshaler) {
+func (ec *executionContext) _BusinessCompany_businessCompanyImages(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompany) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -3490,7 +3472,7 @@ func (ec *executionContext) _BusinessCompany_businessCompnyImages(ctx context.Co
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.BusinessCompnyImages, nil
+		return obj.BusinessCompanyImages, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3502,9 +3484,77 @@ func (ec *executionContext) _BusinessCompany_businessCompnyImages(ctx context.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]model.Image)
+	res := resTmp.([]model.BusinessCompanyImage)
 	fc.Result = res
-	return ec.marshalNImage2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐImageᚄ(ctx, field.Selections, res)
+	return ec.marshalNBusinessCompanyImage2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyImage_imageID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyImage) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyImage",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ImageID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyImage_imagePath(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyImage) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyImage",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ImagePath, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BusinessCompanyOperationHour_companyOperationHourID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
@@ -6105,142 +6155,6 @@ func (ec *executionContext) _GetCustomerTokenInfoResponse_expiresAt(ctx context.
 	res := resTmp.(int64)
 	fc.Result = res
 	return ec.marshalNInt2int64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Image_imageID(ctx context.Context, field graphql.CollectedField, obj *model.Image) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ImageID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int64)
-	fc.Result = res
-	return ec.marshalNID2int64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Image_imageName(ctx context.Context, field graphql.CollectedField, obj *model.Image) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ImageName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Image_imageContentType(ctx context.Context, field graphql.CollectedField, obj *model.Image) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ImageContentType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Image_imageContent(ctx context.Context, field graphql.CollectedField, obj *model.Image) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Image",
-		Field:    field,
-		Args:     nil,
-		IsMethod: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ImageContent, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_singleUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -11802,8 +11716,40 @@ func (ec *executionContext) _BusinessCompany(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "businessCompnyImages":
-			out.Values[i] = ec._BusinessCompany_businessCompnyImages(ctx, field, obj)
+		case "businessCompanyImages":
+			out.Values[i] = ec._BusinessCompany_businessCompanyImages(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var businessCompanyImageImplementors = []string{"BusinessCompanyImage"}
+
+func (ec *executionContext) _BusinessCompanyImage(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyImage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, businessCompanyImageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BusinessCompanyImage")
+		case "imageID":
+			out.Values[i] = ec._BusinessCompanyImage_imageID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "imagePath":
+			out.Values[i] = ec._BusinessCompanyImage_imagePath(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -12743,48 +12689,6 @@ func (ec *executionContext) _GetCustomerTokenInfoResponse(ctx context.Context, s
 			}
 		case "expiresAt":
 			out.Values[i] = ec._GetCustomerTokenInfoResponse_expiresAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var imageImplementors = []string{"Image"}
-
-func (ec *executionContext) _Image(ctx context.Context, sel ast.SelectionSet, obj *model.Image) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, imageImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Image")
-		case "imageID":
-			out.Values[i] = ec._Image_imageID(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "imageName":
-			out.Values[i] = ec._Image_imageName(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "imageContentType":
-			out.Values[i] = ec._Image_imageContentType(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "imageContent":
-			out.Values[i] = ec._Image_imageContent(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -14344,6 +14248,47 @@ func (ec *executionContext) marshalNBusinessCompany2ᚖgithubᚗcomᚋAkezhanOb1
 	return ec._BusinessCompany(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNBusinessCompanyImage2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImage(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyImage) graphql.Marshaler {
+	return ec._BusinessCompanyImage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyImage2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageᚄ(ctx context.Context, sel ast.SelectionSet, v []model.BusinessCompanyImage) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNBusinessCompanyImage2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImage(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
 func (ec *executionContext) unmarshalNBusinessCompanyImageUploadRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageUploadRequest(ctx context.Context, v interface{}) (model.BusinessCompanyImageUploadRequest, error) {
 	return ec.unmarshalInputBusinessCompanyImageUploadRequest(ctx, v)
 }
@@ -15057,47 +15002,6 @@ func (ec *executionContext) marshalNID2int64(ctx context.Context, sel ast.Select
 		}
 	}
 	return res
-}
-
-func (ec *executionContext) marshalNImage2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐImage(ctx context.Context, sel ast.SelectionSet, v model.Image) graphql.Marshaler {
-	return ec._Image(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNImage2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐImageᚄ(ctx context.Context, sel ast.SelectionSet, v []model.Image) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNImage2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐImage(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
 }
 
 func (ec *executionContext) unmarshalNInt2int64(ctx context.Context, v interface{}) (int64, error) {
