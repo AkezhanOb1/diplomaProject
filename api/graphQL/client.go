@@ -9,7 +9,6 @@ import (
 	"github.com/rs/cors"
 	"log"
 	"net/http"
-	"os"
 )
 
 
@@ -32,15 +31,15 @@ func main() {
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 
-	wd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-
-	cert := wd + "/static/qaqtus_me.crt"
-	key := wd + "/static/qaqtus.me.key"
-	err = http.ListenAndServeTLS(port, cert, key, router)
-	//err := http.ListenAndServe(port, router)
+	//wd, err := os.Getwd()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//cert := wd + "/static/qaqtus_me.crt"
+	//key := wd + "/static/qaqtus.me.key"
+	//err = http.ListenAndServeTLS(port, cert, key, router)
+	err := http.ListenAndServe(port, router)
 	if err != nil {
 		panic(err)
 	}}

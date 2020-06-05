@@ -28,6 +28,7 @@ var RpcServerAddress = "server:50051"
 
 //CustomerServerAddress is
 var CustomerServerAddress = "46.101.138.224:50055"
+//var CustomerServerAddress = "13.75.115.40:50055"
 
 //TokenServer is an address to the authorization
 var TokenServer = "46.101.138.224:50052"
@@ -36,6 +37,8 @@ var TokenServer = "46.101.138.224:50052"
 var BusinessServiceOrderServer = "46.101.138.224:50053"
 //var BusinessServiceOrderServer = "localhost:50053"
 
+//ImagePath is the path inside filesystem
+var ImagePath = "/home/akezhan/images"
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"
 //rabbitPassword is the password of the user

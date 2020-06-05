@@ -568,6 +568,7 @@ type Query {
 }
 
 type Mutation {
+  singleUpload(file: Upload!): Boolean!
   BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!
   BusinessCompanyImagesUpload(input: BusinessCompanyImagesUploadRequest!): [File!]!
   UpdateBusinessServiceOrder(input: UpdateBusinessServiceOrderRequest!): UpdateBusinessServiceOrderResponse!
