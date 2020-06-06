@@ -55,7 +55,7 @@ func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload
 		return false, err
 	}
 
-	actualPath :=config.DigitalOceanSpaceURL + file.Filename
+	actualPath := config.DigitalOceanSpaceURL + file.Filename
 	_, err = db.UploadBusinessCompanyImageRepository(ctx, actualPath, 7)
 	if err != nil {
 		return false, err
@@ -70,7 +70,7 @@ func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input
 		return nil, err
 	}
 
-	input.File.Filename = company.BusinessCompany.GetBusinessCompanyName() + input.File.Filename
+	input.File.Filename = company.BusinessCompany.GetBusinessCompanyName() + "-" + input.File.Filename
 
 
 	client, err := minio.New(config.AwsEndPoint, config.AwsAccessKey, config.AwsSecretKey, true)
@@ -95,7 +95,7 @@ func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input
 	}
 
 
-	actualPath := config.DigitalOceanSpaceURL + "-" + input.File.Filename
+	actualPath := config.DigitalOceanSpaceURL + input.File.Filename
 	id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
 	if err != nil {
 		return nil, err
