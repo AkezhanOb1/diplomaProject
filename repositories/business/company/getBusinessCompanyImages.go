@@ -19,7 +19,7 @@ func GetBusinessCompanyImagesRepository(ctx context.Context, businessCompanyID i
 	defer conn.Close(ctx)
 
 	sqlQuery := `SELECT id, path from business_company_image
-		WHERE business_company_id =$1;`
+		WHERE business_company_id=$1 ORDER BY id;`
 
 	rows, err := conn.Query(ctx, sqlQuery, businessCompanyID)
 	if err != nil {

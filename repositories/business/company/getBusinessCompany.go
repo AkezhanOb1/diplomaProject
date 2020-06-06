@@ -1,12 +1,10 @@
 package company
 
 import (
+	"context"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
-	"context"
-	"log"
 	"github.com/jackc/pgx/v4"
-
 )
 
 //GetBusinessCompanyRepository is a repository that responsible to all the requests to DB
@@ -17,12 +15,7 @@ func  GetBusinessCompanyRepository(ctx context.Context, companyID int64) (*pb.Ge
 		return nil, err
 	}
 
-	defer func() {
-		err =  conn.Close(ctx)
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer conn.Close(ctx)
 
 	sqlQuery := `SELECT id, name, category_id, address FROM business_company WHERE id=$1;`
 

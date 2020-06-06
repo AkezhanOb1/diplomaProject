@@ -31,7 +31,7 @@ func main() {
 	router.Handle("/query", srv)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	//
+
 	wd, err := os.Getwd()
 	if err != nil {
 		panic(err)

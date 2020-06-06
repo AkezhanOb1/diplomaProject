@@ -45,3 +45,15 @@ const rabbitUserName = "admin"
 const rabbitPassword = "admin"
 //RabbitConnection is the connection string to the Rabbit MQ
 var RabbitConnection = fmt.Sprintf("amqp://%s:%s@46.101.138.224:5672/", rabbitUserName, rabbitPassword)
+
+//AwsAccessKey is
+var AwsAccessKey = "NLYUPR3DZFAJ62SPHTPQ"
+//AwsSecretKey is
+var AwsSecretKey = "p5xvehVAaR+Nmxkc5hxMvgHYJCmukN3eKpk+quwnZPA"
+//AwsEndPoint is
+var AwsEndPoint = "ams3.digitaloceanspaces.com"
+//ImageSpaceName is
+var ImageSpaceName = "qaqtus.images"
+//DigitalOceanSpaceURL is
+var DigitalOceanSpaceURL = "https://qaqtus.images.ams3.digitaloceanspaces.com/"
+

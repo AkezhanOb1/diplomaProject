@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/minio/minio-go"
 	"io"
 	"io/ioutil"
 	"log"
@@ -34,94 +35,76 @@ import (
 )
 
 func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload) (bool, error) {
-	home, _ := os.Getwd()
-	dir := home + "/images/5"
-	os.Mkdir(dir, os.ModePerm)
-
-	log.Println("HOME", home)
-	log.Println("DIR", dir)
-	path := filepath.Join(dir, filepath.Base(file.Filename))
-	fileInfo, _ := os.Stat(path)
-	if fileInfo != nil {
-		return false, fmt.Errorf("file with such name already exists")
-	}
-
-	dst, err := os.Create(path)
+	company, err := db.GetBusinessCompanyRepository(context.Background(), 7)
 	if err != nil {
 		return false, err
 	}
 
-	if _, err = io.Copy(dst, file.File); err != nil {
-		return false, err
+	client, err := minio.New(config.AwsEndPoint, config.AwsAccessKey, config.AwsSecretKey, false)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/" + file.Filename
-	_, err = db.UploadBusinessCompanyImageRepository(ctx, actualPath, 5)
+	file.Filename = company.BusinessCompany.GetBusinessCompanyName() + "-" + file.Filename
+	_, err = client.PutObject(config.ImageSpaceName, file.Filename, file.File, file.Size, minio.PutObjectOptions{
+		UserMetadata: 			 map[string]string{"x-amz-acl": "public-read"},
+		ContentType:             file.ContentType,
+	})
+
 	if err != nil {
 		return false, err
 	}
 
-	dst.Close()
-
-	_, err = ioutil.ReadAll(file.File)
+	actualPath :=config.DigitalOceanSpaceURL + file.Filename
+	_, err = db.UploadBusinessCompanyImageRepository(ctx, actualPath, 7)
 	if err != nil {
 		return false, err
 	}
-
-	content, err := ioutil.ReadAll(file.File)
-	if err != nil {
-		return false, err
-	}
-
-	var f = model.File{
-		ID:          1,
-		Name:        file.Filename,
-		Content:     string(content),
-		ContentType: file.ContentType,
-	}
-
-	log.Println(f)
 
 	return true, nil
 }
 
 func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error) {
-	home, _ := os.Getwd()
-	dir := home + "/images/" + strconv.FormatInt(input.BussinessCompanyID, 10)
-	os.Mkdir(dir, os.ModePerm)
-
-	file := input.File
-	path := filepath.Join(dir, filepath.Base(file.Filename))
-	fileInfo, _ := os.Stat(path)
-	if fileInfo != nil {
-		return nil, fmt.Errorf("file with such name already exists")
-	}
-
-	dst, err := os.Create(path)
+	company, err := db.GetBusinessCompanyRepository(context.Background(), input.BussinessCompanyID)
 	if err != nil {
 		return nil, err
 	}
 
-	if _, err = io.Copy(dst, file.File); err != nil {
+	input.File.Filename = company.BusinessCompany.GetBusinessCompanyName() + input.File.Filename
+
+
+	client, err := minio.New(config.AwsEndPoint, config.AwsAccessKey, config.AwsSecretKey, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = client.PutObject(
+		config.ImageSpaceName,
+		input.File.Filename,
+		input.File.File,
+		input.File.Size,
+		minio.PutObjectOptions{
+			UserMetadata: 			 map[string]string{"x-amz-acl": "public-read"},
+			ContentType:             input.File.ContentType,
+		},
+	)
+
+
+	if err != nil {
 		return nil, err
 	}
 
-	actualPath := config.ImagePath + "/" + strconv.FormatInt(input.BussinessCompanyID, 10) + "/" + file.Filename
+
+	actualPath := config.DigitalOceanSpaceURL + "-" + input.File.Filename
 	id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
 	if err != nil {
 		return nil, err
 	}
 
-	dst.Close()
 
-	content, err := ioutil.ReadAll(file.File)
-	if err != nil {
-		return nil, err
-	}
 	var f = model.File{
 		ID:      *id,
-		Name:    file.Filename,
-		Content: string(content),
+		Name:    input.File.Filename,
 	}
 
 	return &f, err
