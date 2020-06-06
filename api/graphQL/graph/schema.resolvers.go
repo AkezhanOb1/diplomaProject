@@ -106,7 +106,7 @@ func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input
 		return nil, err
 	}
 
-	actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/" + file.Filename
+	actualPath := config.ImagePath + "/" + strconv.FormatInt(input.BussinessCompanyID, 10) + "/" + file.Filename
 	id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
 	if err != nil {
 		return nil, err
@@ -153,7 +153,7 @@ func (r *mutationResolver) BusinessCompanyImagesUpload(ctx context.Context, inpu
 			log.Println(err)
 		}
 
-		actualPath := config.ImagePath + "/" + strconv.FormatInt(7, 10) + "/" + file.Filename
+		actualPath := config.ImagePath + "/" + strconv.FormatInt(input.BussinessCompanyID, 10) + "/" + file.Filename
 		id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
 		if err != nil {
 			log.Println(err)
