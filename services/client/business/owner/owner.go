@@ -3,17 +3,15 @@ package owner
 import (
 	"context"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
-	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/owners"
+	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business-owner"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"google.golang.org/grpc"
-	"log"
 )
-
 
 
 //GetBusinessOwnerCompanies is a
 func GetBusinessOwnerCompanies(ctx context.Context, email string) (*pb.GetBusinessOwnerCompaniesResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessOwnerServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -36,17 +34,12 @@ func GetBusinessOwnerCompanies(ctx context.Context, email string) (*pb.GetBusine
 
 //CreateBusinessOwner is a client function for creating a business owner
 func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerRequest) (*pb.CreateBusinessOwnerResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessOwnerServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
 
 	c := pb.NewBusinessOwnerServiceClient(cc)
 
@@ -67,20 +60,14 @@ func CreateBusinessOwner(ctx context.Context, req model.CreateBusinessOwnerReque
 	return businessOwner, nil
 }
 
-
 //CheckOwnerPassword is
 func CheckOwnerPassword(ctx context.Context, email string, password string) (*pb.CheckOwnerPasswordResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessOwnerServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
 
-	defer func(){
-		err = cc.Close()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
+	defer cc.Close()
 
 	c := pb.NewBusinessOwnerServiceClient(cc)
 

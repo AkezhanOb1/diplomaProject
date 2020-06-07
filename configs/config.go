@@ -37,23 +37,13 @@ var TokenServer = "46.101.138.224:50052"
 var BusinessServiceOrderServer = "46.101.138.224:50053"
 //var BusinessServiceOrderServer = "localhost:50053"
 
-//ImagePath is the path inside filesystem
-var ImagePath = "/home/doha/images"
+//BusinessOwnerServer is a
+var BusinessOwnerServer = "46.101.138.224:50056"
+//BusinessCompanyServer is
+var BusinessCompanyServer = "46.101.138.224:50057"
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"
 //rabbitPassword is the password of the user
 const rabbitPassword = "admin"
 //RabbitConnection is the connection string to the Rabbit MQ
 var RabbitConnection = fmt.Sprintf("amqp://%s:%s@46.101.138.224:5672/", rabbitUserName, rabbitPassword)
-
-//AwsAccessKey is
-var AwsAccessKey = "NLYUPR3DZFAJ62SPHTPQ"
-//AwsSecretKey is
-var AwsSecretKey = "p5xvehVAaR+Nmxkc5hxMvgHYJCmukN3eKpk+quwnZPA"
-//AwsEndPoint is
-var AwsEndPoint = "ams3.digitaloceanspaces.com"
-//ImageSpaceName is
-var ImageSpaceName = "qaqtus-images"
-//DigitalOceanSpaceURL is
-var DigitalOceanSpaceURL = "https://qaqtus-images.ams3.digitaloceanspaces.com/"
-

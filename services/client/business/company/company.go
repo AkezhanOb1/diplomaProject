@@ -1,13 +1,16 @@
 package company
 
 import (
+	"bytes"
 	"context"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
 	gq "github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
-	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business/companies"
+	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business-company"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"log"
+
+	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 )
 
 
@@ -15,7 +18,7 @@ import (
 
 //GetBusinessCompany is a client for graphQL on gRPC services
 func GetBusinessCompany(ctx context.Context, companyID int64) (*pb.GetBusinessCompanyResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +41,7 @@ func GetBusinessCompany(ctx context.Context, companyID int64) (*pb.GetBusinessCo
 
 //GetBusinessCompanies is a client for graphQL on gRPC services
 func GetBusinessCompanies(ctx context.Context) (*pb.GetBusinessCompaniesResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +61,7 @@ func GetBusinessCompanies(ctx context.Context) (*pb.GetBusinessCompaniesResponse
 
 //GetBusinessCompanyServices is a client for graphQL on gRPC services
 func GetBusinessCompanyServices(ctx context.Context, companyID int64) (*pb.GetBusinessCompanyServicesResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +85,7 @@ func GetBusinessCompanyServices(ctx context.Context, companyID int64) (*pb.GetBu
 
 //GetBusinessCompanyOperationHourByDay is a client for graphQL on gRPC services
 func GetBusinessCompanyOperationHourByDay(ctx context.Context, companyID int64, dayOfWeek int64) (*pb.GetBusinessCompanyOperationHourByDayResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +110,7 @@ func GetBusinessCompanyOperationHourByDay(ctx context.Context, companyID int64, 
 
 //GetBusinessCompanyOperationHours is a client for graphQL on gRPC services
 func GetBusinessCompanyOperationHours(ctx context.Context, companyID int64) (*pb.GetBusinessCompanyOperationHoursResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +134,7 @@ func GetBusinessCompanyOperationHours(ctx context.Context, companyID int64) (*pb
 
 //GetBusinessCompaniesUnderCategory is a client for graphQL on gRPC services
 func GetBusinessCompaniesUnderCategory(ctx context.Context, categoryID int64) (*pb.GetBusinessCompaniesUnderCategoryResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +163,7 @@ func GetBusinessCompaniesUnderCategory(ctx context.Context, categoryID int64) (*
 
 //CreateBusinessCompany is a client function for registration a new business company
 func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequest) (*pb.CreateBusinessCompanyResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -187,7 +190,7 @@ func CreateBusinessCompany(ctx context.Context, req gq.CreateBusinessCompanyRequ
 
 //CreateBusinessCompanyOperationHour is a client function for registration a new business company
 func CreateBusinessCompanyOperationHour(ctx context.Context, req gq.CreateBusinessCompanyOperationHoursRequest) (*pb.CreateBusinessCompanyOperationHourResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -215,7 +218,7 @@ func CreateBusinessCompanyOperationHour(ctx context.Context, req gq.CreateBusine
 
 //CreateBusinessCompany is a client function for registration a new business company
 func UpdateBusinessCompanyOperationHour(ctx context.Context, req gq.UpdateBusinessCompanyOperationHoursRequest) (*pb.UpdateBusinessCompanyOperationHourResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -246,7 +249,7 @@ func UpdateBusinessCompanyOperationHour(ctx context.Context, req gq.UpdateBusine
 
 //DeleteBusinessCompanyOperationHour is a client function for registration a new business company
 func DeleteBusinessCompanyOperationHour(ctx context.Context, req gq.DeleteBusinessCompanyOperationHoursRequest) (*pb.DeleteBusinessCompanyOperationHourResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
@@ -266,4 +269,35 @@ func DeleteBusinessCompanyOperationHour(ctx context.Context, req gq.DeleteBusine
 	}
 
 	return deletedOperationHour, nil
+}
+
+
+func BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*pb.BusinessCompanyImageUploadResponse, error) {
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(input.File.File)
+	c := pb.NewBusinessCompaniesServiceClient(cc)
+
+	r := pb.BusinessCompanyImageUploadRequest{
+		BusinessCompanyID: input.BussinessCompanyID,
+		Image:             &pb.File{
+			File:        buf.Bytes(),
+			FileName:    input.File.Filename,
+			Size:        input.File.Size,
+			ContentType: input.File.ContentType,
+		},
+	}
+
+	uploadImage, err := c.BusinessCompanyImageUpload(ctx, &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return uploadImage, nil
 }

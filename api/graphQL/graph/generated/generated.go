@@ -222,7 +222,6 @@ type ComplexityRoot struct {
 
 	Mutation struct {
 		BusinessCompanyImageUpload                 func(childComplexity int, input model.BusinessCompanyImageUploadRequest) int
-		BusinessCompanyImagesUpload                func(childComplexity int, input model.BusinessCompanyImagesUploadRequest) int
 		CreateBusinessCompany                      func(childComplexity int, input model.CreateBusinessCompanyRequest) int
 		CreateBusinessCompanyOperationHours        func(childComplexity int, input model.CreateBusinessCompanyOperationHoursRequest) int
 		CreateBusinessCompanyServiceOperationHours func(childComplexity int, input model.CreateBusinessCompanyServiceOperationHoursRequest) int
@@ -373,7 +372,6 @@ type ComplexityRoot struct {
 type MutationResolver interface {
 	SingleUpload(ctx context.Context, file graphql.Upload) (bool, error)
 	BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error)
-	BusinessCompanyImagesUpload(ctx context.Context, input model.BusinessCompanyImagesUploadRequest) ([]model.File, error)
 	UpdateBusinessServiceOrder(ctx context.Context, input model.UpdateBusinessServiceOrderRequest) (*model.UpdateBusinessServiceOrderResponse, error)
 	DeleteBusinessServiceOrder(ctx context.Context, input model.DeleteBusinessServiceOrderRequest) (*model.DeleteBusinessServiceOrderResponse, error)
 	CreateCustomer(ctx context.Context, input model.CreateCustomerRequest) (*model.CreateCustomerResponse, error)
@@ -1060,18 +1058,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.BusinessCompanyImageUpload(childComplexity, args["input"].(model.BusinessCompanyImageUploadRequest)), true
-
-	case "Mutation.BusinessCompanyImagesUpload":
-		if e.complexity.Mutation.BusinessCompanyImagesUpload == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_BusinessCompanyImagesUpload_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.BusinessCompanyImagesUpload(childComplexity, args["input"].(model.BusinessCompanyImagesUploadRequest)), true
 
 	case "Mutation.createBusinessCompany":
 		if e.complexity.Mutation.CreateBusinessCompany == nil {
@@ -2498,7 +2484,6 @@ type Query {
 type Mutation {
   singleUpload(file: Upload!): Boolean!
   BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!
-  BusinessCompanyImagesUpload(input: BusinessCompanyImagesUploadRequest!): [File!]!
   UpdateBusinessServiceOrder(input: UpdateBusinessServiceOrderRequest!): UpdateBusinessServiceOrderResponse!
   DeleteBusinessServiceOrder(input: DeleteBusinessServiceOrderRequest!): DeleteBusinessServiceOrderResponse!
 
@@ -2543,20 +2528,6 @@ func (ec *executionContext) field_Mutation_BusinessCompanyImageUpload_args(ctx c
 	var arg0 model.BusinessCompanyImageUploadRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNBusinessCompanyImageUploadRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageUploadRequest(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_BusinessCompanyImagesUpload_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 model.BusinessCompanyImagesUploadRequest
-	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNBusinessCompanyImagesUploadRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImagesUploadRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -6237,47 +6208,6 @@ func (ec *executionContext) _Mutation_BusinessCompanyImageUpload(ctx context.Con
 	res := resTmp.(*model.File)
 	fc.Result = res
 	return ec.marshalNFile2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐFile(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_BusinessCompanyImagesUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:   "Mutation",
-		Field:    field,
-		Args:     nil,
-		IsMethod: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_BusinessCompanyImagesUpload_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().BusinessCompanyImagesUpload(rctx, args["input"].(model.BusinessCompanyImagesUploadRequest))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]model.File)
-	fc.Result = res
-	return ec.marshalNFile2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐFileᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_UpdateBusinessServiceOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -12728,11 +12658,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "BusinessCompanyImagesUpload":
-			out.Values[i] = ec._Mutation_BusinessCompanyImagesUpload(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "UpdateBusinessServiceOrder":
 			out.Values[i] = ec._Mutation_UpdateBusinessServiceOrder(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -14293,10 +14218,6 @@ func (ec *executionContext) unmarshalNBusinessCompanyImageUploadRequest2github�
 	return ec.unmarshalInputBusinessCompanyImageUploadRequest(ctx, v)
 }
 
-func (ec *executionContext) unmarshalNBusinessCompanyImagesUploadRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImagesUploadRequest(ctx context.Context, v interface{}) (model.BusinessCompanyImagesUploadRequest, error) {
-	return ec.unmarshalInputBusinessCompanyImagesUploadRequest(ctx, v)
-}
-
 func (ec *executionContext) marshalNBusinessCompanyOperationHour2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyOperationHour(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyOperationHour) graphql.Marshaler {
 	return ec._BusinessCompanyOperationHour(ctx, sel, &v)
 }
@@ -14801,43 +14722,6 @@ func (ec *executionContext) marshalNDeleteBusinessServiceOrderResponse2ᚖgithub
 
 func (ec *executionContext) marshalNFile2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐFile(ctx context.Context, sel ast.SelectionSet, v model.File) graphql.Marshaler {
 	return ec._File(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNFile2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐFileᚄ(ctx context.Context, sel ast.SelectionSet, v []model.File) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNFile2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐFile(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
 }
 
 func (ec *executionContext) marshalNFile2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐFile(ctx context.Context, sel ast.SelectionSet, v *model.File) graphql.Marshaler {

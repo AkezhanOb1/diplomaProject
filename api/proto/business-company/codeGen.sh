@@ -1,0 +1,1 @@
+protoc companies.proto  --go_out=plugins=grpc:.  --proto_path=$HOME/Desktop/SELF/business-company/api

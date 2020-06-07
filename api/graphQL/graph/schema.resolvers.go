@@ -7,22 +7,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/minio/minio-go"
-	"io"
-	"io/ioutil"
 	"log"
-	"os"
-	"path/filepath"
-	"strconv"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/generated"
 	"github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pba "github.com/AkezhanOb1/diplomaProject/api/proto/auth"
 	pbc "github.com/AkezhanOb1/diplomaProject/api/proto/customer"
-	config "github.com/AkezhanOb1/diplomaProject/configs"
 	"github.com/AkezhanOb1/diplomaProject/pkg"
-	db "github.com/AkezhanOb1/diplomaProject/repositories/business/company"
 	c "github.com/AkezhanOb1/diplomaProject/services/client/business/category"
 	bc "github.com/AkezhanOb1/diplomaProject/services/client/business/company"
 	cs "github.com/AkezhanOb1/diplomaProject/services/client/business/companyService"
@@ -35,28 +27,10 @@ import (
 )
 
 func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload) (bool, error) {
-	company, err := db.GetBusinessCompanyRepository(context.Background(), 7)
-	if err != nil {
-		return false, err
-	}
-
-	client, err := minio.New(config.AwsEndPoint, config.AwsAccessKey, config.AwsSecretKey, false)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	file.Filename = company.BusinessCompany.GetBusinessCompanyName() + "-" + file.Filename
-	_, err = client.PutObject(config.ImageSpaceName, file.Filename, file.File, file.Size, minio.PutObjectOptions{
-		UserMetadata: 			 map[string]string{"x-amz-acl": "public-read"},
-		ContentType:             file.ContentType,
+	_, err := bc.BusinessCompanyImageUpload(ctx, model.BusinessCompanyImageUploadRequest{
+		BussinessCompanyID: 7,
+		File:               file,
 	})
-
-	if err != nil {
-		return false, err
-	}
-
-	actualPath := config.DigitalOceanSpaceURL + file.Filename
-	_, err = db.UploadBusinessCompanyImageRepository(ctx, actualPath, 7)
 	if err != nil {
 		return false, err
 	}
@@ -65,99 +39,16 @@ func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload
 }
 
 func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error) {
-	company, err := db.GetBusinessCompanyRepository(context.Background(), input.BussinessCompanyID)
+	image, err := bc.BusinessCompanyImageUpload(ctx, input)
 	if err != nil {
 		return nil, err
 	}
-
-	input.File.Filename = company.BusinessCompany.GetBusinessCompanyName() + "-" + input.File.Filename
-
-
-	client, err := minio.New(config.AwsEndPoint, config.AwsAccessKey, config.AwsSecretKey, true)
-	if err != nil {
-		log.Fatal(err)
+	var resp = &model.File{
+		ID:          image.ImageID,
+		Name:        input.File.Filename,
+		Content:     "",
+		ContentType: input.File.ContentType,
 	}
-
-	_, err = client.PutObject(
-		config.ImageSpaceName,
-		input.File.Filename,
-		input.File.File,
-		input.File.Size,
-		minio.PutObjectOptions{
-			UserMetadata: 			 map[string]string{"x-amz-acl": "public-read"},
-			ContentType:             input.File.ContentType,
-		},
-	)
-
-
-	if err != nil {
-		return nil, err
-	}
-
-
-	actualPath := config.DigitalOceanSpaceURL + input.File.Filename
-	id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
-	if err != nil {
-		return nil, err
-	}
-
-
-	var f = model.File{
-		ID:      *id,
-		Name:    input.File.Filename,
-	}
-
-	return &f, err
-}
-
-func (r *mutationResolver) BusinessCompanyImagesUpload(ctx context.Context, input model.BusinessCompanyImagesUploadRequest) ([]model.File, error) {
-	home, _ := os.Getwd()
-	dir := home + "/images/" + strconv.FormatInt(input.BussinessCompanyID, 10)
-	os.Mkdir(dir, os.ModePerm)
-
-	var resp []model.File
-
-	for _, f := range input.Files {
-		file := f.File
-		path := filepath.Join(dir, filepath.Base(file.Filename))
-		fileInfo, _ := os.Stat(path)
-		if fileInfo != nil {
-			log.Println("file with such name already exists")
-			continue
-		}
-
-		dst, err := os.Create(path)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-
-		if _, err = io.Copy(dst, file.File); err != nil {
-			log.Println(err)
-		}
-
-		actualPath := config.ImagePath + "/" + strconv.FormatInt(input.BussinessCompanyID, 10) + "/" + file.Filename
-		id, err := db.UploadBusinessCompanyImageRepository(ctx, actualPath, input.BussinessCompanyID)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-
-		dst.Close()
-
-		content, err := ioutil.ReadAll(file.File)
-		if err != nil {
-			return nil, err
-		}
-		var f = model.File{
-			ID:      *id,
-			Name:    file.Filename,
-			Content: string(content),
-		}
-
-		resp = append(resp, f)
-	}
-
 	return resp, nil
 }
 
@@ -321,7 +212,7 @@ func (r *mutationResolver) CreateBusinessCompany(ctx context.Context, input mode
 		BusinessCompanyID:         newBusinessCompany.BusinessCompany.BusinessCompanyID,
 		BusinessCompanyName:       newBusinessCompany.BusinessCompany.BusinessCompanyName,
 		BusinessCompanyCategoryID: newBusinessCompany.BusinessCompany.BusinessCompanyCategoryID,
-		BusinessCompanyAddress:	   newBusinessCompany.BusinessCompany.BusinessCompanyAddress,
+		BusinessCompanyAddress:    newBusinessCompany.BusinessCompany.BusinessCompanyAddress,
 	}
 
 	return resp, nil
