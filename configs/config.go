@@ -53,7 +53,7 @@ var AwsSecretKey = "p5xvehVAaR+Nmxkc5hxMvgHYJCmukN3eKpk+quwnZPA"
 //AwsEndPoint is
 var AwsEndPoint = "ams3.digitaloceanspaces.com"
 //ImageSpaceName is
-var ImageSpaceName = "qaqtus.images"
+var ImageSpaceName = "qaqtus-images"
 //DigitalOceanSpaceURL is
-var DigitalOceanSpaceURL = "https://qaqtus.images.ams3.digitaloceanspaces.com/"
+var DigitalOceanSpaceURL = "https://qaqtus-images.ams3.digitaloceanspaces.com/"
 
