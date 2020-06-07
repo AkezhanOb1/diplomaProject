@@ -300,6 +300,14 @@ type PaginationInput struct {
 	Count  *int64 `json:"count"`
 }
 
+type SearchBusinessCompanyRequest struct {
+	BusinessCompanyName string `json:"businessCompanyName"`
+}
+
+type SearchBusinessCompanyResponse struct {
+	BusinessCompanies []BusinessCompany `json:"businessCompanies"`
+}
+
 type Token struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`

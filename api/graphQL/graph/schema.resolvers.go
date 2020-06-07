@@ -485,6 +485,15 @@ func (r *mutationResolver) GenerateToken(ctx context.Context, input model.Genera
 	}, nil
 }
 
+func (r *queryResolver) SearchBusinessCompany(ctx context.Context, input model.SearchBusinessCompanyRequest) (*model.SearchBusinessCompanyResponse, error) {
+	companies, err := bc.SearchBusinessCompany(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	return companies, nil
+}
+
 func (r *queryResolver) GetBusinessServiceOrder(ctx context.Context, input model.GetBusinessServiceOrderRequest) (*model.GetBusinessServiceOrderResponse, error) {
 	businessServiceOrder, err := bso.GetBusinessServiceOrder(ctx, input.BusinessServiceOrderID)
 	if err != nil {

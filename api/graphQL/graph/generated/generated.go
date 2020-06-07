@@ -284,6 +284,11 @@ type ComplexityRoot struct {
 		GetCustomerByEmail                          func(childComplexity int, input model.GetCustomerByEmailRequest) int
 		GetCustomerTokenInfo                        func(childComplexity int, input model.GetCustomerTokenInfoRequest) int
 		RetrieveTokenInfo                           func(childComplexity int, input model.RetrieveTokenInfoRequst) int
+		SearchBusinessCompany                       func(childComplexity int, input model.SearchBusinessCompanyRequest) int
+	}
+
+	SearchBusinessCompanyResponse struct {
+		BusinessCompanies func(childComplexity int) int
 	}
 
 	Token struct {
@@ -398,6 +403,7 @@ type MutationResolver interface {
 	GenerateToken(ctx context.Context, input model.GenerateTokenRequest) (*model.Token, error)
 }
 type QueryResolver interface {
+	SearchBusinessCompany(ctx context.Context, input model.SearchBusinessCompanyRequest) (*model.SearchBusinessCompanyResponse, error)
 	GetBusinessServiceOrder(ctx context.Context, input model.GetBusinessServiceOrderRequest) (*model.GetBusinessServiceOrderResponse, error)
 	GetBusinessServiceOrders(ctx context.Context, input model.GetBusinessServiceOrdersRequest) (*model.GetBusinessServiceOrdersResponse, error)
 	GetCompanyAvailableHoursByDate(ctx context.Context, input model.GetCompanyAvailableHoursByDateRequest) (*model.GetCompanyAvailableHoursByDateResponse, error)
@@ -1656,6 +1662,25 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.RetrieveTokenInfo(childComplexity, args["input"].(model.RetrieveTokenInfoRequst)), true
 
+	case "Query.searchBusinessCompany":
+		if e.complexity.Query.SearchBusinessCompany == nil {
+			break
+		}
+
+		args, err := ec.field_Query_searchBusinessCompany_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.SearchBusinessCompany(childComplexity, args["input"].(model.SearchBusinessCompanyRequest)), true
+
+	case "SearchBusinessCompanyResponse.businessCompanies":
+		if e.complexity.SearchBusinessCompanyResponse.BusinessCompanies == nil {
+			break
+		}
+
+		return e.complexity.SearchBusinessCompanyResponse.BusinessCompanies(childComplexity), true
+
 	case "Token.accessToken":
 		if e.complexity.Token.AccessToken == nil {
 			break
@@ -2468,7 +2493,16 @@ type BusinessCompanyImageDeleteResponse {
   image: BusinessCompanyImage!
 }
 
+input SearchBusinessCompanyRequest {
+  businessCompanyName: String!
+}
+
+type SearchBusinessCompanyResponse {
+  businessCompanies: [BusinessCompany!]!
+}
+
 type Query {
+  searchBusinessCompany(input: SearchBusinessCompanyRequest!): SearchBusinessCompanyResponse!
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
   getCompanyAvailableHoursByDate(input: GetCompanyAvailableHoursByDateRequest!): GetCompanyAvailableHoursByDateResponse!
@@ -3191,6 +3225,20 @@ func (ec *executionContext) field_Query_retrieveTokenInfo_args(ctx context.Conte
 	var arg0 model.RetrieveTokenInfoRequst
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNretrieveTokenInfoRequst2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐRetrieveTokenInfoRequst(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_searchBusinessCompany_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.SearchBusinessCompanyRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNSearchBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐSearchBusinessCompanyRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -7169,6 +7217,47 @@ func (ec *executionContext) _Pagination_count(ctx context.Context, field graphql
 	return ec.marshalOInt2ᚖint64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Query_searchBusinessCompany(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Query",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_searchBusinessCompany_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().SearchBusinessCompany(rctx, args["input"].(model.SearchBusinessCompanyRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SearchBusinessCompanyResponse)
+	fc.Result = res
+	return ec.marshalNSearchBusinessCompanyResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐSearchBusinessCompanyResponse(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_getBusinessServiceOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8390,6 +8479,40 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 	res := resTmp.(*introspection.Schema)
 	fc.Result = res
 	return ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _SearchBusinessCompanyResponse_businessCompanies(ctx context.Context, field graphql.CollectedField, obj *model.SearchBusinessCompanyResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "SearchBusinessCompanyResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessCompanies, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]model.BusinessCompany)
+	fc.Result = res
+	return ec.marshalNBusinessCompany2ᚕgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Token_accessToken(ctx context.Context, field graphql.CollectedField, obj *model.Token) (ret graphql.Marshaler) {
@@ -10986,6 +11109,24 @@ func (ec *executionContext) unmarshalInputPaginationInput(ctx context.Context, o
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputSearchBusinessCompanyRequest(ctx context.Context, obj interface{}) (model.SearchBusinessCompanyRequest, error) {
+	var it model.SearchBusinessCompanyRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessCompanyName":
+			var err error
+			it.BusinessCompanyName, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateBusinessServiceOrderRequest(ctx context.Context, obj interface{}) (model.UpdateBusinessServiceOrderRequest, error) {
 	var it model.UpdateBusinessServiceOrderRequest
 	var asMap = obj.(map[string]interface{})
@@ -12980,6 +13121,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
+		case "searchBusinessCompany":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_searchBusinessCompany(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		case "getBusinessServiceOrder":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -13390,6 +13545,33 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
 			out.Values[i] = ec._Query___schema(ctx, field)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var searchBusinessCompanyResponseImplementors = []string{"SearchBusinessCompanyResponse"}
+
+func (ec *executionContext) _SearchBusinessCompanyResponse(ctx context.Context, sel ast.SelectionSet, obj *model.SearchBusinessCompanyResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, searchBusinessCompanyResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SearchBusinessCompanyResponse")
+		case "businessCompanies":
+			out.Values[i] = ec._SearchBusinessCompanyResponse_businessCompanies(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -15155,6 +15337,24 @@ func (ec *executionContext) unmarshalNPaginationInput2ᚖgithubᚗcomᚋAkezhanO
 	}
 	res, err := ec.unmarshalNPaginationInput2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐPaginationInput(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalNSearchBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐSearchBusinessCompanyRequest(ctx context.Context, v interface{}) (model.SearchBusinessCompanyRequest, error) {
+	return ec.unmarshalInputSearchBusinessCompanyRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNSearchBusinessCompanyResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐSearchBusinessCompanyResponse(ctx context.Context, sel ast.SelectionSet, v model.SearchBusinessCompanyResponse) graphql.Marshaler {
+	return ec._SearchBusinessCompanyResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNSearchBusinessCompanyResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐSearchBusinessCompanyResponse(ctx context.Context, sel ast.SelectionSet, v *model.SearchBusinessCompanyResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._SearchBusinessCompanyResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

@@ -536,7 +536,16 @@ type BusinessCompanyImageDeleteResponse {
   image: BusinessCompanyImage!
 }
 
+input SearchBusinessCompanyRequest {
+  businessCompanyName: String!
+}
+
+type SearchBusinessCompanyResponse {
+  businessCompanies: [BusinessCompany!]!
+}
+
 type Query {
+  searchBusinessCompany(input: SearchBusinessCompanyRequest!): SearchBusinessCompanyResponse!
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
   getBusinessServiceOrders(input: GetBusinessServiceOrdersRequest!): GetBusinessServiceOrdersResponse!
   getCompanyAvailableHoursByDate(input: GetCompanyAvailableHoursByDateRequest!): GetCompanyAvailableHoursByDateResponse!
