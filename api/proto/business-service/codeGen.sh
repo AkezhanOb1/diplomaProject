@@ -1,0 +1,1 @@
+protoc services.proto  --go_out=plugins=grpc:.  --proto_path=$HOME/Desktop/SELF/business-service/api

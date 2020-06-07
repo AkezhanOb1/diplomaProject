@@ -65,6 +65,10 @@ type ComplexityRoot struct {
 		ImagePath func(childComplexity int) int
 	}
 
+	BusinessCompanyImageDeleteResponse struct {
+		Image func(childComplexity int) int
+	}
+
 	BusinessCompanyOperationHour struct {
 		BusinessCompanyID      func(childComplexity int) int
 		CloseTime              func(childComplexity int) int
@@ -221,6 +225,7 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
+		BusinessCompanyImageDelete                 func(childComplexity int, input model.BusinessCompanyImageDeleteRequest) int
 		BusinessCompanyImageUpload                 func(childComplexity int, input model.BusinessCompanyImageUploadRequest) int
 		CreateBusinessCompany                      func(childComplexity int, input model.CreateBusinessCompanyRequest) int
 		CreateBusinessCompanyOperationHours        func(childComplexity int, input model.CreateBusinessCompanyOperationHoursRequest) int
@@ -371,6 +376,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	SingleUpload(ctx context.Context, file graphql.Upload) (bool, error)
+	BusinessCompanyImageDelete(ctx context.Context, input model.BusinessCompanyImageDeleteRequest) (*model.BusinessCompanyImageDeleteResponse, error)
 	BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error)
 	UpdateBusinessServiceOrder(ctx context.Context, input model.UpdateBusinessServiceOrderRequest) (*model.UpdateBusinessServiceOrderResponse, error)
 	DeleteBusinessServiceOrder(ctx context.Context, input model.DeleteBusinessServiceOrderRequest) (*model.DeleteBusinessServiceOrderResponse, error)
@@ -507,6 +513,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BusinessCompanyImage.ImagePath(childComplexity), true
+
+	case "BusinessCompanyImageDeleteResponse.image":
+		if e.complexity.BusinessCompanyImageDeleteResponse.Image == nil {
+			break
+		}
+
+		return e.complexity.BusinessCompanyImageDeleteResponse.Image(childComplexity), true
 
 	case "BusinessCompanyOperationHour.businessCompanyID":
 		if e.complexity.BusinessCompanyOperationHour.BusinessCompanyID == nil {
@@ -1046,6 +1059,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.GetCustomerTokenInfoResponse.IssuedAt(childComplexity), true
+
+	case "Mutation.BusinessCompanyImageDelete":
+		if e.complexity.Mutation.BusinessCompanyImageDelete == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_BusinessCompanyImageDelete_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.BusinessCompanyImageDelete(childComplexity, args["input"].(model.BusinessCompanyImageDeleteRequest)), true
 
 	case "Mutation.BusinessCompanyImageUpload":
 		if e.complexity.Mutation.BusinessCompanyImageUpload == nil {
@@ -2435,7 +2460,13 @@ input BusinessCompanyImageUploadRequest {
   file: Upload!
 }
 
+input BusinessCompanyImageDeleteRequest {
+  imageID: ID!
+}
 
+type BusinessCompanyImageDeleteResponse {
+  image: BusinessCompanyImage!
+}
 
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
@@ -2482,7 +2513,9 @@ type Query {
 }
 
 type Mutation {
+
   singleUpload(file: Upload!): Boolean!
+  BusinessCompanyImageDelete(input:BusinessCompanyImageDeleteRequest!): BusinessCompanyImageDeleteResponse!
   BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!
   UpdateBusinessServiceOrder(input: UpdateBusinessServiceOrderRequest!): UpdateBusinessServiceOrderResponse!
   DeleteBusinessServiceOrder(input: DeleteBusinessServiceOrderRequest!): DeleteBusinessServiceOrderResponse!
@@ -2521,6 +2554,20 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Mutation_BusinessCompanyImageDelete_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.BusinessCompanyImageDeleteRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNBusinessCompanyImageDeleteRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageDeleteRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_Mutation_BusinessCompanyImageUpload_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -3526,6 +3573,40 @@ func (ec *executionContext) _BusinessCompanyImage_imagePath(ctx context.Context,
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessCompanyImageDeleteResponse_image(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyImageDeleteResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessCompanyImageDeleteResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Image, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyImage)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyImage2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BusinessCompanyOperationHour_companyOperationHourID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessCompanyOperationHour) (ret graphql.Marshaler) {
@@ -6167,6 +6248,47 @@ func (ec *executionContext) _Mutation_singleUpload(ctx context.Context, field gr
 	res := resTmp.(bool)
 	fc.Result = res
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_BusinessCompanyImageDelete(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_BusinessCompanyImageDelete_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().BusinessCompanyImageDelete(rctx, args["input"].(model.BusinessCompanyImageDeleteRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessCompanyImageDeleteResponse)
+	fc.Result = res
+	return ec.marshalNBusinessCompanyImageDeleteResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageDeleteResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_BusinessCompanyImageUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -10360,6 +10482,24 @@ func (ec *executionContext) unmarshalInputBusinessCategoryRequest(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputBusinessCompanyImageDeleteRequest(ctx context.Context, obj interface{}) (model.BusinessCompanyImageDeleteRequest, error) {
+	var it model.BusinessCompanyImageDeleteRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "imageID":
+			var err error
+			it.ImageID, err = ec.unmarshalNID2int64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputBusinessCompanyImageUploadRequest(ctx context.Context, obj interface{}) (model.BusinessCompanyImageUploadRequest, error) {
 	var it model.BusinessCompanyImageUploadRequest
 	var asMap = obj.(map[string]interface{})
@@ -11694,6 +11834,33 @@ func (ec *executionContext) _BusinessCompanyImage(ctx context.Context, sel ast.S
 	return out
 }
 
+var businessCompanyImageDeleteResponseImplementors = []string{"BusinessCompanyImageDeleteResponse"}
+
+func (ec *executionContext) _BusinessCompanyImageDeleteResponse(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyImageDeleteResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, businessCompanyImageDeleteResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BusinessCompanyImageDeleteResponse")
+		case "image":
+			out.Values[i] = ec._BusinessCompanyImageDeleteResponse_image(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var businessCompanyOperationHourImplementors = []string{"BusinessCompanyOperationHour"}
 
 func (ec *executionContext) _BusinessCompanyOperationHour(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessCompanyOperationHour) graphql.Marshaler {
@@ -12650,6 +12817,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = graphql.MarshalString("Mutation")
 		case "singleUpload":
 			out.Values[i] = ec._Mutation_singleUpload(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "BusinessCompanyImageDelete":
+			out.Values[i] = ec._Mutation_BusinessCompanyImageDelete(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -14212,6 +14384,34 @@ func (ec *executionContext) marshalNBusinessCompanyImage2ᚕgithubᚗcomᚋAkezh
 	}
 	wg.Wait()
 	return ret
+}
+
+func (ec *executionContext) marshalNBusinessCompanyImage2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImage(ctx context.Context, sel ast.SelectionSet, v *model.BusinessCompanyImage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._BusinessCompanyImage(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNBusinessCompanyImageDeleteRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageDeleteRequest(ctx context.Context, v interface{}) (model.BusinessCompanyImageDeleteRequest, error) {
+	return ec.unmarshalInputBusinessCompanyImageDeleteRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyImageDeleteResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageDeleteResponse(ctx context.Context, sel ast.SelectionSet, v model.BusinessCompanyImageDeleteResponse) graphql.Marshaler {
+	return ec._BusinessCompanyImageDeleteResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBusinessCompanyImageDeleteResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageDeleteResponse(ctx context.Context, sel ast.SelectionSet, v *model.BusinessCompanyImageDeleteResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._BusinessCompanyImageDeleteResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNBusinessCompanyImageUploadRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessCompanyImageUploadRequest(ctx context.Context, v interface{}) (model.BusinessCompanyImageUploadRequest, error) {

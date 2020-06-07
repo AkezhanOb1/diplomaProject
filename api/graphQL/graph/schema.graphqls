@@ -528,7 +528,13 @@ input BusinessCompanyImageUploadRequest {
   file: Upload!
 }
 
+input BusinessCompanyImageDeleteRequest {
+  imageID: ID!
+}
 
+type BusinessCompanyImageDeleteResponse {
+  image: BusinessCompanyImage!
+}
 
 type Query {
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
@@ -575,7 +581,9 @@ type Query {
 }
 
 type Mutation {
+
   singleUpload(file: Upload!): Boolean!
+  BusinessCompanyImageDelete(input:BusinessCompanyImageDeleteRequest!): BusinessCompanyImageDeleteResponse!
   BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!
   UpdateBusinessServiceOrder(input: UpdateBusinessServiceOrderRequest!): UpdateBusinessServiceOrderResponse!
   DeleteBusinessServiceOrder(input: DeleteBusinessServiceOrderRequest!): DeleteBusinessServiceOrderResponse!

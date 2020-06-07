@@ -38,6 +38,15 @@ func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload
 	return true, nil
 }
 
+func (r *mutationResolver) BusinessCompanyImageDelete(ctx context.Context, input model.BusinessCompanyImageDeleteRequest) (*model.BusinessCompanyImageDeleteResponse, error) {
+	image, err := bc.BusinessCompanyImageDelete(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
+	return image, nil
+}
+
 func (r *mutationResolver) BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error) {
 	image, err := bc.BusinessCompanyImageUpload(ctx, input)
 	if err != nil {

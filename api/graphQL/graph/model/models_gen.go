@@ -32,6 +32,14 @@ type BusinessCompanyImage struct {
 	ImagePath string `json:"imagePath"`
 }
 
+type BusinessCompanyImageDeleteRequest struct {
+	ImageID int64 `json:"imageID"`
+}
+
+type BusinessCompanyImageDeleteResponse struct {
+	Image *BusinessCompanyImage `json:"image"`
+}
+
 type BusinessCompanyImageUploadRequest struct {
 	BussinessCompanyID int64          `json:"bussinessCompanyID"`
 	File               graphql.Upload `json:"file"`

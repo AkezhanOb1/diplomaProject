@@ -301,3 +301,31 @@ func BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompany
 
 	return uploadImage, nil
 }
+
+func BusinessCompanyImageDelete(ctx context.Context, req model.BusinessCompanyImageDeleteRequest) (*model.BusinessCompanyImageDeleteResponse, error) {
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
+
+	c := pb.NewBusinessCompaniesServiceClient(cc)
+
+	r := pb.BusinessCompanyImageDeleteRequest{
+		ImageID:      req.ImageID,
+	}
+
+	image, err := c.BusinessCompanyImageDelete(ctx, &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.BusinessCompanyImageDeleteResponse{
+		Image: &model.BusinessCompanyImage{
+			ImageID:   image.GetImageID(),
+			ImagePath: image.ImagePath,
+		},
+	}, nil
+}

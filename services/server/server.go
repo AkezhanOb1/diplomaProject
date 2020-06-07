@@ -8,12 +8,10 @@ import (
 
 	pbCategory "github.com/AkezhanOb1/diplomaProject/api/proto/business/categories"
 	pbCompanyService "github.com/AkezhanOb1/diplomaProject/api/proto/business/companyServices"
-	pbBusinessService "github.com/AkezhanOb1/diplomaProject/api/proto/business/services"
 	pbSubCategory "github.com/AkezhanOb1/diplomaProject/api/proto/business/subCategories"
 
 	"github.com/AkezhanOb1/diplomaProject/services/business/category"
 	"github.com/AkezhanOb1/diplomaProject/services/business/companyService"
-	"github.com/AkezhanOb1/diplomaProject/services/business/service"
 	"github.com/AkezhanOb1/diplomaProject/services/business/subCategory"
 )
 
@@ -29,7 +27,6 @@ func main() {
 
 	pbSubCategory.RegisterBusinessSubCategoryServiceServer(s, &subCategory.Server{})
 	pbCategory.RegisterBusinessCategoryServiceServer(s, &category.Server{})
-	pbBusinessService.RegisterBusinessServicesServer(s, &service.Server{})
 	pbCompanyService.RegisterCompanyServicesServer(s, &companyService.Server{})
 
 	err = s.Serve(lis)
