@@ -3,9 +3,11 @@ package company
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	config "github.com/AkezhanOb1/diplomaProject/configs"
 	gq "github.com/AkezhanOb1/diplomaProject/api/graphQL/graph/model"
 	pb "github.com/AkezhanOb1/diplomaProject/api/proto/business-company"
+	"github.com/AkezhanOb1/diplomaProject/pkg"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"log"
@@ -328,4 +330,39 @@ func BusinessCompanyImageDelete(ctx context.Context, req model.BusinessCompanyIm
 			ImagePath: image.ImagePath,
 		},
 	}, nil
+}
+
+func SearchBusinessCompany(ctx context.Context, req model.SearchBusinessCompanyRequest) (*model.SearchBusinessCompanyResponse, error) {
+	cc, err := grpc.Dial(config.BusinessCompanyServer, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
+
+	c := pb.NewBusinessCompaniesServiceClient(cc)
+
+	r := pb.SearchBusinessCompanyRequest{
+		BusinessCompanyName:      req.BusinessCompanyName,
+	}
+
+	companies, err := c.SearchBusinessCompany(ctx, &r)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(companies)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.SearchBusinessCompanyResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+
 }

@@ -42,7 +42,7 @@ var BusinessOwnerServer = "46.101.138.224:50056"
 //BusinessCompanyServer is
 var BusinessCompanyServer = "46.101.138.224:50057"
 
-//BusinessServiceServer is 
+//BusinessServiceServer is
 var BusinessServiceServer = "46.101.138.224:50058"
 //rabbitUserName is the name of the user in Rabbit MQ
 const rabbitUserName = "admin"
