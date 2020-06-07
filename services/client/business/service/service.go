@@ -82,7 +82,7 @@ func GetServicesUnderSubCategory(ctx context.Context, subCategoryID int64) (*pb.
 
 //CreateBusinessService is a client for graphQL on gRPC services
 func CreateBusinessService(ctx context.Context, serviceName string, subCategories []int64) (*pb.CreateBusinessServiceResponse, error) {
-	cc, err := grpc.Dial(config.RpcServerAddress, grpc.WithInsecure())
+	cc, err := grpc.Dial(config.BusinessServiceServer, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
