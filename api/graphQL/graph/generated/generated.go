@@ -2495,6 +2495,7 @@ type BusinessCompanyImageDeleteResponse {
 
 input SearchBusinessCompanyRequest {
   businessCompanyName: String!
+  businessCategoryID: ID!
 }
 
 type SearchBusinessCompanyResponse {
@@ -11118,6 +11119,12 @@ func (ec *executionContext) unmarshalInputSearchBusinessCompanyRequest(ctx conte
 		case "businessCompanyName":
 			var err error
 			it.BusinessCompanyName, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "businessCategoryID":
+			var err error
+			it.BusinessCategoryID, err = ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}

@@ -345,6 +345,7 @@ func SearchBusinessCompany(ctx context.Context, req model.SearchBusinessCompanyR
 
 	r := pb.SearchBusinessCompanyRequest{
 		BusinessCompanyName:      req.BusinessCompanyName,
+		BusinessCategoryID:       req.BusinessCategoryID,
 	}
 
 	companies, err := c.SearchBusinessCompany(ctx, &r)

@@ -538,6 +538,7 @@ type BusinessCompanyImageDeleteResponse {
 
 input SearchBusinessCompanyRequest {
   businessCompanyName: String!
+  businessCategoryID: ID!
 }
 
 type SearchBusinessCompanyResponse {

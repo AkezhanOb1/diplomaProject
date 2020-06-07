@@ -302,6 +302,7 @@ type PaginationInput struct {
 
 type SearchBusinessCompanyRequest struct {
 	BusinessCompanyName string `json:"businessCompanyName"`
+	BusinessCategoryID  int64  `json:"businessCategoryID"`
 }
 
 type SearchBusinessCompanyResponse struct {
