@@ -83,3 +83,50 @@ func CheckOwnerPassword(ctx context.Context, email string, password string) (*pb
 
 	return valid, nil
 }
+
+
+func BusinessOwnerPasswordForgot(ctx context.Context, email string) (*pb.BusinessOwnerPasswordForgotResponse, error) {
+	cc, err := grpc.Dial(config.BusinessOwnerServer, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
+	c := pb.NewBusinessOwnerServiceClient(cc)
+
+	r := pb.BusinessOwnerPasswordForgotRequest{
+		BusinessOwnerEmail:    email,
+	}
+
+	res, err := c.BusinessOwnerPasswordForgot(context.Background(), &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+
+func BusinessOwnerPasswordReset(ctx context.Context, email string, password string) (*pb.ResetBusinessOwnerPasswordResponse, error) {
+	cc, err := grpc.Dial(config.BusinessOwnerServer, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+
+	defer cc.Close()
+
+	c := pb.NewBusinessOwnerServiceClient(cc)
+
+	r := pb.ResetBusinessOwnerPasswordRequest{
+		BusinessOwnerEmail:    email,
+		BusinessOwnerPassword: password,
+	}
+
+	owner, err := c.ResetBusinessOwnerPassword(context.Background(), &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return owner, nil
+}
