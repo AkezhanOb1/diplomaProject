@@ -26,6 +26,37 @@ import (
 	t "github.com/AkezhanOb1/diplomaProject/services/client/token"
 )
 
+func (r *mutationResolver) BusinessOwnerPasswordForgot(ctx context.Context, input model.BusinessOwnerPasswordForgotRequest) (*model.BusinessOwnerPasswordForgotResponse, error) {
+	resp, err := bo.BusinessOwnerPasswordForgot(ctx, input.BusinessOwnerEmail)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.BusinessOwnerPasswordForgotResponse{
+		Success: resp.Success,
+	}, nil
+}
+
+func (r *mutationResolver) ResetBusinessOwnerPassword(ctx context.Context, input model.ResetBusinessOwnerPasswordRequest) (*model.ResetBusinessOwnerPasswordResponse, error) {
+	owner, err := bo.BusinessOwnerPasswordReset(ctx, input.BusinessOwnerEmail, input.BusinessOwnerPassword)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := pkg.Serializer(owner)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp model.ResetBusinessOwnerPasswordResponse
+	err = json.Unmarshal(b, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
 func (r *mutationResolver) SingleUpload(ctx context.Context, file graphql.Upload) (bool, error) {
 	_, err := bc.BusinessCompanyImageUpload(ctx, model.BusinessCompanyImageUploadRequest{
 		BussinessCompanyID: 7,

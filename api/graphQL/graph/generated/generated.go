@@ -102,6 +102,10 @@ type ComplexityRoot struct {
 		BusinessOwnerPhoneNumberPrefix func(childComplexity int) int
 	}
 
+	BusinessOwnerPasswordForgotResponse struct {
+		Success func(childComplexity int) int
+	}
+
 	BusinessService struct {
 		BusinessServiceID   func(childComplexity int) int
 		BusinessServiceName func(childComplexity int) int
@@ -227,6 +231,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		BusinessCompanyImageDelete                 func(childComplexity int, input model.BusinessCompanyImageDeleteRequest) int
 		BusinessCompanyImageUpload                 func(childComplexity int, input model.BusinessCompanyImageUploadRequest) int
+		BusinessOwnerPasswordForgot                func(childComplexity int, input model.BusinessOwnerPasswordForgotRequest) int
 		CreateBusinessCompany                      func(childComplexity int, input model.CreateBusinessCompanyRequest) int
 		CreateBusinessCompanyOperationHours        func(childComplexity int, input model.CreateBusinessCompanyOperationHoursRequest) int
 		CreateBusinessCompanyServiceOperationHours func(childComplexity int, input model.CreateBusinessCompanyServiceOperationHoursRequest) int
@@ -241,6 +246,7 @@ type ComplexityRoot struct {
 		DeleteBusinessServiceOrder                 func(childComplexity int, input model.DeleteBusinessServiceOrderRequest) int
 		DeleteCompanyService                       func(childComplexity int, input model.DeleteCompanyServiceRequest) int
 		GenerateToken                              func(childComplexity int, input model.GenerateTokenRequest) int
+		ResetBusinessOwnerPassword                 func(childComplexity int, input model.ResetBusinessOwnerPasswordRequest) int
 		SingleUpload                               func(childComplexity int, file graphql.Upload) int
 		UpdateBusinessCompanyOperationHours        func(childComplexity int, input model.UpdateBusinessCompanyOperationHoursRequest) int
 		UpdateBusinessCompanyServiceOperationHours func(childComplexity int, input model.UpdateBusinessCompanyServiceOperationHoursRequest) int
@@ -285,6 +291,10 @@ type ComplexityRoot struct {
 		GetCustomerTokenInfo                        func(childComplexity int, input model.GetCustomerTokenInfoRequest) int
 		RetrieveTokenInfo                           func(childComplexity int, input model.RetrieveTokenInfoRequst) int
 		SearchBusinessCompany                       func(childComplexity int, input model.SearchBusinessCompanyRequest) int
+	}
+
+	ResetBusinessOwnerPasswordResponse struct {
+		BusinessOwner func(childComplexity int) int
 	}
 
 	SearchBusinessCompanyResponse struct {
@@ -380,6 +390,8 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
+	BusinessOwnerPasswordForgot(ctx context.Context, input model.BusinessOwnerPasswordForgotRequest) (*model.BusinessOwnerPasswordForgotResponse, error)
+	ResetBusinessOwnerPassword(ctx context.Context, input model.ResetBusinessOwnerPasswordRequest) (*model.ResetBusinessOwnerPasswordResponse, error)
 	SingleUpload(ctx context.Context, file graphql.Upload) (bool, error)
 	BusinessCompanyImageDelete(ctx context.Context, input model.BusinessCompanyImageDeleteRequest) (*model.BusinessCompanyImageDeleteResponse, error)
 	BusinessCompanyImageUpload(ctx context.Context, input model.BusinessCompanyImageUploadRequest) (*model.File, error)
@@ -652,6 +664,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BusinessOwner.BusinessOwnerPhoneNumberPrefix(childComplexity), true
+
+	case "BusinessOwnerPasswordForgotResponse.success":
+		if e.complexity.BusinessOwnerPasswordForgotResponse.Success == nil {
+			break
+		}
+
+		return e.complexity.BusinessOwnerPasswordForgotResponse.Success(childComplexity), true
 
 	case "BusinessService.businessServiceID":
 		if e.complexity.BusinessService.BusinessServiceID == nil {
@@ -1090,6 +1109,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.BusinessCompanyImageUpload(childComplexity, args["input"].(model.BusinessCompanyImageUploadRequest)), true
 
+	case "Mutation.BusinessOwnerPasswordForgot":
+		if e.complexity.Mutation.BusinessOwnerPasswordForgot == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_BusinessOwnerPasswordForgot_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.BusinessOwnerPasswordForgot(childComplexity, args["input"].(model.BusinessOwnerPasswordForgotRequest)), true
+
 	case "Mutation.createBusinessCompany":
 		if e.complexity.Mutation.CreateBusinessCompany == nil {
 			break
@@ -1257,6 +1288,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.GenerateToken(childComplexity, args["input"].(model.GenerateTokenRequest)), true
+
+	case "Mutation.ResetBusinessOwnerPassword":
+		if e.complexity.Mutation.ResetBusinessOwnerPassword == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_ResetBusinessOwnerPassword_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.ResetBusinessOwnerPassword(childComplexity, args["input"].(model.ResetBusinessOwnerPasswordRequest)), true
 
 	case "Mutation.singleUpload":
 		if e.complexity.Mutation.SingleUpload == nil {
@@ -1673,6 +1716,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.SearchBusinessCompany(childComplexity, args["input"].(model.SearchBusinessCompanyRequest)), true
+
+	case "ResetBusinessOwnerPasswordResponse.businessOwner":
+		if e.complexity.ResetBusinessOwnerPasswordResponse.BusinessOwner == nil {
+			break
+		}
+
+		return e.complexity.ResetBusinessOwnerPasswordResponse.BusinessOwner(childComplexity), true
 
 	case "SearchBusinessCompanyResponse.businessCompanies":
 		if e.complexity.SearchBusinessCompanyResponse.BusinessCompanies == nil {
@@ -2502,6 +2552,23 @@ type SearchBusinessCompanyResponse {
   businessCompanies: [BusinessCompany!]!
 }
 
+input BusinessOwnerPasswordForgotRequest {
+  businessOwnerEmail: String!
+}
+
+type BusinessOwnerPasswordForgotResponse {
+  success: Boolean!
+}
+
+input ResetBusinessOwnerPasswordRequest {
+  businessOwnerEmail: String!
+  businessOwnerPassword: String!
+}
+
+type ResetBusinessOwnerPasswordResponse {
+  businessOwner: BusinessOwner!
+}
+
 type Query {
   searchBusinessCompany(input: SearchBusinessCompanyRequest!): SearchBusinessCompanyResponse!
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
@@ -2549,6 +2616,8 @@ type Query {
 
 type Mutation {
 
+  BusinessOwnerPasswordForgot(input: BusinessOwnerPasswordForgotRequest!): BusinessOwnerPasswordForgotResponse!
+  ResetBusinessOwnerPassword(input: ResetBusinessOwnerPasswordRequest!): ResetBusinessOwnerPasswordResponse!
   singleUpload(file: Upload!): Boolean!
   BusinessCompanyImageDelete(input:BusinessCompanyImageDeleteRequest!): BusinessCompanyImageDeleteResponse!
   BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!
@@ -2618,12 +2687,40 @@ func (ec *executionContext) field_Mutation_BusinessCompanyImageUpload_args(ctx c
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_BusinessOwnerPasswordForgot_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.BusinessOwnerPasswordForgotRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNBusinessOwnerPasswordForgotRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwnerPasswordForgotRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_DeleteBusinessServiceOrder_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.DeleteBusinessServiceOrderRequest
 	if tmp, ok := rawArgs["input"]; ok {
 		arg0, err = ec.unmarshalNDeleteBusinessServiceOrderRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐDeleteBusinessServiceOrderRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_ResetBusinessOwnerPassword_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.ResetBusinessOwnerPasswordRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		arg0, err = ec.unmarshalNResetBusinessOwnerPasswordRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐResetBusinessOwnerPasswordRequest(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4268,6 +4365,40 @@ func (ec *executionContext) _BusinessOwner_businessOwnerPhoneNumber(ctx context.
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _BusinessOwnerPasswordForgotResponse_success(ctx context.Context, field graphql.CollectedField, obj *model.BusinessOwnerPasswordForgotResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "BusinessOwnerPasswordForgotResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Success, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BusinessService_businessServiceID(ctx context.Context, field graphql.CollectedField, obj *model.BusinessService) (ret graphql.Marshaler) {
@@ -6256,6 +6387,88 @@ func (ec *executionContext) _GetCustomerTokenInfoResponse_expiresAt(ctx context.
 	res := resTmp.(int64)
 	fc.Result = res
 	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_BusinessOwnerPasswordForgot(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_BusinessOwnerPasswordForgot_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().BusinessOwnerPasswordForgot(rctx, args["input"].(model.BusinessOwnerPasswordForgotRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessOwnerPasswordForgotResponse)
+	fc.Result = res
+	return ec.marshalNBusinessOwnerPasswordForgotResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwnerPasswordForgotResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_ResetBusinessOwnerPassword(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_ResetBusinessOwnerPassword_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().ResetBusinessOwnerPassword(rctx, args["input"].(model.ResetBusinessOwnerPasswordRequest))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ResetBusinessOwnerPasswordResponse)
+	fc.Result = res
+	return ec.marshalNResetBusinessOwnerPasswordResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐResetBusinessOwnerPasswordResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_singleUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -8482,6 +8695,40 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 	return ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _ResetBusinessOwnerPasswordResponse_businessOwner(ctx context.Context, field graphql.CollectedField, obj *model.ResetBusinessOwnerPasswordResponse) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "ResetBusinessOwnerPasswordResponse",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BusinessOwner, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.BusinessOwner)
+	fc.Result = res
+	return ec.marshalNBusinessOwner2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwner(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _SearchBusinessCompanyResponse_businessCompanies(ctx context.Context, field graphql.CollectedField, obj *model.SearchBusinessCompanyResponse) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -10672,6 +10919,24 @@ func (ec *executionContext) unmarshalInputBusinessCompanyImagesUploadRequest(ctx
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputBusinessOwnerPasswordForgotRequest(ctx context.Context, obj interface{}) (model.BusinessOwnerPasswordForgotRequest, error) {
+	var it model.BusinessOwnerPasswordForgotRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessOwnerEmail":
+			var err error
+			it.BusinessOwnerEmail, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputBusinessSubCategoriesUnderCategoryRequest(ctx context.Context, obj interface{}) (model.BusinessSubCategoriesUnderCategoryRequest, error) {
 	var it model.BusinessSubCategoriesUnderCategoryRequest
 	var asMap = obj.(map[string]interface{})
@@ -11101,6 +11366,30 @@ func (ec *executionContext) unmarshalInputPaginationInput(ctx context.Context, o
 		case "count":
 			var err error
 			it.Count, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputResetBusinessOwnerPasswordRequest(ctx context.Context, obj interface{}) (model.ResetBusinessOwnerPasswordRequest, error) {
+	var it model.ResetBusinessOwnerPasswordRequest
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "businessOwnerEmail":
+			var err error
+			it.BusinessOwnerEmail, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "businessOwnerPassword":
+			var err error
+			it.BusinessOwnerPassword, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12209,6 +12498,33 @@ func (ec *executionContext) _BusinessOwner(ctx context.Context, sel ast.Selectio
 	return out
 }
 
+var businessOwnerPasswordForgotResponseImplementors = []string{"BusinessOwnerPasswordForgotResponse"}
+
+func (ec *executionContext) _BusinessOwnerPasswordForgotResponse(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessOwnerPasswordForgotResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, businessOwnerPasswordForgotResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BusinessOwnerPasswordForgotResponse")
+		case "success":
+			out.Values[i] = ec._BusinessOwnerPasswordForgotResponse_success(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var businessServiceImplementors = []string{"BusinessService"}
 
 func (ec *executionContext) _BusinessService(ctx context.Context, sel ast.SelectionSet, obj *model.BusinessService) graphql.Marshaler {
@@ -12963,6 +13279,16 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
+		case "BusinessOwnerPasswordForgot":
+			out.Values[i] = ec._Mutation_BusinessOwnerPasswordForgot(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ResetBusinessOwnerPassword":
+			out.Values[i] = ec._Mutation_ResetBusinessOwnerPassword(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "singleUpload":
 			out.Values[i] = ec._Mutation_singleUpload(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -13552,6 +13878,33 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
 			out.Values[i] = ec._Query___schema(ctx, field)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var resetBusinessOwnerPasswordResponseImplementors = []string{"ResetBusinessOwnerPasswordResponse"}
+
+func (ec *executionContext) _ResetBusinessOwnerPasswordResponse(ctx context.Context, sel ast.SelectionSet, obj *model.ResetBusinessOwnerPasswordResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, resetBusinessOwnerPasswordResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ResetBusinessOwnerPasswordResponse")
+		case "businessOwner":
+			out.Values[i] = ec._ResetBusinessOwnerPasswordResponse_businessOwner(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -14751,6 +15104,24 @@ func (ec *executionContext) marshalNBusinessOwner2ᚖgithubᚗcomᚋAkezhanOb1�
 	return ec._BusinessOwner(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNBusinessOwnerPasswordForgotRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwnerPasswordForgotRequest(ctx context.Context, v interface{}) (model.BusinessOwnerPasswordForgotRequest, error) {
+	return ec.unmarshalInputBusinessOwnerPasswordForgotRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNBusinessOwnerPasswordForgotResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwnerPasswordForgotResponse(ctx context.Context, sel ast.SelectionSet, v model.BusinessOwnerPasswordForgotResponse) graphql.Marshaler {
+	return ec._BusinessOwnerPasswordForgotResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBusinessOwnerPasswordForgotResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessOwnerPasswordForgotResponse(ctx context.Context, sel ast.SelectionSet, v *model.BusinessOwnerPasswordForgotResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._BusinessOwnerPasswordForgotResponse(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNBusinessService2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐBusinessService(ctx context.Context, sel ast.SelectionSet, v model.BusinessService) graphql.Marshaler {
 	return ec._BusinessService(ctx, sel, &v)
 }
@@ -15344,6 +15715,24 @@ func (ec *executionContext) unmarshalNPaginationInput2ᚖgithubᚗcomᚋAkezhanO
 	}
 	res, err := ec.unmarshalNPaginationInput2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐPaginationInput(ctx, v)
 	return &res, err
+}
+
+func (ec *executionContext) unmarshalNResetBusinessOwnerPasswordRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐResetBusinessOwnerPasswordRequest(ctx context.Context, v interface{}) (model.ResetBusinessOwnerPasswordRequest, error) {
+	return ec.unmarshalInputResetBusinessOwnerPasswordRequest(ctx, v)
+}
+
+func (ec *executionContext) marshalNResetBusinessOwnerPasswordResponse2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐResetBusinessOwnerPasswordResponse(ctx context.Context, sel ast.SelectionSet, v model.ResetBusinessOwnerPasswordResponse) graphql.Marshaler {
+	return ec._ResetBusinessOwnerPasswordResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNResetBusinessOwnerPasswordResponse2ᚖgithubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐResetBusinessOwnerPasswordResponse(ctx context.Context, sel ast.SelectionSet, v *model.ResetBusinessOwnerPasswordResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._ResetBusinessOwnerPasswordResponse(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNSearchBusinessCompanyRequest2githubᚗcomᚋAkezhanOb1ᚋdiplomaProjectᚋapiᚋgraphQLᚋgraphᚋmodelᚐSearchBusinessCompanyRequest(ctx context.Context, v interface{}) (model.SearchBusinessCompanyRequest, error) {

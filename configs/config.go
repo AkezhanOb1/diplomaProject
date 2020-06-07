@@ -38,7 +38,7 @@ var BusinessServiceOrderServer = "46.101.138.224:50053"
 //var BusinessServiceOrderServer = "localhost:50053"
 
 //BusinessOwnerServer is a
-var BusinessOwnerServer = "localhost:50056"
+var BusinessOwnerServer = "46.101.138.224:50056"
 //BusinessCompanyServer is
 var BusinessCompanyServer = "46.101.138.224:50057"
 

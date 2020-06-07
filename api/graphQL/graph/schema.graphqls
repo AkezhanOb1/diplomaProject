@@ -545,6 +545,23 @@ type SearchBusinessCompanyResponse {
   businessCompanies: [BusinessCompany!]!
 }
 
+input BusinessOwnerPasswordForgotRequest {
+  businessOwnerEmail: String!
+}
+
+type BusinessOwnerPasswordForgotResponse {
+  success: Boolean!
+}
+
+input ResetBusinessOwnerPasswordRequest {
+  businessOwnerEmail: String!
+  businessOwnerPassword: String!
+}
+
+type ResetBusinessOwnerPasswordResponse {
+  businessOwner: BusinessOwner!
+}
+
 type Query {
   searchBusinessCompany(input: SearchBusinessCompanyRequest!): SearchBusinessCompanyResponse!
   getBusinessServiceOrder(input: GetBusinessServiceOrderRequest!): GetBusinessServiceOrderResponse!
@@ -592,6 +609,8 @@ type Query {
 
 type Mutation {
 
+  BusinessOwnerPasswordForgot(input: BusinessOwnerPasswordForgotRequest!): BusinessOwnerPasswordForgotResponse!
+  ResetBusinessOwnerPassword(input: ResetBusinessOwnerPasswordRequest!): ResetBusinessOwnerPasswordResponse!
   singleUpload(file: Upload!): Boolean!
   BusinessCompanyImageDelete(input:BusinessCompanyImageDeleteRequest!): BusinessCompanyImageDeleteResponse!
   BusinessCompanyImageUpload(input: BusinessCompanyImageUploadRequest!): File!

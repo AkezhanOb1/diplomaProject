@@ -83,6 +83,14 @@ type BusinessOwner struct {
 	BusinessOwnerPhoneNumber       string `json:"businessOwnerPhoneNumber"`
 }
 
+type BusinessOwnerPasswordForgotRequest struct {
+	BusinessOwnerEmail string `json:"businessOwnerEmail"`
+}
+
+type BusinessOwnerPasswordForgotResponse struct {
+	Success bool `json:"success"`
+}
+
 type BusinessService struct {
 	BusinessServiceID   int64   `json:"businessServiceID"`
 	BusinessServiceName string  `json:"businessServiceName"`
@@ -298,6 +306,15 @@ type PaginationInput struct {
 	Limit  int64  `json:"limit"`
 	Offset int64  `json:"offset"`
 	Count  *int64 `json:"count"`
+}
+
+type ResetBusinessOwnerPasswordRequest struct {
+	BusinessOwnerEmail    string `json:"businessOwnerEmail"`
+	BusinessOwnerPassword string `json:"businessOwnerPassword"`
+}
+
+type ResetBusinessOwnerPasswordResponse struct {
+	BusinessOwner *BusinessOwner `json:"businessOwner"`
 }
 
 type SearchBusinessCompanyRequest struct {
